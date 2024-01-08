@@ -1,0 +1,1589 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.251">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Nayan Jani">
+<meta name="dcterms.date" content="2022-12-15">
+<meta name="description" content="NLP">
+
+<title>Nayan Jani’s Website - Assessing Sentiment Surrounding the 2022 World Cup</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Nayan Jani’s Website</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html">Home</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./Nayan.html">About Me</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://github.com/Njani01886/Projects/blob/main/Resume/Nayan_Jani_Resume_2024.pdf">Resume</a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">Assessing Sentiment Surrounding the 2022 World Cup</h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto">
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">Code for Projects</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./NJ_Adv_Quant.html" class="sidebar-item-text sidebar-link">U.S. Job Satisfaction: Impacts of Tech, Remote Work &amp; Covid</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./NJ_604.html" class="sidebar-item-text sidebar-link">Identifying Sources of Poor Nutrition for Americans</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./NBA_Salary.html" class="sidebar-item-text sidebar-link">NBA Salary Prediction</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./BlogPost6_NayanJani.html" class="sidebar-item-text sidebar-link active">Assessing Sentiment Surrounding the 2022 World Cup</a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#objectives" id="toc-objectives" class="nav-link" data-scroll-target="#objectives">Objectives</a></li>
+  <li><a href="#read-in-data" id="toc-read-in-data" class="nav-link" data-scroll-target="#read-in-data">Read in Data</a></li>
+  <li><a href="#wordclouds-and-tf-idf" id="toc-wordclouds-and-tf-idf" class="nav-link" data-scroll-target="#wordclouds-and-tf-idf">WordClouds and TF-IDF</a></li>
+  <li><a href="#sentiment-analysis" id="toc-sentiment-analysis" class="nav-link" data-scroll-target="#sentiment-analysis">Sentiment Analysis</a></li>
+  <li><a href="#dictionary-analysis" id="toc-dictionary-analysis" class="nav-link" data-scroll-target="#dictionary-analysis">Dictionary Analysis</a></li>
+  <li><a href="#topic-model" id="toc-topic-model" class="nav-link" data-scroll-target="#topic-model">Topic Model</a></li>
+  <li><a href="#semantic-and-pairwise-correlation-network" id="toc-semantic-and-pairwise-correlation-network" class="nav-link" data-scroll-target="#semantic-and-pairwise-correlation-network">Semantic and Pairwise Correlation Network</a></li>
+  <li><a href="#limitations" id="toc-limitations" class="nav-link" data-scroll-target="#limitations">Limitations</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title d-none d-lg-block">Assessing Sentiment Surrounding the 2022 World Cup</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
+  <div class="quarto-categories">
+    <div class="quarto-category">NLP</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    NLP
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Nayan Jani </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">December 15, 2022</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+</header>
+
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quanteda)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quanteda.textplots)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quanteda.textmodels)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quanteda.dictionaries)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quanteda.sentiment)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(syuzhet)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(text2vec)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stm)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(LDAvis)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidytext)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(igraph)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(textdata)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(<span class="at">echo =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>The FIFA 2022 World Cup has captivated almost everyone’s attention this year. However, most of that attention has been focused on human rights violations that are present. The Host nation Qatar has been under pressure for these violations because of their treatment of foreigners in their country and their failure to be inclusive. Migrant workers that have helped build stadiums have been mistreated, underpaid, overworked and even killed leading up to the World Cup. The Host nation also has disallowed for the LGBTQ community to represent themselves because of the Host nations beliefs. Soccer Fans from both cultures (Host nation vs Foreigners) have argued over what values to respect on the global level.</p>
+</section>
+<section id="objectives" class="level1">
+<h1>Objectives</h1>
+<p>Find the overall Sentiment of the comments (Positive and Negative, Other emotions)</p>
+<p>What is the main focus of discussion in the comments? What topic is most important to the people in the comments?</p>
+<p>Based on the most important topics and the sentiment of those comments, are those comments classified correctly positive or negative? If yes, what are the comments POV? (western culture vs middle east culture) Are those comments “socially correct”? (logical/acceptable POV vs Stereotyped/Stigmatized POV)</p>
+</section>
+<section id="read-in-data" class="level1">
+<h1>Read in Data</h1>
+<p>Using Youtube API and Python, I was able to extract comments from nine videos covering the world cup in Qatar. The sources of the videos include BBC, Sky Sports News, France 21 and independent content creators. I chose videos based on the the amount of views. The comments I have scraped are the top 100 most relevant comments and the top 100 most recent comments from each video. The total number of comments I scraped was 1,391 . As a part of pre-processing my data, I removed all comments with less than 3 tokens in them using the tidyverse. I also removed any symbols, punctuation URLs , numbers and stopwords from my data . I tokenized my data using three different libraries, quanteda, tidytext and text2vec.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df_bbc<span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"_data/comments_bbc.csv"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>df_bbc<span class="ot">&lt;-</span> df_bbc<span class="sc">%&gt;%</span> </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">text =</span> <span class="st">"i"</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>df_bbc<span class="ot">&lt;-</span> df_bbc <span class="sc">%&gt;%</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(text) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"39"</span>))</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>df_bbc <span class="ot">&lt;-</span> df_bbc <span class="sc">%&gt;%</span> </span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(text) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"&lt;"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"&gt;"</span>))</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>corpus_bbc <span class="ot">&lt;-</span> <span class="fu">corpus</span>(df_bbc)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>corpus_bbc_summary <span class="ot">&lt;-</span> <span class="fu">summary</span>(corpus_bbc)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>corpus_bbc_summary<span class="sc">$</span>video <span class="ot">&lt;-</span> <span class="st">"BBC"</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="fu">docvars</span>(corpus_bbc) <span class="ot">&lt;-</span> corpus_bbc_summary</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>df_q<span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"_data/comments_q.csv"</span>)</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>df_q<span class="ot">&lt;-</span> df_q <span class="sc">%&gt;%</span> </span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">text =</span> <span class="st">"I’ll try to get the next video essay out in less than a month lol"</span>)</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>df_q<span class="ot">&lt;-</span> df_q <span class="sc">%&gt;%</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(text) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"39"</span>))</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>df_q <span class="ot">&lt;-</span> df_q <span class="sc">%&gt;%</span> </span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(text) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"&lt;"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"&gt;"</span>))</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>corpus_q <span class="ot">&lt;-</span> <span class="fu">corpus</span>(df_q)</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>corpus_q_summary <span class="ot">&lt;-</span> <span class="fu">summary</span>(corpus_q)</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>corpus_q_summary<span class="sc">$</span>video <span class="ot">&lt;-</span> <span class="st">"Maqwell"</span></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a><span class="fu">docvars</span>(corpus_q) <span class="ot">&lt;-</span> corpus_q_summary</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>df_qRev<span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"_data/comments_qRev.csv"</span>)</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>df_qRev <span class="ot">&lt;-</span> df_qRev<span class="sc">%&gt;%</span> </span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">text =</span> <span class="st">"I’ll try to get the next video essay out in less than a month lol"</span>)</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>df_qRev<span class="ot">&lt;-</span> df_qRev <span class="sc">%&gt;%</span></span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(text) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"39"</span>))</span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>df_qRev <span class="ot">&lt;-</span> df_qRev <span class="sc">%&gt;%</span> </span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(text) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"&lt;"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"&gt;"</span>))</span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>corpus_qRev <span class="ot">&lt;-</span> <span class="fu">corpus</span>(df_qRev)</span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>corpus_qRev_summary <span class="ot">&lt;-</span> <span class="fu">summary</span>(corpus_qRev)</span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>corpus_qRev_summary<span class="sc">$</span>video <span class="ot">&lt;-</span> <span class="st">"MaqwellRev"</span></span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a><span class="fu">docvars</span>(corpus_qRev) <span class="ot">&lt;-</span> corpus_qRev_summary</span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>df_sky<span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"_data/comments_sky.csv"</span>)</span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>df_sky<span class="ot">&lt;-</span> df_sky<span class="sc">%&gt;%</span> </span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">text =</span> <span class="st">"i"</span>)</span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>df_sky<span class="ot">&lt;-</span> df_sky <span class="sc">%&gt;%</span></span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(text) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"39"</span>))</span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>df_sky <span class="ot">&lt;-</span> df_sky <span class="sc">%&gt;%</span> </span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(text) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"&lt;"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"&gt;"</span>))</span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a>corpus_sky <span class="ot">&lt;-</span> <span class="fu">corpus</span>(df_sky)</span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a>corpus_sky_summary <span class="ot">&lt;-</span> <span class="fu">summary</span>(corpus_sky)</span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a>corpus_sky_summary<span class="sc">$</span>video <span class="ot">&lt;-</span> <span class="st">"sky"</span></span>
+<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a><span class="fu">docvars</span>(corpus_sky) <span class="ot">&lt;-</span> corpus_sky_summary</span>
+<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a>df_bbcQ <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"_data/comments_bbcQ.csv"</span>)</span>
+<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a>df_bbcQ<span class="ot">&lt;-</span> df_bbcQ<span class="sc">%&gt;%</span> </span>
+<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">text =</span> <span class="st">"i"</span>)</span>
+<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a>df_bbcQ<span class="ot">&lt;-</span> df_bbcQ <span class="sc">%&gt;%</span></span>
+<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(text) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"39"</span>))</span>
+<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a>df_bbcQ <span class="ot">&lt;-</span> df_bbcQ <span class="sc">%&gt;%</span> </span>
+<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(text) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-92"><a href="#cb2-92" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"&lt;"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"&gt;"</span>))</span>
+<span id="cb2-94"><a href="#cb2-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-95"><a href="#cb2-95" aria-hidden="true" tabindex="-1"></a>corpus_bbcQ<span class="ot">&lt;-</span> <span class="fu">corpus</span>(df_bbcQ)</span>
+<span id="cb2-96"><a href="#cb2-96" aria-hidden="true" tabindex="-1"></a>corpus_bbcQ_summary <span class="ot">&lt;-</span> <span class="fu">summary</span>(corpus_bbcQ)</span>
+<span id="cb2-97"><a href="#cb2-97" aria-hidden="true" tabindex="-1"></a>corpus_bbcQ_summary<span class="sc">$</span>video <span class="ot">&lt;-</span> <span class="st">"BBC"</span></span>
+<span id="cb2-98"><a href="#cb2-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-99"><a href="#cb2-99" aria-hidden="true" tabindex="-1"></a>df_bbcOL <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"_data/comments_bbcOL.csv"</span>)</span>
+<span id="cb2-100"><a href="#cb2-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-101"><a href="#cb2-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-102"><a href="#cb2-102" aria-hidden="true" tabindex="-1"></a>df_bbcOL<span class="ot">&lt;-</span> df_bbcOL<span class="sc">%&gt;%</span> </span>
+<span id="cb2-103"><a href="#cb2-103" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">text =</span> <span class="st">"i"</span>)</span>
+<span id="cb2-104"><a href="#cb2-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-105"><a href="#cb2-105" aria-hidden="true" tabindex="-1"></a>df_bbcOL<span class="ot">&lt;-</span> df_bbcOL <span class="sc">%&gt;%</span></span>
+<span id="cb2-106"><a href="#cb2-106" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(text) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-107"><a href="#cb2-107" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"39"</span>))</span>
+<span id="cb2-108"><a href="#cb2-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-109"><a href="#cb2-109" aria-hidden="true" tabindex="-1"></a>df_bbcOL <span class="ot">&lt;-</span> df_bbcOL <span class="sc">%&gt;%</span> </span>
+<span id="cb2-110"><a href="#cb2-110" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(text) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-111"><a href="#cb2-111" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"&lt;"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-112"><a href="#cb2-112" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"&gt;"</span>))</span>
+<span id="cb2-113"><a href="#cb2-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-114"><a href="#cb2-114" aria-hidden="true" tabindex="-1"></a>corpus_bbcOL<span class="ot">&lt;-</span> <span class="fu">corpus</span>(df_bbcOL)</span>
+<span id="cb2-115"><a href="#cb2-115" aria-hidden="true" tabindex="-1"></a>corpus_bbcOL_summary <span class="ot">&lt;-</span> <span class="fu">summary</span>(corpus_bbcOL)</span>
+<span id="cb2-116"><a href="#cb2-116" aria-hidden="true" tabindex="-1"></a>corpus_bbcOL_summary<span class="sc">$</span>video <span class="ot">&lt;-</span> <span class="st">"BBC"</span></span>
+<span id="cb2-117"><a href="#cb2-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-118"><a href="#cb2-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-119"><a href="#cb2-119" aria-hidden="true" tabindex="-1"></a>df_BI <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"_data/comments_BI.csv"</span>)</span>
+<span id="cb2-120"><a href="#cb2-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-121"><a href="#cb2-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-122"><a href="#cb2-122" aria-hidden="true" tabindex="-1"></a>df_BI<span class="ot">&lt;-</span> df_BI<span class="sc">%&gt;%</span> </span>
+<span id="cb2-123"><a href="#cb2-123" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">text =</span> <span class="st">"i"</span>)</span>
+<span id="cb2-124"><a href="#cb2-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-125"><a href="#cb2-125" aria-hidden="true" tabindex="-1"></a>df_BI<span class="ot">&lt;-</span> df_BI <span class="sc">%&gt;%</span></span>
+<span id="cb2-126"><a href="#cb2-126" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(text) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-127"><a href="#cb2-127" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"39"</span>))</span>
+<span id="cb2-128"><a href="#cb2-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-129"><a href="#cb2-129" aria-hidden="true" tabindex="-1"></a>df_BI <span class="ot">&lt;-</span> df_BI <span class="sc">%&gt;%</span> </span>
+<span id="cb2-130"><a href="#cb2-130" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(text) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-131"><a href="#cb2-131" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"&lt;"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-132"><a href="#cb2-132" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"&gt;"</span>))</span>
+<span id="cb2-133"><a href="#cb2-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-134"><a href="#cb2-134" aria-hidden="true" tabindex="-1"></a>corpus_BI<span class="ot">&lt;-</span> <span class="fu">corpus</span>(df_BI)</span>
+<span id="cb2-135"><a href="#cb2-135" aria-hidden="true" tabindex="-1"></a>corpus_BI_summary <span class="ot">&lt;-</span> <span class="fu">summary</span>(corpus_BI)</span>
+<span id="cb2-136"><a href="#cb2-136" aria-hidden="true" tabindex="-1"></a>corpus_BI_summary<span class="sc">$</span>video <span class="ot">&lt;-</span> <span class="st">"Business Insider"</span></span>
+<span id="cb2-137"><a href="#cb2-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-138"><a href="#cb2-138" aria-hidden="true" tabindex="-1"></a>df_fra <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"_data/comments_fra.csv"</span>)</span>
+<span id="cb2-139"><a href="#cb2-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-140"><a href="#cb2-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-141"><a href="#cb2-141" aria-hidden="true" tabindex="-1"></a>df_fra<span class="ot">&lt;-</span> df_fra<span class="sc">%&gt;%</span> </span>
+<span id="cb2-142"><a href="#cb2-142" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">text =</span> <span class="st">"i"</span>)</span>
+<span id="cb2-143"><a href="#cb2-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-144"><a href="#cb2-144" aria-hidden="true" tabindex="-1"></a>df_fra<span class="ot">&lt;-</span> df_fra <span class="sc">%&gt;%</span></span>
+<span id="cb2-145"><a href="#cb2-145" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(text) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-146"><a href="#cb2-146" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"39"</span>))</span>
+<span id="cb2-147"><a href="#cb2-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-148"><a href="#cb2-148" aria-hidden="true" tabindex="-1"></a>df_fra <span class="ot">&lt;-</span> df_fra <span class="sc">%&gt;%</span> </span>
+<span id="cb2-149"><a href="#cb2-149" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(text) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-150"><a href="#cb2-150" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"&lt;"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-151"><a href="#cb2-151" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"&gt;"</span>))</span>
+<span id="cb2-152"><a href="#cb2-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-153"><a href="#cb2-153" aria-hidden="true" tabindex="-1"></a>corpus_fra<span class="ot">&lt;-</span> <span class="fu">corpus</span>(df_fra)</span>
+<span id="cb2-154"><a href="#cb2-154" aria-hidden="true" tabindex="-1"></a>corpus_fra_summary <span class="ot">&lt;-</span> <span class="fu">summary</span>(corpus_fra)</span>
+<span id="cb2-155"><a href="#cb2-155" aria-hidden="true" tabindex="-1"></a>corpus_fra_summary<span class="sc">$</span>video <span class="ot">&lt;-</span> <span class="st">"France 21"</span></span>
+<span id="cb2-156"><a href="#cb2-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-157"><a href="#cb2-157" aria-hidden="true" tabindex="-1"></a>df_H <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"_data/comments_H.csv"</span>)</span>
+<span id="cb2-158"><a href="#cb2-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-159"><a href="#cb2-159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-160"><a href="#cb2-160" aria-hidden="true" tabindex="-1"></a>df_H<span class="ot">&lt;-</span> df_H<span class="sc">%&gt;%</span> </span>
+<span id="cb2-161"><a href="#cb2-161" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">text =</span> <span class="st">"i"</span>)</span>
+<span id="cb2-162"><a href="#cb2-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-163"><a href="#cb2-163" aria-hidden="true" tabindex="-1"></a>df_H<span class="ot">&lt;-</span> df_H <span class="sc">%&gt;%</span></span>
+<span id="cb2-164"><a href="#cb2-164" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(text) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-165"><a href="#cb2-165" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"39"</span>))</span>
+<span id="cb2-166"><a href="#cb2-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-167"><a href="#cb2-167" aria-hidden="true" tabindex="-1"></a>df_H <span class="ot">&lt;-</span> df_H <span class="sc">%&gt;%</span> </span>
+<span id="cb2-168"><a href="#cb2-168" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(text) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-169"><a href="#cb2-169" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"&lt;"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-170"><a href="#cb2-170" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"&gt;"</span>))</span>
+<span id="cb2-171"><a href="#cb2-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-172"><a href="#cb2-172" aria-hidden="true" tabindex="-1"></a>corpus_H<span class="ot">&lt;-</span> <span class="fu">corpus</span>(df_H)</span>
+<span id="cb2-173"><a href="#cb2-173" aria-hidden="true" tabindex="-1"></a>corpus_H_summary <span class="ot">&lt;-</span> <span class="fu">summary</span>(corpus_H)</span>
+<span id="cb2-174"><a href="#cb2-174" aria-hidden="true" tabindex="-1"></a>corpus_H_summary<span class="sc">$</span>video <span class="ot">&lt;-</span> <span class="st">"Harris"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>full_df <span class="ot">&lt;-</span> <span class="fu">rbind</span>(df_bbc,df_q,df_qRev,df_sky,df_bbcQ,df_bbcOL,df_BI,df_fra,df_H)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>full_df<span class="sc">$</span>id <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(full_df)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>full_df<span class="sc">$</span>id <span class="ot">&lt;-</span> <span class="fu">as.character</span>(full_df<span class="sc">$</span>id)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(full_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 2
+  text                                                                     id   
+  &lt;chr&gt;                                                                    &lt;chr&gt;
+1 Looking forward to it if you just act normal respect the culture and co… 1    
+2 Honestly every country in the world has done bad. May Allah bless these… 2    
+3 if you don't like it stay home and the last people talking about human … 3    
+4 So we can’t boycott a football game ( a trivial matter)  to protest a r… 4    
+5 I see everyone kept their mouth shut with Russia&amp;#;s world cup           5    
+6 Did Qatar invade any country and kill millions? Who are robbing Africa?… 6    </code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>full_corpus <span class="ot">&lt;-</span> <span class="fu">corpus</span>(full_df<span class="sc">$</span>text)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>full_corpus_summary<span class="ot">&lt;-</span> <span class="fu">summary</span>(full_corpus)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>tokens1 <span class="ot">&lt;-</span> <span class="fu">tolower</span>(full_df<span class="sc">$</span>text)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># performs tokenization</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>tokens1 <span class="ot">&lt;-</span> <span class="fu">word_tokenizer</span>(tokens1,<span class="at">pos_remove =</span> <span class="fu">c</span>(<span class="st">"PUNCT"</span>, <span class="st">"DET"</span>, <span class="st">"ADP"</span>, <span class="st">"SYM"</span>, <span class="st">"PART"</span>, <span class="st">"AUX"</span> ))</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(tokens1, <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[1]]
+ [1] "looking"    "forward"    "to"         "it"         "if"        
+ [6] "you"        "just"       "act"        "normal"     "respect"   
+[11] "the"        "culture"    "and"        "country"    "and"       
+[16] "you"        "will"       "be"         "ok"         "no"        
+[21] "one"        "needs"      "to"         "know"       "someone"   
+[26] "is"         "gay"        "just"       "like"       "no"        
+[31] "one"        "needs"      "to"         "know"       "if"        
+[36] "you"        "hetero"     "just"       "save"       "that"      
+[41] "for"        "behind"     "closed"     "doors"      "and"       
+[46] "make"       "sure"       "it"         "s"          "between"   
+[51] "consenting" "adults"     "children"   "and"        "animals"   
+[56] "are"        "not"        "consenting" "adults"     "btw"       
+[61] "you"        "perverts"  
+
+[[2]]
+ [1] "honestly"  "every"     "country"   "in"        "the"       "world"    
+ [7] "has"       "done"      "bad"       "may"       "allah"     "bless"    
+[13] "these"     "workers"   "who"       "have"      "done"      "so"       
+[19] "much"      "for"       "the"       "country"   "however"   "to"       
+[25] "call"      "it"        "slavery"   "is"        "too"       "far"      
+[31] "they"      "r"         "not"       "taking"    "them"      "without"  
+[37] "there"     "will"      "like"      "when"      "british"   "and"      
+[43] "americans" "killed"    "and"       "took"      "thousands" "of"       
+[49] "slaves"    "they"      "come"      "here"      "for"       "better"   
+[55] "options"   "of"        "course"    "it"        "can"       "be"       
+[61] "better"    "however"   "it"        "is"        "much"      "better"   
+[67] "than"      "what"      "was"       "happening" "to"        "them"     
+[73] "in"        "their"     "own"       "countries"</code></pre>
+</div>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>full_tokens <span class="ot">&lt;-</span> <span class="fu">tokens</span>(full_corpus,</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">remove_numbers =</span> T,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">remove_url =</span> T,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">remove_punct =</span> T,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">remove_symbols =</span> T)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>full_tokens <span class="ot">&lt;-</span><span class="fu">tokens_tolower</span>(full_tokens)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>full_tokens <span class="ot">&lt;-</span> <span class="fu">tokens_select</span>(full_tokens, </span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>                              <span class="at">pattern =</span> <span class="fu">c</span>(<span class="fu">stopwords</span>(<span class="st">"en"</span>),<span class="st">"quot"</span>,<span class="st">"href"</span>,<span class="st">"don"</span>),</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>                              <span class="at">selection =</span> <span class="st">"remove"</span>,</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>                              <span class="at">min_nchar =</span> <span class="dv">3</span>)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(full_tokens, <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Tokens consisting of 2 documents.
+text1 :
+ [1] "looking" "forward" "just"    "act"     "normal"  "respect" "culture"
+ [8] "country" "one"     "needs"   "know"    "someone"
+[ ... and 22 more ]
+
+text2 :
+ [1] "honestly" "every"    "country"  "world"    "done"     "bad"     
+ [7] "may"      "allah"    "bless"    "workers"  "done"     "much"    
+[ ... and 25 more ]</code></pre>
+</div>
+</div>
+</section>
+<section id="wordclouds-and-tf-idf" class="level1">
+<h1>WordClouds and TF-IDF</h1>
+<p>My first step is to do some exploratory analysis to see the most frequent and important terms in my corpus. TF-IDF is intended to measure how important a word is to a document in a collection (or corpus) of documents. I am looking for high TF-IDF values. Using a word cloud will display the frequency of my terms in my corpus.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1245</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>full_dfm <span class="ot">&lt;-</span> <span class="fu">dfm</span>(full_tokens)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>smaller_dfm <span class="ot">&lt;-</span> <span class="fu">dfm_trim</span>(full_dfm, <span class="at">min_termfreq =</span> <span class="dv">2</span>)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>full_dfm_tfidf <span class="ot">&lt;-</span> <span class="fu">dfm_tfidf</span>(smaller_dfm)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="fu">textplot_wordcloud</span>(smaller_dfm, <span class="at">min_count =</span> <span class="dv">40</span>, <span class="at">random_order =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="BlogPost6_NayanJani_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">topfeatures</span>(full_dfm_tfidf,<span class="dv">50</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>     qatar      world     people        cup    workers    country  countries 
+ 282.35169  278.88022  249.95985  218.45006  213.95836  205.22592  200.27005 
+      just       like        can      human        one       work     rights 
+ 192.69143  189.64580  188.09018  154.31723  154.28810  151.48861  147.48920 
+      even       fifa   football    respect        see        get     really 
+ 130.13915  128.56978  127.23205  122.62079  121.78159  119.58720  112.11300 
+      good      video    western       know       many    migrant      money 
+ 109.62160  108.02355  107.75301  107.31365  107.28179  106.03057  105.38019 
+       now      years       make       time       west       also       want 
+ 103.36550  102.87957  101.11145   99.35274   99.19814   98.19723   97.12021 
+   culture conditions       much      never       well     middle        say 
+  96.77193   94.56548   93.12160   92.59565   91.39109   87.47787   87.47787 
+     think       love      still      every    working      going      thing 
+  86.93365   86.49862   86.06694   86.02204   85.58083   84.17787   82.79395 
+     india 
+  82.36553 </code></pre>
+</div>
+</div>
+<p>This word cloud depicts the frequency of words that were counted more than 40 times in the corpus. Words like workers, culture, migrant, western, rights and human shown in the word cloud imply that the common discussion within these comments could be about the clash of cultural difference between visitors of the world cup and the people who live in Qatar. The word workers being large suggests that the discussion of how workers were treated during the build up of the World Cup is common in the corpus. Based on TF_IDF ranking, I pulled the top 50 most important terms from my corpus. Numerically, I can see words like workers, fifa, respect, rights, human and culture are ranked highly in my corpus.</p>
+</section>
+<section id="sentiment-analysis" class="level1">
+<h1>Sentiment Analysis</h1>
+<p>For Sentiment Analysis I used the packages tidytext and sentimentr. Sentimentr attempts to take into account valence shifters (i.e., negators, amplifiers (intensifiers), de-amplifiers (downtoners), and adversative conjunctions). This will give me better results than before. I then pulled the most positive and negative comments from the corpus to analyze.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sentimentr)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>mytext <span class="ot">&lt;-</span> <span class="fu">get_sentences</span>(full_df<span class="sc">$</span>text)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>senti<span class="ot">&lt;-</span> <span class="fu">sentiment_by</span>(mytext)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>senti<span class="ot">&lt;-</span> senti <span class="sc">%&gt;%</span> </span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(word_count <span class="sc">&gt;</span> <span class="dv">4</span>)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="fu">qplot</span>(senti<span class="sc">$</span>ave_sentiment,   <span class="at">geom=</span><span class="st">"histogram"</span>,<span class="at">binwidth=</span><span class="fl">0.1</span>,<span class="at">main=</span><span class="st">"Sentiment Histogram"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="BlogPost6_NayanJani_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(<span class="fu">head</span>(full_corpus[<span class="fu">which</span>(senti<span class="sc">$</span>ave_sentiment <span class="sc">&gt;</span>.<span class="dv">5</span>)]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>a country that has modern day slavery, human rights abuses, sharia law which is extremely discriminatory to women and people of any other religion other than Islam and Christianity, one of the highest death rates of workers, yet it&amp;#;s okay to play football there, amazing isn&amp;#;t it, people say money can&amp;#;t buy you everything, show them this shitshow
+This Arabic nation is little humanitarian concepts among workers , especially  home maid workers conditions are very brutal no human rights and laws. like fisherman attitude.
+A golden opportunity to combat negative stereotypes... used to make them worse.
+Chad Qatar : Bribes Virgin West to submission. Humiliaties the West. Doesn&amp;#;t care about stupid lgbt flag. Profits
+now do the same when US host a worldwide event lol
+Im glad someone made a vid about this, I lived in Doha for 8 years and recently left back to my country. Whenever I would go home from school you could see workers being forced to work in the summers peak temp hour even though it was made illegal to work from 12pm to 4pm or something like that? Theres also a huge lack of safety, cranes with cargo would be moved OVER MOVING TRAFFIC:brbrTo any adults who plan to go to the world cup I will tell you now that many places in Qatar will not serve alchoholic drinks because they need a license and can only purchase their alchohol from QDC. So if you do want alchohol I&amp;#;d reccommend going to a hotel like the Grand Hyatt or something. So don&amp;#;t get upset if ya cant find a place to get beer. (but in the stadium there  will be alchohol drinking zones).</code></pre>
+</div>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(<span class="fu">head</span>(full_corpus[<span class="fu">which</span>(senti<span class="sc">$</span>ave_sentiment <span class="sc">&lt;</span> <span class="sc">-</span><span class="fl">0.5</span>)]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>If this was Russia most teams would have pulled out!
+When is the west going to respecting other countries without pushing their agenda, I mean we all know this ain’t about the workers sharing rooms or the stadium being moveable ( it’s about the west pushing so called LGBQT) no wonder why only the west condemned Russia and the world didn’t
+Fertilizer I am a Qatari expatriate. There are many workers in Qatar who work for 6/7 years. They work for the old wages. The company does not increase their wages. Many people have been able to change their jobs and have benefited a lot from the introduction of government without noc system. If the Qatari government had given the opportunity to the workers who have been working in Qatar for more than 5 years to change the kafala without noc, the workers in Qatar would have benefited a lot.
+Half the British clowns are mad because, they don’t get to drink 🤡
+Is the homophobic, slave-using, dictatorship of Qatar`s lack of feeling shame news ?
+Qatar should improve migrants workers conditions.  SHAME on you Qatar</code></pre>
+</div>
+</div>
+<p>The overall sentiment of the corpus is skewed right, suggesting that most of the comments are negative. The most positive comments show more western culture beliefs and criticisms of Qatar. The reasoning and language the commenters use are socially acceptable based on their knowledge of the situation in Qatar and their experiences. Some of the comments are jokes but the main points get across about their beliefs. The most negative comments are more hateful in their beliefs about the opposing culture. The commenters are not using any reasonable judgment to make their claims.</p>
+</section>
+<section id="dictionary-analysis" class="level1">
+<h1>Dictionary Analysis</h1>
+<p>I chose to use the NRC dictionary to visualize the contribution of terms to emotional sentiment.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>post_clean <span class="ot">&lt;-</span> full_df <span class="sc">%&gt;%</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(text) <span class="sc">%&gt;%</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(word, text) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>word <span class="sc">%in%</span> stop_words<span class="sc">$</span>word) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(word <span class="sc">!=</span> <span class="st">"https"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(word <span class="sc">!=</span> <span class="st">"href"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(word <span class="sc">!=</span> <span class="st">"www.youtube.com"</span>)</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>sentiment_word_counts <span class="ot">&lt;-</span> post_clean <span class="sc">%&gt;%</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(<span class="fu">get_sentiments</span>(<span class="st">"nrc"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(word, sentiment, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Joining with `by = join_by(word)`</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in inner_join(., get_sentiments("nrc")): Detected an unexpected many-to-many relationship between `x` and `y`.
+ℹ Row 4 of `x` matches multiple rows in `y`.
+ℹ Row 1506 of `y` matches multiple rows in `x`.
+ℹ If a many-to-many relationship is expected, set `relationship =
+  "many-to-many"` to silence this warning.</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>sentiment_word_counts<span class="ot">&lt;-</span> sentiment_word_counts <span class="sc">%&gt;%</span> </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(word <span class="sc">!=</span> <span class="st">"don"</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>sentiment_word_counts <span class="sc">%&gt;%</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(sentiment) <span class="sc">%&gt;%</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">9</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">word =</span> <span class="fu">reorder</span>(word, n)) <span class="sc">%&gt;%</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(word, n, <span class="at">fill =</span> sentiment)) <span class="sc">+</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>sentiment, <span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Sentiment terms"</span>,</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Contribution to sentiment"</span>,</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Selecting by n</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="BlogPost6_NayanJani_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>I can see that the words “slavery”, “government” , “Corruption”, and “treat” dominate negative emotions. Anticipation and Anger are two emotions I want to look at because they relate well to the lead up of the World Cup. Seeing “respect” contribute to the emotion Anticipation could associate that fans are expecting respect of all cultures and people at the World Cup. The emotion Anger reveals the words money and politics are contributing to the emotional distress of fans.</p>
+</section>
+<section id="topic-model" class="level1">
+<h1>Topic Model</h1>
+<p>For LDA topic Modeling, I used the package text2vec. I found that the best value for K ranges form 5-10 from the my last blog post. I then extract the top 10 words from my topics. In this example, I set k=7.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>it1 <span class="ot">&lt;-</span> <span class="fu">itoken</span>(tokens1, <span class="at">ids =</span> full_df<span class="sc">$</span>id, <span class="at">progressbar =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>stop_words1 <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"i"</span>, <span class="st">"me"</span>, <span class="st">"my"</span>, <span class="st">"myself"</span>, <span class="st">"we"</span>, <span class="st">"our"</span>, <span class="st">"ours"</span>, <span class="st">"ourselves"</span>, <span class="st">"you"</span>, <span class="st">"your"</span>, <span class="st">"yours"</span>,<span class="st">"a"</span>,<span class="st">"the"</span>,<span class="st">"in"</span>,<span class="st">"as"</span>,<span class="st">"on"</span>, <span class="st">"is"</span>,<span class="st">"it"</span>, <span class="st">"to"</span>,<span class="st">"of"</span>,<span class="st">"are"</span>,<span class="st">"not"</span>,<span class="st">"and"</span>,<span class="st">"quot"</span>,<span class="st">"don"</span>,<span class="st">"youtu.be"</span>,<span class="st">"an"</span>,<span class="st">"have"</span>,<span class="st">"this"</span>,<span class="st">"if"</span>,<span class="st">"they"</span>,<span class="st">"v"</span>,<span class="st">"2"</span>,<span class="st">"their"</span>,<span class="st">"can"</span>, <span class="st">"than"</span>,<span class="st">"ve"</span>)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>v1 <span class="ot">&lt;-</span> <span class="fu">create_vocabulary</span>(it1,<span class="at">stopwords =</span> stop_words1)</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>v1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Number of docs: 1391 
+37 stopwords: i, me, my, myself, we, our ... 
+ngram_min = 1; ngram_max = 1 
+Vocabulary: 
+        term term_count doc_count
+   1:   0.25          1         1
+   2:  0m58s          1         1
+   3:    1.2          1         1
+   4:    1.5          1         1
+   5: 10,000          1         1
+  ---                            
+5962: people        333       247
+5963:  world        425       307
+5964:  qatar        481       360
+5965:   that        609       362
+5966:    for        636       417</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co">#v1 &lt;- prune_vocabulary(v1, term_count_min = 5)</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>vectorizer1 <span class="ot">&lt;-</span> <span class="fu">vocab_vectorizer</span>(v1)</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>dtm1 <span class="ot">&lt;-</span> <span class="fu">create_dtm</span>(it1, vectorizer1, <span class="at">type =</span> <span class="st">"dgTMatrix"</span>)</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>lda_model1 <span class="ot">&lt;-</span> LDA<span class="sc">$</span><span class="fu">new</span>(<span class="at">n_topics =</span> <span class="dv">5</span>, <span class="at">doc_topic_prior =</span> <span class="fl">0.1</span>,</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>                     <span class="at">topic_word_prior =</span> <span class="fl">0.01</span>)</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>doc_topic_distr1 <span class="ot">&lt;-</span> </span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>  lda_model1<span class="sc">$</span><span class="fu">fit_transform</span>(<span class="at">x =</span> dtm1, <span class="at">n_iter =</span> <span class="dv">1000</span>,</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>                          <span class="at">convergence_tol =</span> <span class="fl">0.001</span>, <span class="at">n_check_convergence =</span> <span class="dv">25</span>,</span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>                          <span class="at">progressbar =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>INFO  [17:24:47.260] early stopping at 150 iteration
+INFO  [17:24:47.811] early stopping at 75 iteration</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>lda_model1<span class="sc">$</span><span class="fu">get_top_words</span>(<span class="at">n =</span> <span class="dv">10</span>,</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">lambda =</span> <span class="fl">0.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>      [,1]         [,2]      [,3]              [,4]      [,5]        
+ [1,] "east"       "2022"    "watch"           "got"     "must"      
+ [2,] "india"      "worker"  "https"           "problem" "million"   
+ [3,] "nations"    "shame"   "href"            "fact"    "qatari"    
+ [4,] "anything"   "issue"   "change"          "videos"  "through"   
+ [5,] "day"        "cup"     "war"             "labor"   "truth"     
+ [6,] "doing"      "another" "gay"             "ago"     "end"       
+ [7,] "away"       "build"   "www.youtube.com" "n"       "violations"
+ [8,] "called"     "kind"    "boycott"         "yeah"    "worked"    
+ [9,] "indian"     "next"    "game"            "less"    "off"       
+[10,] "population" "africa"  "her"             "long"    "business"  </code></pre>
+</div>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>lda_model1<span class="sc">$</span><span class="fu">plot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required namespace: servr</code></pre>
+</div>
+</div>
+<p>The Topic Model implies that the major topic of discussion surrounds how migrant workers were treated. The other topics in the model suggests respecting the laws of the host country, violation of human rights and government values.The first topic specifically is about where workers came from and how they were treated. Topic 6 specifically highlights the discussion of respect of a countries’ laws and culture.</p>
+</section>
+<section id="semantic-and-pairwise-correlation-network" class="level1">
+<h1>Semantic and Pairwise Correlation Network</h1>
+<p>The packages I used for Semantic and Pairwise Analysis include quanteda, widyr and ggraph. Here I wanted to learn a bit more about what features co-occur and correlation among words, by creating networks for both will help me examine this.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>full_fcm <span class="ot">&lt;-</span> <span class="fu">fcm</span>(smaller_dfm)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="co"># keep only top features.</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>small_fcm <span class="ot">&lt;-</span> <span class="fu">fcm_select</span>(full_fcm, <span class="at">pattern =</span> <span class="fu">names</span>(<span class="fu">topfeatures</span>(full_fcm, <span class="dv">60</span>)), <span class="at">selection =</span> <span class="st">"keep"</span>)</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="co"># compute weights.</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>size <span class="ot">&lt;-</span> <span class="fu">log</span>(<span class="fu">colSums</span>(small_fcm))</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a><span class="co"># create network.</span></span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a><span class="fu">textplot_network</span>(small_fcm, <span class="at">vertex_size =</span> size <span class="sc">/</span> <span class="fu">max</span>(size) <span class="sc">*</span> <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="BlogPost6_NayanJani_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Here I created a Semantic Network of the top 60 terms in the FCM. I see the heart of the network revolves around political terms. The two terms political and war seem to co occur with a lot of other terms. This could imply that some comments are discussion a war between different political views .I also see a sub network that links travelers to law,laws and alcohol. This implies that people visiting the world cup must follow the laws in place, especially the no alcohol law.</p>
+<p>Here I want to examine correlation among words, which indicates how often they appear together relative to how often they appear separately. The pairwise_cor() function in widyr lets us find the phi coefficient between words based on how often they appear in the same section. Here I pick particular terms of interest and find the other terms most associated with them and create a visualization of the correlations and clusters of words.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>section_words <span class="ot">&lt;-</span> full_df <span class="sc">%&gt;%</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">section =</span> <span class="fu">row_number</span>() <span class="sc">%/%</span> <span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(section <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(word, text) <span class="sc">%&gt;%</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>word <span class="sc">%in%</span> stop_words<span class="sc">$</span>word) <span class="sc">%&gt;%</span> </span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(word <span class="sc">!=</span> <span class="st">"https"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(word <span class="sc">!=</span> <span class="st">"href"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(word <span class="sc">!=</span> <span class="st">"www.youtube.com"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(word <span class="sc">!=</span> <span class="st">"youtu.be"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(word<span class="sc">!=</span> <span class="st">"3"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(word<span class="sc">!=</span> <span class="st">"2"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(word<span class="sc">!=</span> <span class="st">"1"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(word<span class="sc">!=</span> <span class="st">"12"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(word<span class="sc">!=</span> <span class="st">"ve"</span>)</span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(widyr)</span>
+<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggraph)</span>
+<span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a>word_cors <span class="ot">&lt;-</span> section_words <span class="sc">%&gt;%</span></span>
+<span id="cb32-23"><a href="#cb32-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(word) <span class="sc">%&gt;%</span></span>
+<span id="cb32-24"><a href="#cb32-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">n</span>() <span class="sc">&gt;=</span> <span class="dv">15</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb32-25"><a href="#cb32-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pairwise_cor</span>(word, section, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb32-26"><a href="#cb32-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-27"><a href="#cb32-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-28"><a href="#cb32-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-29"><a href="#cb32-29" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2016</span>)</span>
+<span id="cb32-30"><a href="#cb32-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-31"><a href="#cb32-31" aria-hidden="true" tabindex="-1"></a>word_cors <span class="sc">%&gt;%</span></span>
+<span id="cb32-32"><a href="#cb32-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(correlation <span class="sc">&gt;</span> .<span class="dv">35</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb32-33"><a href="#cb32-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">graph_from_data_frame</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb32-34"><a href="#cb32-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggraph</span>(<span class="at">layout =</span> <span class="st">"fr"</span>) <span class="sc">+</span></span>
+<span id="cb32-35"><a href="#cb32-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_edge_link</span>(<span class="fu">aes</span>(<span class="at">edge_alpha =</span> correlation), <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb32-36"><a href="#cb32-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_node_point</span>(<span class="at">color =</span> <span class="st">"lightblue"</span>, <span class="at">size =</span> <span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb32-37"><a href="#cb32-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_node_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> name), <span class="at">repel =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb32-38"><a href="#cb32-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="BlogPost6_NayanJani_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>word_cors <span class="sc">%&gt;%</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(item1 <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"western"</span>, <span class="st">"qatar"</span>, <span class="st">"lgbtq"</span>, <span class="st">"workers"</span>,<span class="st">"rights"</span>,<span class="st">"respect"</span>,<span class="st">"country"</span>,<span class="st">"cultures"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(item1) <span class="sc">%&gt;%</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(correlation, <span class="at">n =</span> <span class="dv">6</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">item2 =</span> <span class="fu">reorder</span>(item2, correlation)) <span class="sc">%&gt;%</span></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(item2, correlation)) <span class="sc">+</span></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> item1, <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="BlogPost6_NayanJani_files/figure-html/unnamed-chunk-15-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The Words of interest that I picked include “western”, “qatar”, “lgbtq”, “workers”,“rights”,“respect”,“country”,“cultures”. The correlation between the words respect and culture, politics suggests that respecting the culture and politics of a certain region is being discussed when talking about respect. The Visualization shows the correlation between many words. The relationships here are symmetrical, rather than directional. The connections between words help verify what topics are being discussed in all of the comments. For example, the cluster surrounding the word “worker” shows that the word is correlated with negative terms that relate to the treatment and condition they received.</p>
+</section>
+<section id="limitations" class="level1">
+<h1>Limitations</h1>
+<p>The conclusions drawn cannot be fully proven from the current data , but they are enough to encourage further research.The data was only collected in a small scope compared to other projects. This is because of Youtube API did not let me scrape more than 100 comments per video. Many comments had typos in them, which hurts my analysis because some of the misspelled words could of been valuable. The topics of the videos may have skewed the conversation of the comments because the videos come from different sources.</p>
+
+
+<!-- -->
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb34" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Assessing Sentiment Surrounding the 2022 World Cup"</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "Nayan Jani"</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> "NLP"</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> "12/15/2022"</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: true</span></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a><span class="co">    code-copy: true</span></span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a><span class="an">categories:</span></span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a><span class="co">  - NLP</span></span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-19"><a href="#cb34-19" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: setup</span></span>
+<span id="cb34-20"><a href="#cb34-20" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
+<span id="cb34-21"><a href="#cb34-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-22"><a href="#cb34-22" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb34-23"><a href="#cb34-23" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quanteda)</span>
+<span id="cb34-24"><a href="#cb34-24" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quanteda.textplots)</span>
+<span id="cb34-25"><a href="#cb34-25" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quanteda.textmodels)</span>
+<span id="cb34-26"><a href="#cb34-26" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb34-27"><a href="#cb34-27" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quanteda.dictionaries)</span>
+<span id="cb34-28"><a href="#cb34-28" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quanteda.sentiment)</span>
+<span id="cb34-29"><a href="#cb34-29" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(syuzhet)</span>
+<span id="cb34-30"><a href="#cb34-30" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(text2vec)</span>
+<span id="cb34-31"><a href="#cb34-31" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stm)</span>
+<span id="cb34-32"><a href="#cb34-32" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(LDAvis)</span>
+<span id="cb34-33"><a href="#cb34-33" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidytext)</span>
+<span id="cb34-34"><a href="#cb34-34" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(igraph)</span>
+<span id="cb34-35"><a href="#cb34-35" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(textdata)</span>
+<span id="cb34-36"><a href="#cb34-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-37"><a href="#cb34-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-38"><a href="#cb34-38" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(<span class="at">echo =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb34-39"><a href="#cb34-39" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-40"><a href="#cb34-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-41"><a href="#cb34-41" aria-hidden="true" tabindex="-1"></a><span class="fu"># Introduction</span></span>
+<span id="cb34-42"><a href="#cb34-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-43"><a href="#cb34-43" aria-hidden="true" tabindex="-1"></a>The FIFA 2022 World Cup has captivated almost everyone's attention this year. However, most of that attention has been focused on human rights violations that are present. The Host nation Qatar has been under pressure for these violations because of their treatment of foreigners in their country and their failure to be inclusive. Migrant workers that have helped build stadiums have been mistreated, underpaid, overworked and even killed leading up to the World Cup. The Host nation also has disallowed for the LGBTQ community to represent themselves because of the Host nations beliefs. Soccer Fans from both cultures (Host nation vs Foreigners) have argued over what values to respect on the global level.</span>
+<span id="cb34-44"><a href="#cb34-44" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb34-45"><a href="#cb34-45" aria-hidden="true" tabindex="-1"></a><span class="fu"># Objectives</span></span>
+<span id="cb34-46"><a href="#cb34-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-47"><a href="#cb34-47" aria-hidden="true" tabindex="-1"></a>Find the overall Sentiment of the comments (Positive and Negative, Other emotions)</span>
+<span id="cb34-48"><a href="#cb34-48" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb34-49"><a href="#cb34-49" aria-hidden="true" tabindex="-1"></a>What is the main focus of discussion in the comments? What topic is most important to the people in the comments?</span>
+<span id="cb34-50"><a href="#cb34-50" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb34-51"><a href="#cb34-51" aria-hidden="true" tabindex="-1"></a>Based on the most important topics and the sentiment of those comments, are those comments classified correctly positive or negative? If yes, what are the comments POV? (western culture vs middle east culture)  Are those comments "socially correct"? (logical/acceptable POV vs Stereotyped/Stigmatized POV)</span>
+<span id="cb34-52"><a href="#cb34-52" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb34-53"><a href="#cb34-53" aria-hidden="true" tabindex="-1"></a><span class="fu"># Read in Data</span></span>
+<span id="cb34-54"><a href="#cb34-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-55"><a href="#cb34-55" aria-hidden="true" tabindex="-1"></a>Using Youtube API and Python, I was able to extract comments from nine videos covering the world cup in Qatar. The sources of the videos include BBC, Sky Sports News, France 21 and independent content creators. I chose videos based on the the amount of views. The comments I have scraped are the top 100 most relevant comments and the top 100 most recent comments from each video. The  total number of comments I scraped was 1,391 . As a part of pre-processing my data, I removed all comments with less than 3 tokens in them using the tidyverse. I also removed any symbols, punctuation URLs , numbers and stopwords from my data . I tokenized my data using three different libraries, quanteda, tidytext and text2vec.</span>
+<span id="cb34-56"><a href="#cb34-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-57"><a href="#cb34-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-58"><a href="#cb34-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-59"><a href="#cb34-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-60"><a href="#cb34-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-63"><a href="#cb34-63" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-64"><a href="#cb34-64" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
+<span id="cb34-65"><a href="#cb34-65" aria-hidden="true" tabindex="-1"></a>df_bbc<span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"_data/comments_bbc.csv"</span>)</span>
+<span id="cb34-66"><a href="#cb34-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-67"><a href="#cb34-67" aria-hidden="true" tabindex="-1"></a>df_bbc<span class="ot">&lt;-</span> df_bbc<span class="sc">%&gt;%</span> </span>
+<span id="cb34-68"><a href="#cb34-68" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">text =</span> <span class="st">"i"</span>)</span>
+<span id="cb34-69"><a href="#cb34-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-70"><a href="#cb34-70" aria-hidden="true" tabindex="-1"></a>df_bbc<span class="ot">&lt;-</span> df_bbc <span class="sc">%&gt;%</span></span>
+<span id="cb34-71"><a href="#cb34-71" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(text) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-72"><a href="#cb34-72" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"39"</span>))</span>
+<span id="cb34-73"><a href="#cb34-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-74"><a href="#cb34-74" aria-hidden="true" tabindex="-1"></a>df_bbc <span class="ot">&lt;-</span> df_bbc <span class="sc">%&gt;%</span> </span>
+<span id="cb34-75"><a href="#cb34-75" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(text) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-76"><a href="#cb34-76" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"&lt;"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-77"><a href="#cb34-77" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"&gt;"</span>))</span>
+<span id="cb34-78"><a href="#cb34-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-79"><a href="#cb34-79" aria-hidden="true" tabindex="-1"></a>corpus_bbc <span class="ot">&lt;-</span> <span class="fu">corpus</span>(df_bbc)</span>
+<span id="cb34-80"><a href="#cb34-80" aria-hidden="true" tabindex="-1"></a>corpus_bbc_summary <span class="ot">&lt;-</span> <span class="fu">summary</span>(corpus_bbc)</span>
+<span id="cb34-81"><a href="#cb34-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-82"><a href="#cb34-82" aria-hidden="true" tabindex="-1"></a>corpus_bbc_summary<span class="sc">$</span>video <span class="ot">&lt;-</span> <span class="st">"BBC"</span></span>
+<span id="cb34-83"><a href="#cb34-83" aria-hidden="true" tabindex="-1"></a><span class="fu">docvars</span>(corpus_bbc) <span class="ot">&lt;-</span> corpus_bbc_summary</span>
+<span id="cb34-84"><a href="#cb34-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-85"><a href="#cb34-85" aria-hidden="true" tabindex="-1"></a>df_q<span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"_data/comments_q.csv"</span>)</span>
+<span id="cb34-86"><a href="#cb34-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-87"><a href="#cb34-87" aria-hidden="true" tabindex="-1"></a>df_q<span class="ot">&lt;-</span> df_q <span class="sc">%&gt;%</span> </span>
+<span id="cb34-88"><a href="#cb34-88" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">text =</span> <span class="st">"I’ll try to get the next video essay out in less than a month lol"</span>)</span>
+<span id="cb34-89"><a href="#cb34-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-90"><a href="#cb34-90" aria-hidden="true" tabindex="-1"></a>df_q<span class="ot">&lt;-</span> df_q <span class="sc">%&gt;%</span></span>
+<span id="cb34-91"><a href="#cb34-91" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(text) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-92"><a href="#cb34-92" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"39"</span>))</span>
+<span id="cb34-93"><a href="#cb34-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-94"><a href="#cb34-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-95"><a href="#cb34-95" aria-hidden="true" tabindex="-1"></a>df_q <span class="ot">&lt;-</span> df_q <span class="sc">%&gt;%</span> </span>
+<span id="cb34-96"><a href="#cb34-96" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(text) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-97"><a href="#cb34-97" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"&lt;"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-98"><a href="#cb34-98" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"&gt;"</span>))</span>
+<span id="cb34-99"><a href="#cb34-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-100"><a href="#cb34-100" aria-hidden="true" tabindex="-1"></a>corpus_q <span class="ot">&lt;-</span> <span class="fu">corpus</span>(df_q)</span>
+<span id="cb34-101"><a href="#cb34-101" aria-hidden="true" tabindex="-1"></a>corpus_q_summary <span class="ot">&lt;-</span> <span class="fu">summary</span>(corpus_q)</span>
+<span id="cb34-102"><a href="#cb34-102" aria-hidden="true" tabindex="-1"></a>corpus_q_summary<span class="sc">$</span>video <span class="ot">&lt;-</span> <span class="st">"Maqwell"</span></span>
+<span id="cb34-103"><a href="#cb34-103" aria-hidden="true" tabindex="-1"></a><span class="fu">docvars</span>(corpus_q) <span class="ot">&lt;-</span> corpus_q_summary</span>
+<span id="cb34-104"><a href="#cb34-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-105"><a href="#cb34-105" aria-hidden="true" tabindex="-1"></a>df_qRev<span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"_data/comments_qRev.csv"</span>)</span>
+<span id="cb34-106"><a href="#cb34-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-107"><a href="#cb34-107" aria-hidden="true" tabindex="-1"></a>df_qRev <span class="ot">&lt;-</span> df_qRev<span class="sc">%&gt;%</span> </span>
+<span id="cb34-108"><a href="#cb34-108" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">text =</span> <span class="st">"I’ll try to get the next video essay out in less than a month lol"</span>)</span>
+<span id="cb34-109"><a href="#cb34-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-110"><a href="#cb34-110" aria-hidden="true" tabindex="-1"></a>df_qRev<span class="ot">&lt;-</span> df_qRev <span class="sc">%&gt;%</span></span>
+<span id="cb34-111"><a href="#cb34-111" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(text) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-112"><a href="#cb34-112" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"39"</span>))</span>
+<span id="cb34-113"><a href="#cb34-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-114"><a href="#cb34-114" aria-hidden="true" tabindex="-1"></a>df_qRev <span class="ot">&lt;-</span> df_qRev <span class="sc">%&gt;%</span> </span>
+<span id="cb34-115"><a href="#cb34-115" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(text) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-116"><a href="#cb34-116" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"&lt;"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-117"><a href="#cb34-117" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"&gt;"</span>))</span>
+<span id="cb34-118"><a href="#cb34-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-119"><a href="#cb34-119" aria-hidden="true" tabindex="-1"></a>corpus_qRev <span class="ot">&lt;-</span> <span class="fu">corpus</span>(df_qRev)</span>
+<span id="cb34-120"><a href="#cb34-120" aria-hidden="true" tabindex="-1"></a>corpus_qRev_summary <span class="ot">&lt;-</span> <span class="fu">summary</span>(corpus_qRev)</span>
+<span id="cb34-121"><a href="#cb34-121" aria-hidden="true" tabindex="-1"></a>corpus_qRev_summary<span class="sc">$</span>video <span class="ot">&lt;-</span> <span class="st">"MaqwellRev"</span></span>
+<span id="cb34-122"><a href="#cb34-122" aria-hidden="true" tabindex="-1"></a><span class="fu">docvars</span>(corpus_qRev) <span class="ot">&lt;-</span> corpus_qRev_summary</span>
+<span id="cb34-123"><a href="#cb34-123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-124"><a href="#cb34-124" aria-hidden="true" tabindex="-1"></a>df_sky<span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"_data/comments_sky.csv"</span>)</span>
+<span id="cb34-125"><a href="#cb34-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-126"><a href="#cb34-126" aria-hidden="true" tabindex="-1"></a>df_sky<span class="ot">&lt;-</span> df_sky<span class="sc">%&gt;%</span> </span>
+<span id="cb34-127"><a href="#cb34-127" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">text =</span> <span class="st">"i"</span>)</span>
+<span id="cb34-128"><a href="#cb34-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-129"><a href="#cb34-129" aria-hidden="true" tabindex="-1"></a>df_sky<span class="ot">&lt;-</span> df_sky <span class="sc">%&gt;%</span></span>
+<span id="cb34-130"><a href="#cb34-130" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(text) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-131"><a href="#cb34-131" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"39"</span>))</span>
+<span id="cb34-132"><a href="#cb34-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-133"><a href="#cb34-133" aria-hidden="true" tabindex="-1"></a>df_sky <span class="ot">&lt;-</span> df_sky <span class="sc">%&gt;%</span> </span>
+<span id="cb34-134"><a href="#cb34-134" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(text) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-135"><a href="#cb34-135" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"&lt;"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-136"><a href="#cb34-136" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"&gt;"</span>))</span>
+<span id="cb34-137"><a href="#cb34-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-138"><a href="#cb34-138" aria-hidden="true" tabindex="-1"></a>corpus_sky <span class="ot">&lt;-</span> <span class="fu">corpus</span>(df_sky)</span>
+<span id="cb34-139"><a href="#cb34-139" aria-hidden="true" tabindex="-1"></a>corpus_sky_summary <span class="ot">&lt;-</span> <span class="fu">summary</span>(corpus_sky)</span>
+<span id="cb34-140"><a href="#cb34-140" aria-hidden="true" tabindex="-1"></a>corpus_sky_summary<span class="sc">$</span>video <span class="ot">&lt;-</span> <span class="st">"sky"</span></span>
+<span id="cb34-141"><a href="#cb34-141" aria-hidden="true" tabindex="-1"></a><span class="fu">docvars</span>(corpus_sky) <span class="ot">&lt;-</span> corpus_sky_summary</span>
+<span id="cb34-142"><a href="#cb34-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-143"><a href="#cb34-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-144"><a href="#cb34-144" aria-hidden="true" tabindex="-1"></a>df_bbcQ <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"_data/comments_bbcQ.csv"</span>)</span>
+<span id="cb34-145"><a href="#cb34-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-146"><a href="#cb34-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-147"><a href="#cb34-147" aria-hidden="true" tabindex="-1"></a>df_bbcQ<span class="ot">&lt;-</span> df_bbcQ<span class="sc">%&gt;%</span> </span>
+<span id="cb34-148"><a href="#cb34-148" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">text =</span> <span class="st">"i"</span>)</span>
+<span id="cb34-149"><a href="#cb34-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-150"><a href="#cb34-150" aria-hidden="true" tabindex="-1"></a>df_bbcQ<span class="ot">&lt;-</span> df_bbcQ <span class="sc">%&gt;%</span></span>
+<span id="cb34-151"><a href="#cb34-151" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(text) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-152"><a href="#cb34-152" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"39"</span>))</span>
+<span id="cb34-153"><a href="#cb34-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-154"><a href="#cb34-154" aria-hidden="true" tabindex="-1"></a>df_bbcQ <span class="ot">&lt;-</span> df_bbcQ <span class="sc">%&gt;%</span> </span>
+<span id="cb34-155"><a href="#cb34-155" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(text) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-156"><a href="#cb34-156" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"&lt;"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-157"><a href="#cb34-157" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"&gt;"</span>))</span>
+<span id="cb34-158"><a href="#cb34-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-159"><a href="#cb34-159" aria-hidden="true" tabindex="-1"></a>corpus_bbcQ<span class="ot">&lt;-</span> <span class="fu">corpus</span>(df_bbcQ)</span>
+<span id="cb34-160"><a href="#cb34-160" aria-hidden="true" tabindex="-1"></a>corpus_bbcQ_summary <span class="ot">&lt;-</span> <span class="fu">summary</span>(corpus_bbcQ)</span>
+<span id="cb34-161"><a href="#cb34-161" aria-hidden="true" tabindex="-1"></a>corpus_bbcQ_summary<span class="sc">$</span>video <span class="ot">&lt;-</span> <span class="st">"BBC"</span></span>
+<span id="cb34-162"><a href="#cb34-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-163"><a href="#cb34-163" aria-hidden="true" tabindex="-1"></a>df_bbcOL <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"_data/comments_bbcOL.csv"</span>)</span>
+<span id="cb34-164"><a href="#cb34-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-165"><a href="#cb34-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-166"><a href="#cb34-166" aria-hidden="true" tabindex="-1"></a>df_bbcOL<span class="ot">&lt;-</span> df_bbcOL<span class="sc">%&gt;%</span> </span>
+<span id="cb34-167"><a href="#cb34-167" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">text =</span> <span class="st">"i"</span>)</span>
+<span id="cb34-168"><a href="#cb34-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-169"><a href="#cb34-169" aria-hidden="true" tabindex="-1"></a>df_bbcOL<span class="ot">&lt;-</span> df_bbcOL <span class="sc">%&gt;%</span></span>
+<span id="cb34-170"><a href="#cb34-170" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(text) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-171"><a href="#cb34-171" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"39"</span>))</span>
+<span id="cb34-172"><a href="#cb34-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-173"><a href="#cb34-173" aria-hidden="true" tabindex="-1"></a>df_bbcOL <span class="ot">&lt;-</span> df_bbcOL <span class="sc">%&gt;%</span> </span>
+<span id="cb34-174"><a href="#cb34-174" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(text) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-175"><a href="#cb34-175" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"&lt;"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-176"><a href="#cb34-176" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"&gt;"</span>))</span>
+<span id="cb34-177"><a href="#cb34-177" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-178"><a href="#cb34-178" aria-hidden="true" tabindex="-1"></a>corpus_bbcOL<span class="ot">&lt;-</span> <span class="fu">corpus</span>(df_bbcOL)</span>
+<span id="cb34-179"><a href="#cb34-179" aria-hidden="true" tabindex="-1"></a>corpus_bbcOL_summary <span class="ot">&lt;-</span> <span class="fu">summary</span>(corpus_bbcOL)</span>
+<span id="cb34-180"><a href="#cb34-180" aria-hidden="true" tabindex="-1"></a>corpus_bbcOL_summary<span class="sc">$</span>video <span class="ot">&lt;-</span> <span class="st">"BBC"</span></span>
+<span id="cb34-181"><a href="#cb34-181" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-182"><a href="#cb34-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-183"><a href="#cb34-183" aria-hidden="true" tabindex="-1"></a>df_BI <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"_data/comments_BI.csv"</span>)</span>
+<span id="cb34-184"><a href="#cb34-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-185"><a href="#cb34-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-186"><a href="#cb34-186" aria-hidden="true" tabindex="-1"></a>df_BI<span class="ot">&lt;-</span> df_BI<span class="sc">%&gt;%</span> </span>
+<span id="cb34-187"><a href="#cb34-187" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">text =</span> <span class="st">"i"</span>)</span>
+<span id="cb34-188"><a href="#cb34-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-189"><a href="#cb34-189" aria-hidden="true" tabindex="-1"></a>df_BI<span class="ot">&lt;-</span> df_BI <span class="sc">%&gt;%</span></span>
+<span id="cb34-190"><a href="#cb34-190" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(text) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-191"><a href="#cb34-191" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"39"</span>))</span>
+<span id="cb34-192"><a href="#cb34-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-193"><a href="#cb34-193" aria-hidden="true" tabindex="-1"></a>df_BI <span class="ot">&lt;-</span> df_BI <span class="sc">%&gt;%</span> </span>
+<span id="cb34-194"><a href="#cb34-194" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(text) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-195"><a href="#cb34-195" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"&lt;"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-196"><a href="#cb34-196" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"&gt;"</span>))</span>
+<span id="cb34-197"><a href="#cb34-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-198"><a href="#cb34-198" aria-hidden="true" tabindex="-1"></a>corpus_BI<span class="ot">&lt;-</span> <span class="fu">corpus</span>(df_BI)</span>
+<span id="cb34-199"><a href="#cb34-199" aria-hidden="true" tabindex="-1"></a>corpus_BI_summary <span class="ot">&lt;-</span> <span class="fu">summary</span>(corpus_BI)</span>
+<span id="cb34-200"><a href="#cb34-200" aria-hidden="true" tabindex="-1"></a>corpus_BI_summary<span class="sc">$</span>video <span class="ot">&lt;-</span> <span class="st">"Business Insider"</span></span>
+<span id="cb34-201"><a href="#cb34-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-202"><a href="#cb34-202" aria-hidden="true" tabindex="-1"></a>df_fra <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"_data/comments_fra.csv"</span>)</span>
+<span id="cb34-203"><a href="#cb34-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-204"><a href="#cb34-204" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-205"><a href="#cb34-205" aria-hidden="true" tabindex="-1"></a>df_fra<span class="ot">&lt;-</span> df_fra<span class="sc">%&gt;%</span> </span>
+<span id="cb34-206"><a href="#cb34-206" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">text =</span> <span class="st">"i"</span>)</span>
+<span id="cb34-207"><a href="#cb34-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-208"><a href="#cb34-208" aria-hidden="true" tabindex="-1"></a>df_fra<span class="ot">&lt;-</span> df_fra <span class="sc">%&gt;%</span></span>
+<span id="cb34-209"><a href="#cb34-209" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(text) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-210"><a href="#cb34-210" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"39"</span>))</span>
+<span id="cb34-211"><a href="#cb34-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-212"><a href="#cb34-212" aria-hidden="true" tabindex="-1"></a>df_fra <span class="ot">&lt;-</span> df_fra <span class="sc">%&gt;%</span> </span>
+<span id="cb34-213"><a href="#cb34-213" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(text) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-214"><a href="#cb34-214" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"&lt;"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-215"><a href="#cb34-215" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"&gt;"</span>))</span>
+<span id="cb34-216"><a href="#cb34-216" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-217"><a href="#cb34-217" aria-hidden="true" tabindex="-1"></a>corpus_fra<span class="ot">&lt;-</span> <span class="fu">corpus</span>(df_fra)</span>
+<span id="cb34-218"><a href="#cb34-218" aria-hidden="true" tabindex="-1"></a>corpus_fra_summary <span class="ot">&lt;-</span> <span class="fu">summary</span>(corpus_fra)</span>
+<span id="cb34-219"><a href="#cb34-219" aria-hidden="true" tabindex="-1"></a>corpus_fra_summary<span class="sc">$</span>video <span class="ot">&lt;-</span> <span class="st">"France 21"</span></span>
+<span id="cb34-220"><a href="#cb34-220" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-221"><a href="#cb34-221" aria-hidden="true" tabindex="-1"></a>df_H <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"_data/comments_H.csv"</span>)</span>
+<span id="cb34-222"><a href="#cb34-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-223"><a href="#cb34-223" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-224"><a href="#cb34-224" aria-hidden="true" tabindex="-1"></a>df_H<span class="ot">&lt;-</span> df_H<span class="sc">%&gt;%</span> </span>
+<span id="cb34-225"><a href="#cb34-225" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">text =</span> <span class="st">"i"</span>)</span>
+<span id="cb34-226"><a href="#cb34-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-227"><a href="#cb34-227" aria-hidden="true" tabindex="-1"></a>df_H<span class="ot">&lt;-</span> df_H <span class="sc">%&gt;%</span></span>
+<span id="cb34-228"><a href="#cb34-228" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(text) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-229"><a href="#cb34-229" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"39"</span>))</span>
+<span id="cb34-230"><a href="#cb34-230" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-231"><a href="#cb34-231" aria-hidden="true" tabindex="-1"></a>df_H <span class="ot">&lt;-</span> df_H <span class="sc">%&gt;%</span> </span>
+<span id="cb34-232"><a href="#cb34-232" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(text) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-233"><a href="#cb34-233" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"&lt;"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-234"><a href="#cb34-234" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">text =</span> <span class="fu">str_remove_all</span>(text,<span class="st">"&gt;"</span>))</span>
+<span id="cb34-235"><a href="#cb34-235" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-236"><a href="#cb34-236" aria-hidden="true" tabindex="-1"></a>corpus_H<span class="ot">&lt;-</span> <span class="fu">corpus</span>(df_H)</span>
+<span id="cb34-237"><a href="#cb34-237" aria-hidden="true" tabindex="-1"></a>corpus_H_summary <span class="ot">&lt;-</span> <span class="fu">summary</span>(corpus_H)</span>
+<span id="cb34-238"><a href="#cb34-238" aria-hidden="true" tabindex="-1"></a>corpus_H_summary<span class="sc">$</span>video <span class="ot">&lt;-</span> <span class="st">"Harris"</span></span>
+<span id="cb34-239"><a href="#cb34-239" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-240"><a href="#cb34-240" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-241"><a href="#cb34-241" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-244"><a href="#cb34-244" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-245"><a href="#cb34-245" aria-hidden="true" tabindex="-1"></a>full_df <span class="ot">&lt;-</span> <span class="fu">rbind</span>(df_bbc,df_q,df_qRev,df_sky,df_bbcQ,df_bbcOL,df_BI,df_fra,df_H)</span>
+<span id="cb34-246"><a href="#cb34-246" aria-hidden="true" tabindex="-1"></a>full_df<span class="sc">$</span>id <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(full_df)</span>
+<span id="cb34-247"><a href="#cb34-247" aria-hidden="true" tabindex="-1"></a>full_df<span class="sc">$</span>id <span class="ot">&lt;-</span> <span class="fu">as.character</span>(full_df<span class="sc">$</span>id)</span>
+<span id="cb34-248"><a href="#cb34-248" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-249"><a href="#cb34-249" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(full_df)</span>
+<span id="cb34-250"><a href="#cb34-250" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-251"><a href="#cb34-251" aria-hidden="true" tabindex="-1"></a>full_corpus <span class="ot">&lt;-</span> <span class="fu">corpus</span>(full_df<span class="sc">$</span>text)</span>
+<span id="cb34-252"><a href="#cb34-252" aria-hidden="true" tabindex="-1"></a>full_corpus_summary<span class="ot">&lt;-</span> <span class="fu">summary</span>(full_corpus)</span>
+<span id="cb34-253"><a href="#cb34-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-254"><a href="#cb34-254" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-255"><a href="#cb34-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-256"><a href="#cb34-256" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-257"><a href="#cb34-257" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-258"><a href="#cb34-258" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-259"><a href="#cb34-259" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-262"><a href="#cb34-262" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-263"><a href="#cb34-263" aria-hidden="true" tabindex="-1"></a>tokens1 <span class="ot">&lt;-</span> <span class="fu">tolower</span>(full_df<span class="sc">$</span>text)</span>
+<span id="cb34-264"><a href="#cb34-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-265"><a href="#cb34-265" aria-hidden="true" tabindex="-1"></a><span class="co"># performs tokenization</span></span>
+<span id="cb34-266"><a href="#cb34-266" aria-hidden="true" tabindex="-1"></a>tokens1 <span class="ot">&lt;-</span> <span class="fu">word_tokenizer</span>(tokens1,<span class="at">pos_remove =</span> <span class="fu">c</span>(<span class="st">"PUNCT"</span>, <span class="st">"DET"</span>, <span class="st">"ADP"</span>, <span class="st">"SYM"</span>, <span class="st">"PART"</span>, <span class="st">"AUX"</span> ))</span>
+<span id="cb34-267"><a href="#cb34-267" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-268"><a href="#cb34-268" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(tokens1, <span class="dv">2</span>)</span>
+<span id="cb34-269"><a href="#cb34-269" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-270"><a href="#cb34-270" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-271"><a href="#cb34-271" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-274"><a href="#cb34-274" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-275"><a href="#cb34-275" aria-hidden="true" tabindex="-1"></a>full_tokens <span class="ot">&lt;-</span> <span class="fu">tokens</span>(full_corpus,</span>
+<span id="cb34-276"><a href="#cb34-276" aria-hidden="true" tabindex="-1"></a>    <span class="at">remove_numbers =</span> T,</span>
+<span id="cb34-277"><a href="#cb34-277" aria-hidden="true" tabindex="-1"></a>    <span class="at">remove_url =</span> T,</span>
+<span id="cb34-278"><a href="#cb34-278" aria-hidden="true" tabindex="-1"></a>    <span class="at">remove_punct =</span> T,</span>
+<span id="cb34-279"><a href="#cb34-279" aria-hidden="true" tabindex="-1"></a>    <span class="at">remove_symbols =</span> T)</span>
+<span id="cb34-280"><a href="#cb34-280" aria-hidden="true" tabindex="-1"></a>full_tokens <span class="ot">&lt;-</span><span class="fu">tokens_tolower</span>(full_tokens)</span>
+<span id="cb34-281"><a href="#cb34-281" aria-hidden="true" tabindex="-1"></a>full_tokens <span class="ot">&lt;-</span> <span class="fu">tokens_select</span>(full_tokens, </span>
+<span id="cb34-282"><a href="#cb34-282" aria-hidden="true" tabindex="-1"></a>                              <span class="at">pattern =</span> <span class="fu">c</span>(<span class="fu">stopwords</span>(<span class="st">"en"</span>),<span class="st">"quot"</span>,<span class="st">"href"</span>,<span class="st">"don"</span>),</span>
+<span id="cb34-283"><a href="#cb34-283" aria-hidden="true" tabindex="-1"></a>                              <span class="at">selection =</span> <span class="st">"remove"</span>,</span>
+<span id="cb34-284"><a href="#cb34-284" aria-hidden="true" tabindex="-1"></a>                              <span class="at">min_nchar =</span> <span class="dv">3</span>)</span>
+<span id="cb34-285"><a href="#cb34-285" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-286"><a href="#cb34-286" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-287"><a href="#cb34-287" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(full_tokens, <span class="dv">2</span>)</span>
+<span id="cb34-288"><a href="#cb34-288" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-289"><a href="#cb34-289" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-290"><a href="#cb34-290" aria-hidden="true" tabindex="-1"></a><span class="fu"># WordClouds and TF-IDF</span></span>
+<span id="cb34-291"><a href="#cb34-291" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-292"><a href="#cb34-292" aria-hidden="true" tabindex="-1"></a>My first step is to do some exploratory analysis to see the most frequent and important terms in my corpus. TF-IDF is intended to measure how important a word is to a document in a collection (or corpus) of documents. I am looking for high TF-IDF values. Using a word cloud will display the frequency of my terms in my corpus.</span>
+<span id="cb34-293"><a href="#cb34-293" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-294"><a href="#cb34-294" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-297"><a href="#cb34-297" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-298"><a href="#cb34-298" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1245</span>)</span>
+<span id="cb34-299"><a href="#cb34-299" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-300"><a href="#cb34-300" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-301"><a href="#cb34-301" aria-hidden="true" tabindex="-1"></a>full_dfm <span class="ot">&lt;-</span> <span class="fu">dfm</span>(full_tokens)</span>
+<span id="cb34-302"><a href="#cb34-302" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-303"><a href="#cb34-303" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-304"><a href="#cb34-304" aria-hidden="true" tabindex="-1"></a>smaller_dfm <span class="ot">&lt;-</span> <span class="fu">dfm_trim</span>(full_dfm, <span class="at">min_termfreq =</span> <span class="dv">2</span>)</span>
+<span id="cb34-305"><a href="#cb34-305" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-306"><a href="#cb34-306" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-307"><a href="#cb34-307" aria-hidden="true" tabindex="-1"></a>full_dfm_tfidf <span class="ot">&lt;-</span> <span class="fu">dfm_tfidf</span>(smaller_dfm)</span>
+<span id="cb34-308"><a href="#cb34-308" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-309"><a href="#cb34-309" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-310"><a href="#cb34-310" aria-hidden="true" tabindex="-1"></a><span class="fu">textplot_wordcloud</span>(smaller_dfm, <span class="at">min_count =</span> <span class="dv">40</span>, <span class="at">random_order =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb34-311"><a href="#cb34-311" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-312"><a href="#cb34-312" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-313"><a href="#cb34-313" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-314"><a href="#cb34-314" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-317"><a href="#cb34-317" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-318"><a href="#cb34-318" aria-hidden="true" tabindex="-1"></a><span class="fu">topfeatures</span>(full_dfm_tfidf,<span class="dv">50</span>)</span>
+<span id="cb34-319"><a href="#cb34-319" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-320"><a href="#cb34-320" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-321"><a href="#cb34-321" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-322"><a href="#cb34-322" aria-hidden="true" tabindex="-1"></a>This word cloud depicts the frequency of words that were counted more than 40 times in the corpus. Words like workers, culture, migrant, western, rights and human shown in the word cloud imply that the common discussion within these comments could be about the clash of cultural difference between visitors of the world cup and the people who live in Qatar. The word workers being large suggests that the discussion of how workers were treated during the build up of the World Cup is common in the corpus. Based on TF_IDF ranking, I pulled the top 50 most important terms from my corpus. Numerically, I can see words like workers, fifa, respect, rights, human and culture are ranked highly in my corpus. </span>
+<span id="cb34-323"><a href="#cb34-323" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-324"><a href="#cb34-324" aria-hidden="true" tabindex="-1"></a><span class="fu"># Sentiment Analysis</span></span>
+<span id="cb34-325"><a href="#cb34-325" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-326"><a href="#cb34-326" aria-hidden="true" tabindex="-1"></a>For Sentiment Analysis I used the packages tidytext and sentimentr. Sentimentr attempts to take into account valence shifters (i.e., negators, amplifiers (intensifiers), de-amplifiers (downtoners), and adversative conjunctions). This will give me better results than before. I then pulled the most positive and negative comments from the corpus to analyze.</span>
+<span id="cb34-327"><a href="#cb34-327" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-330"><a href="#cb34-330" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-331"><a href="#cb34-331" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
+<span id="cb34-332"><a href="#cb34-332" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sentimentr)</span>
+<span id="cb34-333"><a href="#cb34-333" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-334"><a href="#cb34-334" aria-hidden="true" tabindex="-1"></a>mytext <span class="ot">&lt;-</span> <span class="fu">get_sentences</span>(full_df<span class="sc">$</span>text)</span>
+<span id="cb34-335"><a href="#cb34-335" aria-hidden="true" tabindex="-1"></a>senti<span class="ot">&lt;-</span> <span class="fu">sentiment_by</span>(mytext)</span>
+<span id="cb34-336"><a href="#cb34-336" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-337"><a href="#cb34-337" aria-hidden="true" tabindex="-1"></a>senti<span class="ot">&lt;-</span> senti <span class="sc">%&gt;%</span> </span>
+<span id="cb34-338"><a href="#cb34-338" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(word_count <span class="sc">&gt;</span> <span class="dv">4</span>)</span>
+<span id="cb34-339"><a href="#cb34-339" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-340"><a href="#cb34-340" aria-hidden="true" tabindex="-1"></a><span class="fu">qplot</span>(senti<span class="sc">$</span>ave_sentiment,   <span class="at">geom=</span><span class="st">"histogram"</span>,<span class="at">binwidth=</span><span class="fl">0.1</span>,<span class="at">main=</span><span class="st">"Sentiment Histogram"</span>)</span>
+<span id="cb34-341"><a href="#cb34-341" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-342"><a href="#cb34-342" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-345"><a href="#cb34-345" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-346"><a href="#cb34-346" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(<span class="fu">head</span>(full_corpus[<span class="fu">which</span>(senti<span class="sc">$</span>ave_sentiment <span class="sc">&gt;</span>.<span class="dv">5</span>)]))</span>
+<span id="cb34-347"><a href="#cb34-347" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-348"><a href="#cb34-348" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-349"><a href="#cb34-349" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-352"><a href="#cb34-352" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-353"><a href="#cb34-353" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(<span class="fu">head</span>(full_corpus[<span class="fu">which</span>(senti<span class="sc">$</span>ave_sentiment <span class="sc">&lt;</span> <span class="sc">-</span><span class="fl">0.5</span>)]))</span>
+<span id="cb34-354"><a href="#cb34-354" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-355"><a href="#cb34-355" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-356"><a href="#cb34-356" aria-hidden="true" tabindex="-1"></a>The overall sentiment of the corpus is skewed right, suggesting that most of the comments are negative. The most positive comments show more western culture beliefs and criticisms of Qatar. The reasoning and language the commenters use are socially acceptable based on their knowledge of the situation in Qatar and their experiences. Some of the comments are jokes but the main points get across about their beliefs. The most negative comments are more hateful in their beliefs about the opposing culture. The commenters are not using any reasonable judgment to make their claims.</span>
+<span id="cb34-357"><a href="#cb34-357" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-358"><a href="#cb34-358" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-359"><a href="#cb34-359" aria-hidden="true" tabindex="-1"></a><span class="fu"># Dictionary Analysis</span></span>
+<span id="cb34-360"><a href="#cb34-360" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-361"><a href="#cb34-361" aria-hidden="true" tabindex="-1"></a> I chose to use the NRC dictionary to visualize the contribution of terms to emotional sentiment.</span>
+<span id="cb34-362"><a href="#cb34-362" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb34-365"><a href="#cb34-365" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-366"><a href="#cb34-366" aria-hidden="true" tabindex="-1"></a>post_clean <span class="ot">&lt;-</span> full_df <span class="sc">%&gt;%</span></span>
+<span id="cb34-367"><a href="#cb34-367" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(text) <span class="sc">%&gt;%</span></span>
+<span id="cb34-368"><a href="#cb34-368" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(word, text) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-369"><a href="#cb34-369" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>word <span class="sc">%in%</span> stop_words<span class="sc">$</span>word) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-370"><a href="#cb34-370" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(word <span class="sc">!=</span> <span class="st">"https"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-371"><a href="#cb34-371" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(word <span class="sc">!=</span> <span class="st">"href"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-372"><a href="#cb34-372" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(word <span class="sc">!=</span> <span class="st">"www.youtube.com"</span>)</span>
+<span id="cb34-373"><a href="#cb34-373" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-374"><a href="#cb34-374" aria-hidden="true" tabindex="-1"></a>sentiment_word_counts <span class="ot">&lt;-</span> post_clean <span class="sc">%&gt;%</span></span>
+<span id="cb34-375"><a href="#cb34-375" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(<span class="fu">get_sentiments</span>(<span class="st">"nrc"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb34-376"><a href="#cb34-376" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(word, sentiment, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb34-377"><a href="#cb34-377" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb34-378"><a href="#cb34-378" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-379"><a href="#cb34-379" aria-hidden="true" tabindex="-1"></a>sentiment_word_counts<span class="ot">&lt;-</span> sentiment_word_counts <span class="sc">%&gt;%</span> </span>
+<span id="cb34-380"><a href="#cb34-380" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(word <span class="sc">!=</span> <span class="st">"don"</span>)</span>
+<span id="cb34-381"><a href="#cb34-381" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-382"><a href="#cb34-382" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-383"><a href="#cb34-383" aria-hidden="true" tabindex="-1"></a>sentiment_word_counts <span class="sc">%&gt;%</span></span>
+<span id="cb34-384"><a href="#cb34-384" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(sentiment) <span class="sc">%&gt;%</span></span>
+<span id="cb34-385"><a href="#cb34-385" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">9</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb34-386"><a href="#cb34-386" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb34-387"><a href="#cb34-387" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">word =</span> <span class="fu">reorder</span>(word, n)) <span class="sc">%&gt;%</span></span>
+<span id="cb34-388"><a href="#cb34-388" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(word, n, <span class="at">fill =</span> sentiment)) <span class="sc">+</span></span>
+<span id="cb34-389"><a href="#cb34-389" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb34-390"><a href="#cb34-390" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>sentiment, <span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span></span>
+<span id="cb34-391"><a href="#cb34-391" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Sentiment terms"</span>,</span>
+<span id="cb34-392"><a href="#cb34-392" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Contribution to sentiment"</span>,</span>
+<span id="cb34-393"><a href="#cb34-393" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb34-394"><a href="#cb34-394" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span>
+<span id="cb34-395"><a href="#cb34-395" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-396"><a href="#cb34-396" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-397"><a href="#cb34-397" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-398"><a href="#cb34-398" aria-hidden="true" tabindex="-1"></a>I can see that the words "slavery", "government" , "Corruption", and "treat" dominate negative emotions. Anticipation and Anger are two emotions I want to look at because they relate well to the lead up of the World Cup. Seeing "respect" contribute to the emotion Anticipation could associate that fans are expecting respect of all cultures and people at the World Cup. The emotion Anger reveals the words money and politics are contributing to the emotional distress of fans.</span>
+<span id="cb34-399"><a href="#cb34-399" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-400"><a href="#cb34-400" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-401"><a href="#cb34-401" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-402"><a href="#cb34-402" aria-hidden="true" tabindex="-1"></a><span class="fu"># Topic Model </span></span>
+<span id="cb34-403"><a href="#cb34-403" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-404"><a href="#cb34-404" aria-hidden="true" tabindex="-1"></a>For LDA topic Modeling, I used the package text2vec. I found that the best value for K ranges form 5-10 from the my last blog post. I then extract the top 10 words from my topics. In this example, I set k=7.</span>
+<span id="cb34-405"><a href="#cb34-405" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-406"><a href="#cb34-406" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-409"><a href="#cb34-409" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-410"><a href="#cb34-410" aria-hidden="true" tabindex="-1"></a>it1 <span class="ot">&lt;-</span> <span class="fu">itoken</span>(tokens1, <span class="at">ids =</span> full_df<span class="sc">$</span>id, <span class="at">progressbar =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb34-411"><a href="#cb34-411" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-412"><a href="#cb34-412" aria-hidden="true" tabindex="-1"></a>stop_words1 <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"i"</span>, <span class="st">"me"</span>, <span class="st">"my"</span>, <span class="st">"myself"</span>, <span class="st">"we"</span>, <span class="st">"our"</span>, <span class="st">"ours"</span>, <span class="st">"ourselves"</span>, <span class="st">"you"</span>, <span class="st">"your"</span>, <span class="st">"yours"</span>,<span class="st">"a"</span>,<span class="st">"the"</span>,<span class="st">"in"</span>,<span class="st">"as"</span>,<span class="st">"on"</span>, <span class="st">"is"</span>,<span class="st">"it"</span>, <span class="st">"to"</span>,<span class="st">"of"</span>,<span class="st">"are"</span>,<span class="st">"not"</span>,<span class="st">"and"</span>,<span class="st">"quot"</span>,<span class="st">"don"</span>,<span class="st">"youtu.be"</span>,<span class="st">"an"</span>,<span class="st">"have"</span>,<span class="st">"this"</span>,<span class="st">"if"</span>,<span class="st">"they"</span>,<span class="st">"v"</span>,<span class="st">"2"</span>,<span class="st">"their"</span>,<span class="st">"can"</span>, <span class="st">"than"</span>,<span class="st">"ve"</span>)</span>
+<span id="cb34-413"><a href="#cb34-413" aria-hidden="true" tabindex="-1"></a>v1 <span class="ot">&lt;-</span> <span class="fu">create_vocabulary</span>(it1,<span class="at">stopwords =</span> stop_words1)</span>
+<span id="cb34-414"><a href="#cb34-414" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-415"><a href="#cb34-415" aria-hidden="true" tabindex="-1"></a>v1</span>
+<span id="cb34-416"><a href="#cb34-416" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-417"><a href="#cb34-417" aria-hidden="true" tabindex="-1"></a><span class="co">#v1 &lt;- prune_vocabulary(v1, term_count_min = 5)</span></span>
+<span id="cb34-418"><a href="#cb34-418" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-419"><a href="#cb34-419" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-420"><a href="#cb34-420" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-421"><a href="#cb34-421" aria-hidden="true" tabindex="-1"></a>vectorizer1 <span class="ot">&lt;-</span> <span class="fu">vocab_vectorizer</span>(v1)</span>
+<span id="cb34-422"><a href="#cb34-422" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-423"><a href="#cb34-423" aria-hidden="true" tabindex="-1"></a>dtm1 <span class="ot">&lt;-</span> <span class="fu">create_dtm</span>(it1, vectorizer1, <span class="at">type =</span> <span class="st">"dgTMatrix"</span>)</span>
+<span id="cb34-424"><a href="#cb34-424" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-425"><a href="#cb34-425" aria-hidden="true" tabindex="-1"></a>lda_model1 <span class="ot">&lt;-</span> LDA<span class="sc">$</span><span class="fu">new</span>(<span class="at">n_topics =</span> <span class="dv">5</span>, <span class="at">doc_topic_prior =</span> <span class="fl">0.1</span>,</span>
+<span id="cb34-426"><a href="#cb34-426" aria-hidden="true" tabindex="-1"></a>                     <span class="at">topic_word_prior =</span> <span class="fl">0.01</span>)</span>
+<span id="cb34-427"><a href="#cb34-427" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-428"><a href="#cb34-428" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-429"><a href="#cb34-429" aria-hidden="true" tabindex="-1"></a>doc_topic_distr1 <span class="ot">&lt;-</span> </span>
+<span id="cb34-430"><a href="#cb34-430" aria-hidden="true" tabindex="-1"></a>  lda_model1<span class="sc">$</span><span class="fu">fit_transform</span>(<span class="at">x =</span> dtm1, <span class="at">n_iter =</span> <span class="dv">1000</span>,</span>
+<span id="cb34-431"><a href="#cb34-431" aria-hidden="true" tabindex="-1"></a>                          <span class="at">convergence_tol =</span> <span class="fl">0.001</span>, <span class="at">n_check_convergence =</span> <span class="dv">25</span>,</span>
+<span id="cb34-432"><a href="#cb34-432" aria-hidden="true" tabindex="-1"></a>                          <span class="at">progressbar =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb34-433"><a href="#cb34-433" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-434"><a href="#cb34-434" aria-hidden="true" tabindex="-1"></a>lda_model1<span class="sc">$</span><span class="fu">get_top_words</span>(<span class="at">n =</span> <span class="dv">10</span>,</span>
+<span id="cb34-435"><a href="#cb34-435" aria-hidden="true" tabindex="-1"></a>                        <span class="at">lambda =</span> <span class="fl">0.1</span>)</span>
+<span id="cb34-436"><a href="#cb34-436" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-437"><a href="#cb34-437" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-438"><a href="#cb34-438" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-441"><a href="#cb34-441" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-442"><a href="#cb34-442" aria-hidden="true" tabindex="-1"></a>lda_model1<span class="sc">$</span><span class="fu">plot</span>()</span>
+<span id="cb34-443"><a href="#cb34-443" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-444"><a href="#cb34-444" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-445"><a href="#cb34-445" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-446"><a href="#cb34-446" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-447"><a href="#cb34-447" aria-hidden="true" tabindex="-1"></a>The Topic Model implies that the major topic of discussion surrounds how migrant workers were treated. The other topics in the model suggests respecting the laws of the host country, violation of human rights and government values.The first topic specifically is about where workers came from and how they were treated. Topic 6 specifically highlights the discussion of respect of a countries' laws and culture.</span>
+<span id="cb34-448"><a href="#cb34-448" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-449"><a href="#cb34-449" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-450"><a href="#cb34-450" aria-hidden="true" tabindex="-1"></a><span class="fu"># Semantic and Pairwise Correlation Network</span></span>
+<span id="cb34-451"><a href="#cb34-451" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-452"><a href="#cb34-452" aria-hidden="true" tabindex="-1"></a>The packages I used for Semantic and Pairwise Analysis include quanteda, widyr and ggraph. Here I wanted to learn a bit more about what features co-occur and correlation among words, by creating networks for both will help me examine this. </span>
+<span id="cb34-453"><a href="#cb34-453" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-454"><a href="#cb34-454" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-457"><a href="#cb34-457" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-458"><a href="#cb34-458" aria-hidden="true" tabindex="-1"></a>full_fcm <span class="ot">&lt;-</span> <span class="fu">fcm</span>(smaller_dfm)</span>
+<span id="cb34-459"><a href="#cb34-459" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-460"><a href="#cb34-460" aria-hidden="true" tabindex="-1"></a><span class="co"># keep only top features.</span></span>
+<span id="cb34-461"><a href="#cb34-461" aria-hidden="true" tabindex="-1"></a>small_fcm <span class="ot">&lt;-</span> <span class="fu">fcm_select</span>(full_fcm, <span class="at">pattern =</span> <span class="fu">names</span>(<span class="fu">topfeatures</span>(full_fcm, <span class="dv">60</span>)), <span class="at">selection =</span> <span class="st">"keep"</span>)</span>
+<span id="cb34-462"><a href="#cb34-462" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-463"><a href="#cb34-463" aria-hidden="true" tabindex="-1"></a><span class="co"># compute weights.</span></span>
+<span id="cb34-464"><a href="#cb34-464" aria-hidden="true" tabindex="-1"></a>size <span class="ot">&lt;-</span> <span class="fu">log</span>(<span class="fu">colSums</span>(small_fcm))</span>
+<span id="cb34-465"><a href="#cb34-465" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-466"><a href="#cb34-466" aria-hidden="true" tabindex="-1"></a><span class="co"># create network.</span></span>
+<span id="cb34-467"><a href="#cb34-467" aria-hidden="true" tabindex="-1"></a><span class="fu">textplot_network</span>(small_fcm, <span class="at">vertex_size =</span> size <span class="sc">/</span> <span class="fu">max</span>(size) <span class="sc">*</span> <span class="dv">4</span>)</span>
+<span id="cb34-468"><a href="#cb34-468" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-469"><a href="#cb34-469" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-470"><a href="#cb34-470" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-471"><a href="#cb34-471" aria-hidden="true" tabindex="-1"></a>Here I created a Semantic Network of the top 60 terms in the FCM. I see the heart of the network revolves around political terms. The two terms political and war seem to co occur with a lot of other terms. This could imply that some comments are discussion a war between different political views .I also see a sub network  that links travelers to law,laws and alcohol. This implies that people visiting the world cup must follow the laws in place, especially the no alcohol law.</span>
+<span id="cb34-472"><a href="#cb34-472" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-473"><a href="#cb34-473" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-474"><a href="#cb34-474" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-475"><a href="#cb34-475" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-476"><a href="#cb34-476" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-477"><a href="#cb34-477" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-478"><a href="#cb34-478" aria-hidden="true" tabindex="-1"></a>Here I want to examine correlation among words, which indicates how often they appear together relative to how often they appear separately. The pairwise_cor() function in widyr lets us find the phi coefficient between words based on how often they appear in the same section. Here I pick particular terms of interest and find the other terms most associated with them and create a visualization of the correlations and clusters of words.</span>
+<span id="cb34-479"><a href="#cb34-479" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-480"><a href="#cb34-480" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-483"><a href="#cb34-483" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb34-484"><a href="#cb34-484" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
+<span id="cb34-485"><a href="#cb34-485" aria-hidden="true" tabindex="-1"></a>section_words <span class="ot">&lt;-</span> full_df <span class="sc">%&gt;%</span></span>
+<span id="cb34-486"><a href="#cb34-486" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">section =</span> <span class="fu">row_number</span>() <span class="sc">%/%</span> <span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb34-487"><a href="#cb34-487" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(section <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb34-488"><a href="#cb34-488" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(word, text) <span class="sc">%&gt;%</span></span>
+<span id="cb34-489"><a href="#cb34-489" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>word <span class="sc">%in%</span> stop_words<span class="sc">$</span>word) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-490"><a href="#cb34-490" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(word <span class="sc">!=</span> <span class="st">"https"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-491"><a href="#cb34-491" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(word <span class="sc">!=</span> <span class="st">"href"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-492"><a href="#cb34-492" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(word <span class="sc">!=</span> <span class="st">"www.youtube.com"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb34-493"><a href="#cb34-493" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(word <span class="sc">!=</span> <span class="st">"youtu.be"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-494"><a href="#cb34-494" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(word<span class="sc">!=</span> <span class="st">"3"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-495"><a href="#cb34-495" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(word<span class="sc">!=</span> <span class="st">"2"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-496"><a href="#cb34-496" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(word<span class="sc">!=</span> <span class="st">"1"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-497"><a href="#cb34-497" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(word<span class="sc">!=</span> <span class="st">"12"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-498"><a href="#cb34-498" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(word<span class="sc">!=</span> <span class="st">"ve"</span>)</span>
+<span id="cb34-499"><a href="#cb34-499" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb34-500"><a href="#cb34-500" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb34-501"><a href="#cb34-501" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-502"><a href="#cb34-502" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(widyr)</span>
+<span id="cb34-503"><a href="#cb34-503" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggraph)</span>
+<span id="cb34-504"><a href="#cb34-504" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-505"><a href="#cb34-505" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-506"><a href="#cb34-506" aria-hidden="true" tabindex="-1"></a>word_cors <span class="ot">&lt;-</span> section_words <span class="sc">%&gt;%</span></span>
+<span id="cb34-507"><a href="#cb34-507" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(word) <span class="sc">%&gt;%</span></span>
+<span id="cb34-508"><a href="#cb34-508" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">n</span>() <span class="sc">&gt;=</span> <span class="dv">15</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb34-509"><a href="#cb34-509" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pairwise_cor</span>(word, section, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb34-510"><a href="#cb34-510" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-511"><a href="#cb34-511" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-512"><a href="#cb34-512" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-513"><a href="#cb34-513" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2016</span>)</span>
+<span id="cb34-514"><a href="#cb34-514" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-515"><a href="#cb34-515" aria-hidden="true" tabindex="-1"></a>word_cors <span class="sc">%&gt;%</span></span>
+<span id="cb34-516"><a href="#cb34-516" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(correlation <span class="sc">&gt;</span> .<span class="dv">35</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb34-517"><a href="#cb34-517" aria-hidden="true" tabindex="-1"></a>  <span class="fu">graph_from_data_frame</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb34-518"><a href="#cb34-518" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggraph</span>(<span class="at">layout =</span> <span class="st">"fr"</span>) <span class="sc">+</span></span>
+<span id="cb34-519"><a href="#cb34-519" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_edge_link</span>(<span class="fu">aes</span>(<span class="at">edge_alpha =</span> correlation), <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb34-520"><a href="#cb34-520" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_node_point</span>(<span class="at">color =</span> <span class="st">"lightblue"</span>, <span class="at">size =</span> <span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb34-521"><a href="#cb34-521" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_node_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> name), <span class="at">repel =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb34-522"><a href="#cb34-522" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span>
+<span id="cb34-523"><a href="#cb34-523" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-524"><a href="#cb34-524" aria-hidden="true" tabindex="-1"></a>word_cors <span class="sc">%&gt;%</span></span>
+<span id="cb34-525"><a href="#cb34-525" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(item1 <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"western"</span>, <span class="st">"qatar"</span>, <span class="st">"lgbtq"</span>, <span class="st">"workers"</span>,<span class="st">"rights"</span>,<span class="st">"respect"</span>,<span class="st">"country"</span>,<span class="st">"cultures"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb34-526"><a href="#cb34-526" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(item1) <span class="sc">%&gt;%</span></span>
+<span id="cb34-527"><a href="#cb34-527" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(correlation, <span class="at">n =</span> <span class="dv">6</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb34-528"><a href="#cb34-528" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb34-529"><a href="#cb34-529" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">item2 =</span> <span class="fu">reorder</span>(item2, correlation)) <span class="sc">%&gt;%</span></span>
+<span id="cb34-530"><a href="#cb34-530" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(item2, correlation)) <span class="sc">+</span></span>
+<span id="cb34-531"><a href="#cb34-531" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb34-532"><a href="#cb34-532" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> item1, <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
+<span id="cb34-533"><a href="#cb34-533" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span>
+<span id="cb34-534"><a href="#cb34-534" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb34-535"><a href="#cb34-535" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-536"><a href="#cb34-536" aria-hidden="true" tabindex="-1"></a>The Words of interest that I picked include "western", "qatar", "lgbtq", "workers","rights","respect","country","cultures". The correlation between the words respect and culture, politics suggests that respecting the culture and politics of a certain region is being discussed when talking about respect. The Visualization shows the correlation between many words. The relationships here are symmetrical, rather than directional. The connections between words help verify what topics are being discussed in all of the comments. For example, the cluster surrounding the word "worker" shows that the word is correlated with negative terms that relate to the treatment and condition they received.</span>
+<span id="cb34-537"><a href="#cb34-537" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-538"><a href="#cb34-538" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-539"><a href="#cb34-539" aria-hidden="true" tabindex="-1"></a><span class="fu"># Limitations</span></span>
+<span id="cb34-540"><a href="#cb34-540" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-541"><a href="#cb34-541" aria-hidden="true" tabindex="-1"></a>The conclusions drawn cannot be fully proven from the current data , but they are enough to encourage further research.The data was only collected in a small scope compared to other projects. This is because of Youtube API did not let me scrape more than 100 comments per video. Many comments had typos in them, which hurts my analysis because some of the misspelled words could of been valuable. The topics of the videos may have skewed the conversation of the comments because the videos come from different sources.</span>
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+</body></html>
