@@ -1,0 +1,1314 @@
+---
+title: "Identifying Sources of Poor Nutrition for Americans"
+author: "Nayan Jani"
+description: "Three-way cross tabulations analysis"
+date: "08/07/2023"
+format:
+  html:
+    df-print: paged
+    toc: true
+    code-copy: true
+    code-tools: true
+categories:
+  - Multivariate Analysis
+  - USDA
+---
+
+```{r}
+#| label: setup
+#| warning: false
+#| message: false
+
+library(tidyverse)
+library(ggplot2)
+library(stringr)
+library(ggrepel)
+library(readxl)
+
+
+knitr::opts_chunk$set(echo = TRUE, warning=FALSE, message=FALSE)
+```
+
+```{r}
+food_density <- read_excel("_data/_food/food_density.xlsx",skip =2 )
+```
+
+
+
+```{r}
+lookup <- c(Total= "Total...2", at_home = "At home...3", total_away = "Total...4", Restaurant = "Restaurant...5", Fast_food = "Fast food...6", school  ="School...7",other = "Other...8", Total1 ="Total...9", at_home1 = "At home...10", total_away1 = "Total...11", Restaurant1 = "Restaurant...12",Fast_food1 = "Fast food...13",school1  = "School...14", other1 ="Other...15" )
+
+food_density<- food_density %>% 
+  rename(all_of(lookup)) 
+```
+```{r}
+colnames(food_density)
+```
+```{r}
+food_density<-food_density %>% 
+  filter(!row_number() %in% 1)
+food_density  
+```
+
+```{r}
+food_density$Restaurant <- as.double(food_density$Restaurant)
+food_density$Restaurant1 <- as.double(food_density$Restaurant1)
+food_density$school <- as.double(food_density$school)
+food_density$school1 <- as.double(food_density$school1)
+
+```
+```{r}
+food_density
+```
+
+
+```{r}
+food_density %>% 
+  pivot_longer(c("Total" ,"at_home", "total_away","Restaurant", "Fast_food", "school" ,     "other" ,"Total1"  ,"at_home1" ,"total_away1", "Restaurant1", "Fast_food1", "school1" ,"other1" ), names_to = "food_source", values_to = "values")
+```
+
+```{r}
+food_density<- food_density %>% 
+  mutate(food_type = "Added_sugar")
+```
+
+
+```{r}
+x0<- food_density %>% slice(2:8)
+
+```
+
+
+```{r}
+
+
+x1<- food_density %>% 
+    slice(10:16) %>% 
+    mutate(food_type = "Discretionary_fats" )
+  
+x2<-food_density %>% 
+    slice(18:24) %>% 
+    mutate(food_type = "Discretionary_oils" )
+
+x3<-food_density %>% 
+    slice(26:32) %>% 
+    mutate(food_type = "Dairy")
+
+x4<-food_density %>% 
+    slice(34:40) %>% 
+    mutate(food_type = "Fruit" )
+
+x5<-food_density %>% 
+    slice(42:48) %>% 
+    mutate(food_type = "Vegetables_total" )
+
+x6<-food_density %>% 
+    slice(50:56) %>% 
+    mutate(food_type = "Potatoes" )
+
+x7<-food_density %>% 
+    slice(58:64) %>% 
+    mutate(food_type = "Tomatoes" )
+
+x8<-food_density %>% 
+    slice(66:72) %>% 
+    mutate(food_type = "Red_Orange_Vegatables" )
+
+x9<-food_density %>% 
+    slice(74:80) %>% 
+    mutate(food_type = "Dark_Green_Vegatables" )
+
+x10<-food_density %>% 
+    slice(82:88) %>% 
+    mutate(food_type = "Grains" )
+
+x12<-food_density %>% 
+    slice(90:96) %>% 
+    mutate(food_type = "Grains_Refined")
+
+x13<-food_density %>% 
+    slice(98:104) %>% 
+    mutate(food_type = "Grains_Whole" )
+
+x14<-food_density %>% 
+    slice(106:112) %>% 
+    mutate(food_type = "Protein_foods" )
+
+```
+
+```{r}
+food_density<- full_join(x0,x1) %>%
+  full_join(x2) %>%
+  full_join(x3) %>%
+  full_join(x4) %>%
+  full_join(x5) %>% 
+  full_join(x6) %>% 
+  full_join(x7) %>% 
+  full_join(x8) %>% 
+  full_join(x9) %>% 
+  full_join(x10) %>% 
+  full_join(x12) %>% 
+  full_join(x13) %>%
+  full_join(x14)
+              
+  
+```
+```{r}
+food_density <- food_density %>% relocate(food_type, .after = `Food group`)
+```
+
+```{r}
+food_density <-food_density %>% 
+  pivot_longer(c("Total" ,"at_home", "total_away","Restaurant", "Fast_food", "school" ,     "other" ,"Total1"  ,"at_home1" ,"total_away1", "Restaurant1", "Fast_food1", "school1" ,"other1" ), names_to = "food_source", values_to = "values")
+```
+```{r}
+z<- "2016-2017"
+food_density<-food_density %>% 
+              mutate(year = case_when(
+              food_source == "Total1" ~ "2017-2018",
+              food_source == "at_home1" ~ "2017-2018",
+              food_source == "total_away1"~ "2017-2018",
+              food_source == "Restaurant1"~ "2017-2018",
+              food_source == "Fast_food1"~ "2017-2018",
+              food_source == "school1"~ "2017-2018",
+              food_source == "other1"~ "2017-2018",
+              .default = z)) %>% 
+              relocate(year, .after = `Food group`)
+  
+```
+```{r}
+food_density
+```
+
+
+```{r}
+food_density <-food_density %>% rename("Demographics"= `Food group`)
+```
+
+```{r}
+food_density<-food_density %>% 
+  mutate(food_source = str_remove(food_source, "1"))
+
+```
+
+```{r}
+food_density <- food_density %>% 
+  mutate(Demographics = str_remove(Demographics, "1$"))
+food_density <- food_density %>% 
+  mutate(Demographics = str_remove(Demographics, "2$"))
+
+```
+
+
+
+```{r}
+food_density
+```
+
+
+```{r}
+food_benchmark <- read_excel("_data/_food/food_benchmark.xlsx",skip =2)
+
+```
+
+```{r}
+food_benchmark<- food_benchmark %>%
+  filter(!row_number() %in% c(1, 2, 13,14,15))
+```
+
+
+```{r}
+food_benchmark$`1400.0`<- as.double(food_benchmark$`1400.0`)
+```
+
+
+```{r}
+food_benchmark <- food_benchmark %>% pivot_longer(c("1400.0", "2000.0", "2200.0","3000.0" ), names_to = "Calorie_Intake_Level", values_to = "values")
+
+```
+
+
+```{r}
+food_benchmark
+```
+
+
+```{r}
+food_nutrient_density <- read_excel("_data/_food/food_nutrient_density.xlsx",skip =2 )
+```
+
+```{r}
+food_nutrient_density<- food_nutrient_density  %>% 
+                        rename(all_of(lookup)) 
+```
+
+
+```{r}
+food_nutrient_density<-food_nutrient_density %>% 
+  filter(!row_number() %in% 1)
+```
+
+```{r}
+food_nutrient_density$Restaurant <- as.double(food_nutrient_density$Restaurant)
+food_nutrient_density$Restaurant1 <- as.double(food_nutrient_density$Restaurant1)
+food_nutrient_density$school <- as.double(food_nutrient_density$school)
+food_nutrient_density$school1 <- as.double(food_nutrient_density$school1)
+```
+
+
+```{r}
+food_nutrient_density<- food_nutrient_density %>% 
+  mutate(nutrient_type = "Calcium")
+```
+
+
+```{r}
+food_nutrient_density
+```
+```{r}
+x0<- food_nutrient_density %>% slice(2:8)
+
+x1<- food_nutrient_density %>% 
+    slice(10:16) %>% 
+    mutate(nutrient_type = "Cholesterol")
+  
+x2<-food_nutrient_density %>% 
+    slice(18:24) %>% 
+    mutate(nutrient_type = "Fiber")
+
+x3<-food_nutrient_density %>% 
+    slice(26:32) %>% 
+    mutate(nutrient_type = "Iron")
+
+x4<-food_nutrient_density %>% 
+    slice(34:40) %>% 
+    mutate(nutrient_type = "Saturated_fat" )
+
+x5<-food_nutrient_density %>% 
+    slice(42:48) %>% 
+    mutate(nutrient_type = "Total_fat" )
+
+x6<-food_nutrient_density %>% 
+    slice(50:56) %>% 
+    mutate(nutrient_type = "Sodium" )
+```
+
+
+```{r}
+food_nutrient_density<- full_join(x0,x1) %>%
+  full_join(x2) %>%
+  full_join(x3) %>%
+  full_join(x4) %>%
+  full_join(x5) %>% 
+  full_join(x6)
+```
+```{r}
+food_nutrient_density <- food_nutrient_density %>% relocate(nutrient_type, .after = `Nutrient group`)
+```
+
+
+```{r}
+food_nutrient_density<- food_nutrient_density %>% 
+  pivot_longer(c("Total" ,"at_home", "total_away","Restaurant", "Fast_food", "school" ,     "other" ,"Total1"  ,"at_home1" ,"total_away1", "Restaurant1", "Fast_food1", "school1" ,"other1" ), names_to = "nutrient_source", values_to = "values")
+```
+
+
+```{r}
+food_nutrient_density
+```
+
+```{r}
+food_nutrient_density<-food_nutrient_density %>% 
+              mutate(year = case_when(
+              nutrient_source == "Total1" ~ "2017-2018",
+              nutrient_source == "at_home1" ~ "2017-2018",
+              nutrient_source == "total_away1"~ "2017-2018",
+              nutrient_source == "Restaurant1"~ "2017-2018",
+              nutrient_source == "Fast_food1"~ "2017-2018",
+              nutrient_source == "school1"~ "2017-2018",
+              nutrient_source == "other1"~ "2017-2018",
+              .default = z)) %>% 
+              relocate(year, .after = `Nutrient group`)
+```
+
+```{r}
+food_nutrient_density <-food_nutrient_density %>% rename("Demographics"= `Nutrient group`)
+
+food_nutrient_density<-food_nutrient_density %>% 
+  mutate(nutrient_source = str_remove(nutrient_source, "1"))
+
+food_nutrient_density <- food_nutrient_density %>% 
+  mutate(Demographics = str_remove(Demographics, "1$"))
+food_nutrient_density <- food_nutrient_density %>% 
+  mutate(Demographics = str_remove(Demographics, "2$"))
+
+```
+
+```{r}
+food_nutrient_density
+
+
+```
+```{r}
+food_density
+food_benchmark
+```
+```{r}
+
+food_nutrient_density
+
+
+```
+```{r}
+theme_set(
+  theme_classic() +
+    theme(legend.position = "top")
+  )
+
+
+food_nutrient_density %>% 
+  filter(year== "2017-2018", nutrient_type == "Calcium",
+  Demographics == "Household income 185–300% poverty line" | Demographics == "Household income < 185% poverty line" | Demographics == "Household income > 300% poverty line" ) %>% 
+  ggplot(aes(x = fct_relevel(Demographics, "Household income < 185% poverty line","Household income 185–300% poverty line")
+             , y = values)) + 
+  geom_col(mapping = aes(fill = nutrient_source),colour="black", position = "dodge") + 
+  geom_text(
+  aes(label = values, group = nutrient_source), 
+  position = position_dodge(0.9),
+  vjust = -0.3, size = 2.0) +
+  labs(
+     title = "Calcium Density by Food Source for Low, Middle and High Income Levels, 2017-2018",
+    x = "Income Level",
+    y = "Calcium (mg/1,000 calories)",
+    fill = "Food Source") +
+    scale_fill_discrete(labels = c("At Home", "Fast Food", "Other","Restaurant","School","Total", "Total Away from Home")) +
+  labs(caption = "Source: 2017–18 National Health and Nutrition Examination Survey (NHANES), first-day averages.") +
+  theme(plot.caption = element_text(hjust=0))
+
+
+
+
+```
+
+Out of all food sources, Calcium density (the average amount of nutrient for each 1,000 calories in a person’s diet) was highest in schools for 2 out of the 3 income levels (Low and Middle Income). For example, for each 1,000 calories consumed, Low and Middle income individuals consumed an  average of 826.8mg and 904.09 mg of calcium at school daily. However, Calcium density for High income individuals was highest when eating at other away-from-home places. For each 1,000 calories consumed, High Income Individuals consumed an average of 760.69 mg of Calcium at other away-from-home places daily. 
+
+
+compare magnitudes between highest and 2nd highest calcium density level (show that low income has largest gap in calcium densities )
+
+Low Income individuals consume a daily average of 597.13mg of calcium per 1,000 calories at Home, which is higher than amounts consumed at home for Middle Income (514.79mg) and High Income (571.69mg) individuals. For Food away from home excluding school (Fast Food, Restaurant, other), Low Income individuals have the lowest Calcium density in each of those categories compared to Middle and High Income individuals. For example, Low Income individuals consumed a daily average of 351.11 mg of calcium per 1,000 calories at other away-from-home places, which is much lower compared to Middle Income (838.37 mg) and High Income (760.69 mg).  
+
+
+
+Low Income individuals have the highest Calcium density at Home compared to Middle and High Income individuals. For Food away from home excluding school (Fast Food, Restaurant, other) Low Income individuals have the lowest Calcium density in each of those categories compared to Middle and High Income individuals. 
+
+
+
+```{r}
+theme_set(
+  theme_classic() +
+    theme(legend.position = "top")
+  )
+
+
+food_nutrient_density %>% 
+  filter(year== "2017-2018", nutrient_type == "Saturated_fat",
+  Demographics == "Children age 2–19" | Demographics == "Adults age 20–64" | Demographics == "Seniors age 65 and above") %>% 
+  ggplot(aes(x = fct_relevel(Demographics, "Children age 2–19"), y = values)) + 
+  geom_col(mapping = aes(fill = nutrient_source),colour="black", position = "dodge") + 
+  geom_text(
+  aes(label = values, group = nutrient_source), 
+  position = position_dodge(0.9),
+  vjust = -0.3, size = 2.0) +
+  labs(
+     title = "Saturated Fat Density by Food Source for Children, Adults and Seniors, 2017-2018",
+    x = "Age",
+    y = "Saturated Fat (g/1,000kcal)",
+    fill = "Food Source") +
+    scale_fill_discrete(labels = c("At Home", "Fast Food", "Other","Restaurant","School","Total", "Total Away from Home")) +
+  labs(caption = "Source: 2017–18 National Health and Nutrition Examination Survey (NHANES), first-day averages.
+Note: School is omitted from Adults and Seniors as School foods eaten by those age 20 and above are classified as other food away from home.") +
+  theme(plot.caption = element_text(hjust=0))
+```
+
+In General, for every 1,000 calories, all age groups had higher daily average intakes of Saturated Fat at away from home food sources (Total) compared to at home food sources.In addition, Saturated Fat density at Fast Food restaurants ranked the highest for each Age group at out of all food sources. Adults consume 2.49 more grams of  saturated fat per 1,000 calories at Fast Food restaurants compared to at home, followed by Seniors (2.37g), and Children (2.24g).
+
+For Adults and Seniors, Saturated Fat density at Home ranked the lowest compared to all food sources away from home. For Children However, Saturated Fat density at school ranked the lowest compared to at home food sources and all other food sources away from Home.
+
+
+```{r}
+theme_set(
+  theme_classic() +
+    theme(legend.position = "top")
+  )
+
+food_density %>% 
+  filter(year== "2017-2018", food_type == "Discretionary_fats",
+  Demographics == "Children age 2–19" | Demographics == "Adults age 20–64" | Demographics == "Seniors age 65 and above") %>% 
+  ggplot(aes(x = fct_relevel(Demographics, "Children age 2–19"), y = values)) + 
+  geom_col(mapping = aes(fill = food_source),colour="black", position = "dodge") + 
+  geom_text(
+  aes(label = values, group = food_source), 
+  position = position_dodge(0.9),
+  vjust = -0.3, size = 2.0) +
+  labs(
+     title = "Discretionary Fat Density by Food Source for Children, Adults and Seniors, 2017-2018",
+    x = "Age",
+    y = "Discretionary Fat (g/1,000kcal)",
+    fill = "Food Source") +
+    scale_fill_discrete(labels = c("At Home", "Fast Food", "Other","Restaurant","School","Total", "Total Away from Home")) +
+  labs(caption = "Source:2017–18 National Health and Nutrition Examination Survey (NHANES), first-day averages.
+Note: School is omitted from Adults and Seniors as School foods eaten by those age 20 and above are classified as other food away from home.") +
+  theme(plot.caption = element_text(hjust=0))
+```
+
+For all age groups, Discretionary Fat density was lower at Home compared to away from Home. However, the average amount of daily Discretionary Fat per 1,00 calories in ones diet for away from home food sources excluding school (Fast Food, Restaurant, other) rank differently for each age group. For example, other away-from-home places, Fast food, and Restaurants rank 1st, 2nd and 3rd in Discretionary Fat density for Adults and Seniors, respectfully. On the contrary, Fast food ranked 1st  other away-from-home places ranked 2nd and Restaurants ranked 3rd in Discretionary Fat density for Children (density values for Fast food, Restaurants and other away from home food sources are 18.4 g/1,000kcal, 17.92 g/1,000kcal and 16.23g/kcal, respectfully). 
+
+The gap between away-from-home places Discretionary Fat density and At home Discretionary Fat density is much higher for Seniors than for Children and Adults. Among Seniors, other away-from-home places Discretionary Fat density is higher than At home Discretionary Fat density by 4.01 g/1,000kcal. Among Children and Adults, other away-from-home places Discretionary Fat density is higher than At home Discretionary Fat density 1.39 g/1,000kcal and by 3.03 g/1,000kcal, respectfully.
+
+
+```{r}
+theme_set(
+  theme_classic() +
+    theme(legend.position = "top")
+  )
+
+food_density %>% 
+  filter(year== "2017-2018", food_type == "Discretionary_oils",
+  Demographics == "Children age 2–19" | Demographics == "Adults age 20–64" | Demographics == "Seniors age 65 and above") %>% 
+  ggplot(aes(x = fct_relevel(Demographics, "Children age 2–19"), y = values)) + 
+  geom_col(mapping = aes(fill = food_source),colour="black", position = "dodge") + 
+  geom_text(
+  aes(label = values, group = food_source), 
+  position = position_dodge(0.9),
+  vjust = -0.3, size = 2.0) +
+  labs(
+     title = "Discretionary Oil Density by Food Source for Children, Adults and Seniors, 2017-2018",
+    x = "Age",
+    y = "Discretionary Oils (g/1,000kcal)",
+    fill = "Food Source") +
+    scale_fill_discrete(labels = c("At Home", "Fast Food", "Other","Restaurant","School","Total", "Total Away from Home")) +
+  labs(caption = "Source: 2017–18 National Health and Nutrition Examination Survey (NHANES), first-day averages.
+Note: School is omitted from Adults and Seniors as School foods eaten by those age 20 and above are classified as other food away from home.") +
+  theme(plot.caption = element_text(hjust=0))
+
+```
+
+For all age groups, Discretionary Oils Density was highest when people consumed food at Restaurants compared to at home and other away from home food sources (Fast Food, Other). For example, for each 1,000 calories, Adults consume a daily average of 19.69g of Discretionary oils when eating at Restaurants, which is a higher amount compared to at home (11.79g), at Fast Food establishments (15.05g), and at other away-from-home places (10.5g). 
+
+More specifically, Children have the largest difference in Discretionary Oils Density between at home and at Fast food restaurants compared to Adults and seniors. For example, the difference in Discretionary Oils Density between at home and at Fast food restaurants for Children is 4.64g per 1000 calories, which is a larger difference than adults (3.28g/1000kcal) and Seniors (1.26/1000kcal).
+
+
+
+```{r}
+theme_set(
+  theme_classic() +
+    theme(legend.position = "top")
+  )
+
+food_density %>% 
+  filter(year== "2017-2018", food_type == "Added_sugar",
+  Demographics == "Children age 2–19" | Demographics == "Adults age 20–64" | Demographics == "Seniors age 65 and above") %>% 
+  ggplot(aes(x = fct_relevel(Demographics, "Children age 2–19"), y = values)) + 
+  geom_col(mapping = aes(fill = food_source),colour="black", position = "dodge") + 
+  geom_text(
+  aes(label = values, group = food_source), 
+  position = position_dodge(0.9),
+  vjust = -0.3, size = 2.0) +
+  labs(
+     title = "Added Sugar Density by Food Source for Children, Adults and Seniors, 2017-2018",
+    x = "Age",
+    y = "Added Sugar (tsp/1,000kcal)",
+    fill = "Food Source") +
+    scale_fill_discrete(labels = c("At Home", "Fast Food", "Other","Restaurant","School","Total", "Total Away from Home")) +
+  labs(caption = "Source: 2017–18 National Health and Nutrition Examination Survey (NHANES), first-day averages.
+Note: School is omitted from Adults and Seniors as School foods eaten by those age 20 and above are classified as other food away from home.") +
+  theme(plot.caption = element_text(hjust=0))
+```
+
+In general, Added sugar density was higher when individuals consumed food at other away-from-home sources compared to at home food sources for all age groups. However, the difference in Added sugar density between other away-from-home and at home food sources is largest for children compared to Adults and Seniors. Among Children, 
+the difference in Added sugar density between at home and other away-from-home sources is 5.59tsp per 1000 calories, which is a larger difference than Adults (2.37tsp/1000kcal) and Seniors (1.98tsp/1000kcal).
+
+
+```{r}
+theme_set(
+  theme_classic() +
+    theme(legend.position = "top")
+  )
+
+food_density %>% 
+  filter(year== "2017-2018", food_type == "Dairy",
+  Demographics == "Children age 2–19" | Demographics == "Adults age 20–64" | Demographics == "Seniors age 65 and above") %>% 
+  ggplot(aes(x = fct_relevel(Demographics, "Children age 2–19"), y = values)) + 
+  geom_col(mapping = aes(fill = food_source),colour="black", position = "dodge") + 
+  geom_text(
+  aes(label = values, group = food_source), 
+  position = position_dodge(0.9),
+  vjust = -0.3, size = 2.0) +
+  labs(
+     title = "Dairy Density by Food Source for Children, Adults and Seniors, 2017-2018",
+    x = "Age",
+    y = "Dairy (cup/1,000kcal)",
+    fill = "Food Source") +
+    scale_fill_discrete(labels = c("At Home", "Fast Food", "Other","Restaurant","School","Total", "Total Away from Home")) +
+  labs(caption = "Source: 2017–18 National Health and Nutrition Examination Survey (NHANES), first-day averages.
+Note: School is omitted from Adults and Seniors as School foods eaten by those age 20 and above are classified as other food away from home.") +
+  theme(plot.caption = element_text(hjust=0))
+
+
+```
+
+In this figure, Seniors have the largest difference in Dairy Density between at home and total away from home food sources compared to Adults and Children. For example, for each 1,000 calories, Seniors consume a daily average of 0.25 less cups of Dairy when eating away from home compared to at home. Children are consuming more dairy per 1,000 calories at school compared to all other food sources
+
+
+
+
+```{r}
+theme_set(
+  theme_classic() +
+    theme(legend.position = "top")
+  )
+
+food_density %>% 
+  filter(year== "2017-2018", food_type == "Fruit",
+  Demographics == "Children age 2–19" | Demographics == "Adults age 20–64" | Demographics == "Seniors age 65 and above") %>% 
+  ggplot(aes(x = fct_relevel(Demographics, "Children age 2–19"), y = values)) + 
+  geom_col(mapping = aes(fill = food_source),colour="black", position = "dodge") + 
+  geom_text(
+  aes(label = values, group = food_source), 
+  position = position_dodge(0.9),
+  vjust = -0.3, size = 2.0) +
+  labs(
+     title = "Fruit Density by Food Source for Children, Adults and Seniors, 2017-2018",
+    x = "Age",
+    y = "Fruit (cup/1,000kcal)",
+    fill = "Food Source") +
+    scale_fill_discrete(labels = c("At Home", "Fast Food", "Other","Restaurant","School","Total", "Total Away from Home")) +
+  labs(caption = "Source: 2017–18 National Health and Nutrition Examination Survey (NHANES), first-day averages.
+Note: School is omitted from Adults and Seniors as School foods eaten by those age 20 and above are classified as other food away from home.") +
+  theme(plot.caption = element_text(hjust=0))
+```
+
+
+
+In general, Adults consume less fruit per 1000 calories at home than Children and Seniors. For each 1,000 calories, Adults consumed a daily average of 0.59 cups of Fruit at home, which is 0.16 and 0.32 cups less than the amount consumed by Seniors (0.75 cups) and Children (0.91 cups), respectively. Adults and Seniors Daily average intakes of Fruit per 1,000 calories at home are over 3 times more than away from home. Children are consuming more Fruit per 1,000 calories at school compared to all other food sources.
+
+
+
+```{r}
+theme_set(
+  theme_classic() +
+    theme(legend.position = "top")
+  )
+
+food_density %>% 
+  filter(year== "2017-2018", food_type == "Vegetables_total",
+  Demographics == "Children age 2–19" | Demographics == "Adults age 20–64" | Demographics == "Seniors age 65 and above") %>% 
+  ggplot(aes(x = fct_relevel(Demographics, "Children age 2–19"), y = values)) + 
+  geom_col(mapping = aes(fill = food_source),colour="black", position = "dodge") + 
+  geom_text(
+  aes(label = values, group = food_source), 
+  position = position_dodge(0.9),
+  vjust = -0.3, size = 2.0) +
+  labs(
+     title = "Vegetable Density by Food Source for Children, Adults and Seniors, 2017-2018",
+    x = "Age",
+    y = "Vegetable (cup/1,000kcal)",
+    fill = "Food Source") +
+    scale_fill_discrete(labels = c("At Home", "Fast Food", "Other","Restaurant","School","Total", "Total Away from Home")) +
+  labs(caption = "Source: 2017–18 National Health and Nutrition Examination Survey (NHANES), first-day averages.
+Note: School is omitted from Adults and Seniors as School foods eaten by those age 20 and above are classified as other food away from home.") +
+  theme(plot.caption = element_text(hjust=0))
+```
+
+For each 1,000 calories, children consume a daily average of 0.47 cups of Vegetables at home, which is lower than Adults (0.68 cups) and Seniors (0.74 cups).
+
+For all age groups, Total Vegetable Density was highest when people consumed food at Restaurants compared to at home and other away from home food sources (Fast Food, Other). In addition, Children consumed 0.78 cups of vegetables per 1000 calories, which is 0.36 cups/1000kcal and 0.42 cups/1000kcal less than Adults (1.14 cups/1000kcal) and Seniors (1.23 cups/1000kcal), respectively.
+
+
+```{r}
+theme_set(
+  theme_classic() +
+    theme(legend.position = "top")
+  )
+
+food_density %>% 
+  filter(year== "2017-2018", food_type == "Grains",
+  Demographics == "Children age 2–19" | Demographics == "Adults age 20–64" | Demographics == "Seniors age 65 and above") %>% 
+  ggplot(aes(x = fct_relevel(Demographics, "Children age 2–19"), y = values)) + 
+  geom_col(mapping = aes(fill = food_source),colour="black", position = "dodge") + 
+  geom_text(
+  aes(label = values, group = food_source), 
+  position = position_dodge(0.9),
+  vjust = -0.3, size = 2.0) +
+  labs(
+     title = "Total Grain Density by Food Source for Children, Adults and Seniors, 2017-2018",
+    x = "Age",
+    y = "Grains (oz/1,000kcal)",
+    fill = "Food Source") +
+    scale_fill_discrete(labels = c("At Home", "Fast Food", "Other","Restaurant","School","Total", "Total Away from Home")) +
+  labs(caption = "Source: 2017–18 National Health and Nutrition Examination Survey (NHANES), first-day averages.
+Note: School is omitted from Adults and Seniors as School foods eaten by those age 20 and above are classified as other food away from home.") +
+  theme(plot.caption = element_text(hjust=0))
+```
+
+In general, for each 1000 calories, the daily average intake of total grains is smaller when the food source is from Home compared to total away from home for all age groups. Adults have the largest difference in the daily average intake of total grains between at home and total away from home sources and lowest at home grain intake . For example, for every 1000 calories, Adults consume 2.79oz of grains at home, which is 0.37 oz/1000kcal less than the amount they consume away from home. 
+
+
+```{r}
+theme_set(
+  theme_classic() +
+    theme(legend.position = "top")
+  )
+
+food_density %>% 
+  filter(year== "2017-2018", food_type == "Protein_foods",
+  Demographics == "Children age 2–19" | Demographics == "Adults age 20–64" | Demographics == "Seniors age 65 and above") %>% 
+  ggplot(aes(x = fct_relevel(Demographics, "Children age 2–19"), y = values)) + 
+  geom_col(mapping = aes(fill = food_source),colour="black", position = "dodge") + 
+  geom_text(
+  aes(label = values, group = food_source), 
+  position = position_dodge(0.9),
+  vjust = -0.3, size = 2.0) +
+  labs(
+     title = "Protein Foods Density by Food Source for Children, Adults and Seniors, 2017-2018",
+    x = "Age",
+    y = "Protien Foods (oz/1,000kcal)",
+    fill = "Food Source") +
+    scale_fill_discrete(labels = c("At Home", "Fast Food", "Other","Restaurant","School","Total", "Total Away from Home")) +
+  labs(caption = "Source: 2017–18 National Health and Nutrition Examination Survey (NHANES), first-day averages.
+Note: School is omitted from Adults and Seniors as School foods eaten by those age 20 and above are classified as other food away from home.") +
+  theme(plot.caption = element_text(hjust=0))
+```
+
+In general, for every 1,000 calories, the daily average intake of proteins foods was highest at Restaurants compared to at home and and other away from home food sources (Fast Food, Other) for all age groups. For example,
+Adults consumes a daily average of 4.2 ounces of Protein Foods per 1,000 calories at restaurants, 1.48oz higher than the amount consumed at Home (2.72 oz/1000kcal).
+
+Children are consuming about the same amount of Protein foods per 1,000 calories at home (2.12 oz/1000kcal) and at away from home (2.11 oz/1000kcal), whereas Adults and Seniors are consuming more Protein foods away from home compared to at home. In addition, for every 1,000 calories, Seniors and Adults are consuming 0.38 and 0.28 more ounces of protein foods away from home than at home, respectively. 
+
+
+
+
+
+```{r}
+
+theme_set(
+  theme_classic() +
+    theme(legend.position = "top")
+  )
+
+food_density %>% 
+  filter(year== "2017-2018", food_type == "Protein_foods",
+  Demographics == "Household income 185–300% poverty line" | Demographics == "Household income < 185% poverty line" | Demographics == "Household income > 300% poverty line") %>% 
+  ggplot(aes(x = fct_relevel(Demographics, "Household income < 185% poverty line","Household income 185–300% poverty line"), y = values)) + 
+  geom_col(mapping = aes(fill = food_source),colour="black", position = "dodge") + 
+  geom_text(
+  aes(label = values, group = food_source), 
+  position = position_dodge(0.9),
+  vjust = -0.3, size = 2.0) +
+  labs(
+     title = "Protein Foods Density by Food Source for Low, Middle, and High Levels of Income, 2017-2018",
+    x = "Income Level",
+    y = "Protien Foods (oz/1,000kcal)",
+    fill = "Food Source") +
+    scale_fill_discrete(labels = c("At Home", "Fast Food", "Other","Restaurant","School","Total", "Total Away from Home")) +
+  labs(caption = "Source: 2017–18 National Health and Nutrition Examination Survey (NHANES), first-day averages.") +
+  theme(plot.caption = element_text(hjust=0))
+
+
+```
+
+Typically, Low Income and Middle income individuals are consuming more Protein foods per 1,000 calories at Fast Food establishments and restaurants compared to at home. For example, for every 1,000 calories, Low income individuals consume a daily average of 4.1 and 2.7 ounces of Protein Foods at restaurants and Fast food establishments, respectively, which is more than what they consume at home (2.45oz). However, High Income individuals consume more protein foods per 1,000 calories at home (2.73 oz) compared to Fast food establishments (2.26 0z), but not Restaurants (4.25 oz). 
+
+```{r}
+theme_set(
+  theme_classic() +
+    theme(legend.position = "top")
+  )
+
+food_density %>% 
+  filter(year== "2017-2018", food_type == "Grains",
+  Demographics == "Household income 185–300% poverty line" | Demographics == "Household income < 185% poverty line" | Demographics == "Household income > 300% poverty line") %>% 
+  ggplot(aes(x = fct_relevel(Demographics, "Household income < 185% poverty line","Household income 185–300% poverty line"), y = values)) + 
+  geom_col(mapping = aes(fill = food_source),colour="black", position = "dodge") + 
+  geom_text(
+  aes(label = values, group = food_source), 
+  position = position_dodge(0.9),
+  vjust = -0.3, size = 2.0) +
+  labs(
+     title = "Total Grain Density by Food Source for Low, Middle, and High Levels of Income, 2017-2018",
+    x = "Income Level",
+    y = "Grains (oz/1,000kcal)",
+    fill = "Food Source") +
+    scale_fill_discrete(labels = c("At Home", "Fast Food", "Other","Restaurant","School","Total", "Total Away from Home")) +
+  labs(caption = "Source: 2017–18 National Health and Nutrition Examination Survey (NHANES), first-day averages.") +
+  theme(plot.caption = element_text(hjust=0))
+
+
+
+```
+
+In general, for every 1,000 calories, the daily average intake of Grains is smaller when the food source is from Home compared to total away from home for all levels of income. Specifically, High income individuals have the largest difference in Grain density, as they consume 0.45 less ounces of Grains per 1,000 calories at home than they do away from home ( Grain densities At home and away from home are 2.83 oz/1000kcal and 3.28 oz/1000kcal, respectively).
+
+```{r}
+theme_set(
+  theme_classic() +
+    theme(legend.position = "top")
+  )
+
+food_density %>% 
+  filter(year== "2017-2018", food_type == "Vegetables_total",
+  Demographics == "Household income 185–300% poverty line" | Demographics == "Household income < 185% poverty line" | Demographics == "Household income > 300% poverty line") %>% 
+  ggplot(aes(x = fct_relevel(Demographics, "Household income < 185% poverty line","Household income 185–300% poverty line"), y = values)) + 
+  geom_col(mapping = aes(fill = food_source),colour="black", position = "dodge") + 
+  geom_text(
+  aes(label = values, group = food_source), 
+  position = position_dodge(0.9),
+  vjust = -0.3, size = 2.0) +
+  labs(
+     title = "Vegetable Density by Food Source for Low, Middle, and High Levels of Income, 2017-2018",
+    x = "Income Level",
+    y = "Vegetable (cup/1,000kcal)",
+    fill = "Food Source") +
+    scale_fill_discrete(labels = c("At Home", "Fast Food", "Other","Restaurant","School","Total", "Total Away from Home")) +
+  labs(caption = "Source: 2017–18 National Health and Nutrition Examination Survey (NHANES), first-day averages.") +
+  theme(plot.caption = element_text(hjust=0))
+
+
+```
+
+In general, for every 1,000 calories, the daily average consumption of Vegetables was higher when the food source is from Restaurants compared to at home and other away from home food sources (Fast Food, Other). In addition the daily average consumption of Vegetables is almost the same at home compared to the total away from home for all income levels. The difference in vegetable densities between at home and total away from home are all lower than 0.15 cups/1000kcal for low, middle and high incomes.
+
+
+```{r}
+theme_set(
+  theme_classic() +
+    theme(legend.position = "top")
+  )
+
+food_density %>% 
+  filter(year== "2017-2018", food_type == "Fruit",
+  Demographics == "Household income 185–300% poverty line" | Demographics == "Household income < 185% poverty line" | Demographics == "Household income > 300% poverty line") %>% 
+  ggplot(aes(x = fct_relevel(Demographics, "Household income < 185% poverty line","Household income 185–300% poverty line"), y = values)) + 
+  geom_col(mapping = aes(fill = food_source),colour="black", position = "dodge") + 
+  geom_text(
+  aes(label = values, group = food_source), 
+  position = position_dodge(0.9),
+  vjust = -0.3, size = 2.0) +
+  labs(
+     title = "Fruit Density by Food Source for Low, Middle, and High Levels of Income, 2017-2018",
+    x = "Income Level",
+    y = "Fruit (cup/1,000kcal)",
+    fill = "Food Source") +
+    scale_fill_discrete(labels = c("At Home", "Fast Food", "Other","Restaurant","School","Total", "Total Away from Home")) +
+  labs(caption = "Source: 2017–18 National Health and Nutrition Examination Survey (NHANES), first-day averages.") +
+  theme(plot.caption = element_text(hjust=0))
+
+
+```
+
+In general, for every 1,000 calories, low income individuals have the highest daily average consumption of Fruit away from home, which is 0.16 cups higher than middle income (0.26cup/1000kcal) and double the amount consumed by high income individuals (0.19 cup/1000kcal).
+
+```{r}
+theme_set(
+  theme_classic() +
+    theme(legend.position = "top")
+  )
+
+food_density %>% 
+  filter(year== "2017-2018", food_type == "Dairy",
+  Demographics == "Household income 185–300% poverty line" | Demographics == "Household income < 185% poverty line" | Demographics == "Household income > 300% poverty line") %>% 
+  ggplot(aes(x = fct_relevel(Demographics, "Household income < 185% poverty line","Household income 185–300% poverty line"), y = values)) + 
+  geom_col(mapping = aes(fill = food_source),colour="black", position = "dodge") + 
+  geom_text(
+  aes(label = values, group = food_source), 
+  position = position_dodge(0.9),
+  vjust = -0.3, size = 2.0) +
+  labs(
+     title = "Dairy Density by Food Source for Low, Middle, and High Levels of Income, 2017-2018",
+    x = "Income Level",
+    y = "Dairy (cup/1,000kcal)",
+    fill = "Food Source") +
+    scale_fill_discrete(labels = c("At Home", "Fast Food", "Other","Restaurant","School","Total", "Total Away from Home")) +
+  labs(caption = "Source: 2017–18 National Health and Nutrition Examination Survey (NHANES), first-day averages.") +
+  theme(plot.caption = element_text(hjust=0))
+
+
+
+
+```
+
+In general, there is little difference between the daily average amount of dairy intake per 1,000 calories at home and away from home food sources for all income levels. More specifically, there is a less than 0.1 cup/1000kcal difference between at home and away from home food sources for all income levels.
+
+```{r}
+theme_set(
+  theme_classic() +
+    theme(legend.position = "top")
+  )
+
+food_density %>% 
+  filter(year== "2017-2018", food_type == "Added_sugar",
+  Demographics == "Household income 185–300% poverty line" | Demographics == "Household income < 185% poverty line" | Demographics == "Household income > 300% poverty line") %>% 
+  ggplot(aes(x = fct_relevel(Demographics, "Household income < 185% poverty line","Household income 185–300% poverty line"), y = values)) + 
+  geom_col(mapping = aes(fill = food_source),colour="black", position = "dodge") + 
+  geom_text(
+  aes(label = values, group = food_source), 
+  position = position_dodge(0.9),
+  vjust = -0.3, size = 2.0) +
+  labs(
+     title = "Added Sugar Density by Food Source for Low, Middle, and High Levels of Income, 2017-2018",
+    x = "Income Level",
+    y = "Added Sugar (tsp/1,000kcal)",
+    fill = "Food Source") +
+    scale_fill_discrete(labels = c("At Home", "Fast Food", "Other","Restaurant","School","Total", "Total Away from Home")) +
+  labs(caption = "Source: 2017–18 National Health and Nutrition Examination Survey (NHANES), first-day averages.") +
+  theme(plot.caption = element_text(hjust=0))
+
+
+```
+
+In general, for every 1,000 calories, the daily average consumption of added sugars was higher when the food source is from Home compared to total away from home for all income levels. However, other away-from-home sources (street vendors, vending machines, etc.) had the highest added sugar density compared to Fast Food establishments and Restaurants for all income levels. For example, the daily average consumption of added sugars for low income individuals at other away-from-home sources was 12.46 teaspoons per 1,000 calories, which is higher than the amount consumed at Fast Food establishments (7.46 tsp/1,000kcal) and Restaurants (4.84 tsp/1,000kcal).
+
+
+
+```{r}
+theme_set(
+  theme_classic() +
+    theme(legend.position = "top")
+  )
+
+food_density %>% 
+  filter(year== "2017-2018", food_type == "Discretionary_oils",
+  Demographics == "Household income 185–300% poverty line" | Demographics == "Household income < 185% poverty line" | Demographics == "Household income > 300% poverty line") %>% 
+  ggplot(aes(x = fct_relevel(Demographics, "Household income < 185% poverty line","Household income 185–300% poverty line"), y = values)) + 
+  geom_col(mapping = aes(fill = food_source),colour="black", position = "dodge") + 
+  geom_text(
+  aes(label = values, group = food_source), 
+  position = position_dodge(0.9),
+  vjust = -0.3, size = 2.0) +
+  labs(
+     title = "Discretionary Oil Density by Food Source for Low, Middle, and High Levels of Income, 2017-2018",
+    x = "Income Level",
+    y = "Discretionary Oil (g/1,000kcal)",
+    fill = "Food Source") +
+    scale_fill_discrete(labels = c("At Home", "Fast Food", "Other","Restaurant","School","Total", "Total Away from Home")) +
+  labs(caption = "Source: 2017–18 National Health and Nutrition Examination Survey (NHANES), first-day averages.") +
+  theme(plot.caption = element_text(hjust=0))
+```
+
+In general, for every 1,000 calories, the daily average consumption of Discretionary oil was higher when the food sources is away from home compared to at home for all income levels. In addition, restaurants provide the highest intake of daily Discretionary oils, followed by Fast food establishments and then other away-from-home food sources. For example, High income individuals consumed a daily average of 20 grams per 1,000 calories when eating at Restaurants, which is higher than what they consume at Fast food establishments (14.29 grams) and at other away-from-home food sources (10.9 grams).
+
+
+
+```{r}
+theme_set(
+  theme_classic() +
+    theme(legend.position = "top")
+  )
+
+food_density %>% 
+  filter(year== "2017-2018", food_type == "Discretionary_fats",
+  Demographics == "Household income 185–300% poverty line" | Demographics == "Household income < 185% poverty line" | Demographics == "Household income > 300% poverty line") %>% 
+  ggplot(aes(x = fct_relevel(Demographics, "Household income < 185% poverty line","Household income 185–300% poverty line"), y = values)) + 
+  geom_col(mapping = aes(fill = food_source),colour="black", position = "dodge") + 
+  geom_text(
+  aes(label = values, group = food_source), 
+  position = position_dodge(0.9),
+  vjust = -0.3, size = 2.0) +
+  labs(
+     title = "Discretionary Fat Density by Food Source for Low, Middle, and High Levels of Income, 2017-2018",
+    x = "Income Level",
+    y = "Discretionary Fat (g/1,000kcal)",
+    fill = "Food Source") +
+    scale_fill_discrete(labels = c("At Home", "Fast Food", "Other","Restaurant","School","Total", "Total Away from Home")) +
+  labs(caption = "Source: 2017–18 National Health and Nutrition Examination Survey (NHANES), first-day averages.") +
+  theme(plot.caption = element_text(hjust=0))
+
+
+```
+
+In general, for every 1,000 calories, other away from home food sources had the highest daily average intake of Discretionary fat compared to all other away from home food sources (Fast Food ,Restaurant) for 2 of the 3 income levels. However, for Low income individuals, Fast Food establishments had the highest daily average intake of Discretionary fat per 1,000 calories (17.98 grams) compared to all other away from home food sources (densities for other away from home food sources and Restaurants are 16.76g and 14.91g, respectively)
+
+
+
+
+```{r}
+theme_set(
+  theme_classic() +
+    theme(legend.position = "top")
+  )
+
+
+food_nutrient_density %>% 
+  filter(year== "2017-2018", nutrient_type == "Cholesterol",
+  Demographics == "Household income 185–300% poverty line" | Demographics == "Household income < 185% poverty line" | Demographics == "Household income > 300% poverty line" ) %>% 
+  ggplot(aes(x = fct_relevel(Demographics, "Household income < 185% poverty line","Household income 185–300% poverty line"), y = values)) + 
+  geom_col(mapping = aes(fill = nutrient_source),colour="black", position = "dodge") + 
+  geom_text(
+  aes(label = values, group = nutrient_source), 
+  position = position_dodge(0.9),
+  vjust = -0.3, size = 2.0) +
+  labs(
+     title = "Cholesterol Density by Food Source for Low, Middle and High Income Levels, 2017-2018",
+    x = "Income Level",
+    y = "Cholesterol (mg/1,000 calories)",
+    fill = "Food Source") +
+    scale_fill_discrete(labels = c("At Home", "Fast Food", "Other","Restaurant","School","Total", "Total Away from Home")) +
+  labs(caption = "Source: 2017–18 National Health and Nutrition Examination Survey (NHANES), first-day averages.") +
+  theme(plot.caption = element_text(hjust=0))
+```
+
+In general, High income individuals have a higher Cholesterol density when consuming food away from home compared to middle and low income individuals. In addition, for ever 1,000 calories, High income indivuals consumed a daily average of 153.21 mg of Cholesterol away from home, which is 25.47mg and 21.99mg higher than Middle and Low income individuals, respectively.
+
+
+
+```{r}
+theme_set(
+  theme_classic() +
+    theme(legend.position = "top")
+  )
+
+
+food_nutrient_density %>% 
+  filter(year== "2017-2018", nutrient_type == "Fiber",
+  Demographics == "Household income 185–300% poverty line" | Demographics == "Household income < 185% poverty line" | Demographics == "Household income > 300% poverty line" ) %>% 
+  ggplot(aes(x = fct_relevel(Demographics, "Household income < 185% poverty line","Household income 185–300% poverty line"), y = values)) + 
+  geom_col(mapping = aes(fill = nutrient_source),colour="black", position = "dodge") + 
+  geom_text(
+  aes(label = values, group = nutrient_source), 
+  position = position_dodge(0.9),
+  vjust = -0.3, size = 2.0) +
+  labs(
+     title = "Fiber Density by Food Source for Low, Middle and High Income Levels, 2017-2018",
+    x = "Income Level",
+    y = "Fiber (g/1,000 calories)",
+    fill = "Food Source") +
+    scale_fill_discrete(labels = c("At Home", "Fast Food", "Other","Restaurant","School","Total", "Total Away from Home")) +
+  labs(caption = "Source: 2017–18 National Health and Nutrition Examination Survey (NHANES), first-day averages.") +
+  theme(plot.caption = element_text(hjust=0))
+
+
+```
+
+In General, for every 1,000 calories, at home food sources had the highest daily average intake of Fiber compared to away from home food sources for all income levels. However, High income individuals had the highest difference in daily fiber consumption per 1,000 calories between at home and away from home food sources, followed by Middle income and low income individuals. For example, the difference in the daily average fiber intake per 1,000 calories for High income individuals between at home and away at home food sources is 2.1 grams, which is higher than the difference for Middle (1.46 grams) and Low income Individuals (0.93 grams).
+
+
+
+```{r}
+theme_set(
+  theme_classic() +
+    theme(legend.position = "top")
+  )
+
+
+food_nutrient_density %>% 
+  filter(year== "2017-2018", nutrient_type == "Iron",
+  Demographics == "Household income 185–300% poverty line" | Demographics == "Household income < 185% poverty line" | Demographics == "Household income > 300% poverty line" ) %>% 
+  ggplot(aes(x = fct_relevel(Demographics, "Household income < 185% poverty line","Household income 185–300% poverty line"), y = values)) + 
+  geom_col(mapping = aes(fill = nutrient_source),colour="black", position = "dodge") + 
+  geom_text(
+  aes(label = values, group = nutrient_source), 
+  position = position_dodge(0.9),
+  vjust = -0.3, size = 2.0) +
+  labs(
+     title = "Iron Density by Food Source for Low, Middle and High Income Levels, 2017-2018",
+    x = "Income Level",
+    y = "Iron (mg/1,000 calories)",
+    fill = "Food Source") +
+    scale_fill_discrete(labels = c("At Home", "Fast Food", "Other","Restaurant","School","Total", "Total Away from Home")) +
+  labs(caption = "Source: 2017–18 National Health and Nutrition Examination Survey (NHANES), first-day averages.") +
+  theme(plot.caption = element_text(hjust=0))
+
+
+```
+
+In general, for every 1,000 calories, at home food sources had the highest daily average intake of Iron compared to away from home food sources for all income levels. 
+
+
+```{r}
+theme_set(
+  theme_classic() +
+    theme(legend.position = "top")
+  )
+
+
+food_nutrient_density %>% 
+  filter(year== "2017-2018", nutrient_type == "Saturated_fat",
+  Demographics == "Household income 185–300% poverty line" | Demographics == "Household income < 185% poverty line" | Demographics == "Household income > 300% poverty line" ) %>% 
+  ggplot(aes(x = fct_relevel(Demographics, "Household income < 185% poverty line","Household income 185–300% poverty line"), y = values)) + 
+  geom_col(mapping = aes(fill = nutrient_source),colour="black", position = "dodge") + 
+  geom_text(
+  aes(label = values, group = nutrient_source), 
+  position = position_dodge(0.9),
+  vjust = -0.3, size = 2.0) +
+  labs(
+     title = "Saturated Fat Density by Food Source for Low, Middle and High Income Levels, 2017-2018",
+    x = "Income Level",
+    y = "Saturated Fat (g/1,000kcal)",
+    fill = "Food Source") +
+    scale_fill_discrete(labels = c("At Home", "Fast Food", "Other","Restaurant","School","Total", "Total Away from Home")) +
+  labs(caption = "Source: 2017–18 National Health and Nutrition Examination Survey (NHANES), first-day averages.") +
+  theme(plot.caption = element_text(hjust=0))
+
+```
+
+In general, the daily average consumption of Saturated Fat per 1,000 calories was highest at Fast Food establishments compared to at home, restaurants, and other away-from-home food sources for all levels of income. In addition, Low income individuals had the largest difference in daily Saturated Fat consumption per 1,000 calories between at home and Fast food sources, followed by Middle income and High income individuals. For example, the daily average Saturated fat intake per 1,000 calories for Low income individuals at Fast Food establishments is 2.86 grams higher than at home, which is larger than the difference for Middle (2.34 grams) and High income Individuals (1.92 grams). However, High income individuals had the largest difference in daily Saturated Fat consumption per 1,000 calories between at home and other away-from-home food sources, consuming 1.57 g/1,0000kcal more at Fast food establishments compared to at home.
+
+
+
+```{r}
+theme_set(
+  theme_classic() +
+    theme(legend.position = "top")
+  )
+
+
+food_nutrient_density %>% 
+  filter(year== "2017-2018", nutrient_type == "Total_fat",
+  Demographics == "Household income 185–300% poverty line" | Demographics == "Household income < 185% poverty line" | Demographics == "Household income > 300% poverty line" ) %>% 
+  ggplot(aes(x = fct_relevel(Demographics, "Household income < 185% poverty line","Household income 185–300% poverty line"), y = values)) + 
+  geom_col(mapping = aes(fill = nutrient_source),colour="black", position = "dodge") + 
+  geom_text(
+  aes(label = values, group = nutrient_source), 
+  position = position_dodge(0.9),
+  vjust = -0.3, size = 2.0) +
+  labs(
+     title = "Total Fat Density by Food Source for Low, Middle and High Income Levels, 2017-2018",
+    x = "Income Level",
+    y = "Total Fat (g/1,000kcal)",
+    fill = "Food Source") +
+    scale_fill_discrete(labels = c("At Home", "Fast Food", "Other","Restaurant","School","Total", "Total Away from Home")) +
+  labs(caption = "Source: 2017–18 National Health and Nutrition Examination Survey (NHANES), first-day averages.") +
+  theme(plot.caption = element_text(hjust=0))
+```
+
+In General, for every 1,000 calories, away from home food sources (Total) had the highest daily average intake of Total Fat compared to at home food sources for all income levels. In addition, the daily average Total fat intake per 1,000 calories for Middle income individuals away from home is 5.57 grams higher than at home, which is larger than the difference for Low (5.41 grams) and High income Individuals (4.97 grams).
+
+
+
+
+```{r}
+theme_set(
+  theme_classic() +
+    theme(legend.position = "top")
+  )
+
+
+food_nutrient_density %>% 
+  filter(year== "2017-2018", nutrient_type == "Sodium",
+  Demographics == "Household income 185–300% poverty line" | Demographics == "Household income < 185% poverty line" | Demographics == "Household income > 300% poverty line" ) %>% 
+  ggplot(aes(x = fct_relevel(Demographics, "Household income < 185% poverty line","Household income 185–300% poverty line"), y = values)) + 
+  geom_col(mapping = aes(fill = nutrient_source),colour="black", position = "dodge") + 
+  geom_text(
+  aes(label = values, group = nutrient_source), 
+  position = position_dodge(0.9),
+  vjust = -0.3, size = 2.0) +
+  labs(
+     title = "Sodium Density by Food Source for Low, Middle and High Income Levels, 2017-2018",
+    x = "Income Level",
+    y = "Sodium (mg/1,000 calories)",
+    fill = "Food Source") +
+    scale_fill_discrete(labels = c("At Home", "Fast Food", "Other","Restaurant","School","Total", "Total Away from Home")) +
+  labs(caption = "Source: 2017–18 National Health and Nutrition Examination Survey (NHANES), first-day averages.") +
+  theme(plot.caption = element_text(hjust=0))
+
+
+
+```
+
+In General, for every 1,000 calories, away from home food sources (Total) had the highest daily average intake of Sodium compared to at home food sources for all income levels.In addition, the daily average Sodium intake per 1,000 calories for High income individuals away from home is 572.92 mgs higher than at home, which is larger than the difference for Middle (445.61 mg) and Low income Individuals (323.87 grams). Looking specifically at other away from home food sources, High income individuals consumed a daily average of 2386.09 mg per 1,000 calories, which is 387 mg and 685.55 mg more than Middle and low income individuals, respectively.
+
+
+```{r}
+theme_set(
+  theme_classic() +
+    theme(legend.position = "top")
+  )
+
+
+food_nutrient_density %>% 
+  filter(year== "2017-2018", nutrient_type == "Calcium",
+  Demographics == "Children age 2–19" | Demographics == "Adults age 20–64" | Demographics == "Seniors age 65 and above") %>% 
+  ggplot(aes(x = fct_relevel(Demographics, "Children age 2–19"), y = values)) + 
+  geom_col(mapping = aes(fill = nutrient_source),colour="black", position = "dodge") + 
+  geom_text(
+  aes(label = values, group = nutrient_source), 
+  position = position_dodge(0.9),
+  vjust = -0.3, size = 2.0) +
+  labs(
+     title = "Calcium Density by Food Source for Children, Adults and Seniors, 2017-2018",
+    x = "Age",
+    y = "Calcium (mg/1,000 calories)",
+    fill = "Food Source") +
+    scale_fill_discrete(labels = c("At Home", "Fast Food", "Other","Restaurant","School","Total", "Total Away from Home")) +
+  labs(caption = "Source: 2017–18 National Health and Nutrition Examination Survey (NHANES), first-day averages.
+Note: School is omitted from Adults and Seniors as School foods eaten by those age 20 and above are classified as other food away from home.") +
+  theme(plot.caption = element_text(hjust=0))
+```
+
+
+In general, for every 1,000 calories, At Home food sources had the highest daily average intake of calcium compared to all away from home food sources (Fast Food ,Restaurant, Other) for 2 of the 3 age groups. However, Adults had the highest daily average intake of calcium when eating at other away from home food sources (811.39 mg/1,000 calories) compared to At home (584.18 mg/1,000 calories), Fast Food establishments (490.21 mg/1,000 calories), and Restaurants (347.94 mg/1,000 calories). Seniors have the lowest daily average intake of calcium per 1,000 calories at home (506.7 mg), which is 77.48 mg and 83.13mg less than Adults and Children, respectively. 
+
+
+
+
+```{r}
+theme_set(
+  theme_classic() +
+    theme(legend.position = "top")
+  )
+
+
+food_nutrient_density %>% 
+  filter(year== "2017-2018", nutrient_type == "Cholesterol",
+  Demographics == "Children age 2–19" | Demographics == "Adults age 20–64" | Demographics == "Seniors age 65 and above") %>% 
+  ggplot(aes(x = fct_relevel(Demographics, "Children age 2–19"), y = values)) + 
+  geom_col(mapping = aes(fill = nutrient_source),colour="black", position = "dodge") + 
+  geom_text(
+  aes(label = values, group = nutrient_source), 
+  position = position_dodge(0.9),
+  vjust = -0.3, size = 2.0) +
+  labs(
+     title = "Cholesterol Density by Food Source for Children, Adults and Seniors, 2017-2018",
+    x = "Age",
+    y = "Cholesterol (mg/1,000 calories)",
+    fill = "Food Source") +
+    scale_fill_discrete(labels = c("At Home", "Fast Food", "Other","Restaurant","School","Total", "Total Away from Home")) +
+  labs(caption = "Source: 2017–18 National Health and Nutrition Examination Survey (NHANES), first-day averages.
+Note: School is omitted from Adults and Seniors as School foods eaten by those age 20 and above are classified as other food away from home.") +
+  theme(plot.caption = element_text(hjust=0))
+
+
+```
+
+In general, for every 1,000 calories, Adults and Seniors had higher daily average intakes of Cholesterol at away from home food sources compared to at home food sources. In addition, the daily average Cholesterol intake per 1,000 calories for Seniors eating away from home is 165.5 mg, which is 16.49 mg higher than the the daily average intake for Adults (149.01 mg). However, Children have a lower daily average intake of Cholesterol at away from home food sources compared to at home food sources. Out of all away from home food sources (Fast Food ,Restaurant, Other), Restaurants have the highest daily average intake of Cholesterol for all age groups.
+
+
+
+```{r}
+theme_set(
+  theme_classic() +
+    theme(legend.position = "top")
+  )
+
+
+food_nutrient_density %>% 
+  filter(year== "2017-2018", nutrient_type == "Fiber",
+  Demographics == "Children age 2–19" | Demographics == "Adults age 20–64" | Demographics == "Seniors age 65 and above") %>% 
+  ggplot(aes(x = fct_relevel(Demographics, "Children age 2–19"), y = values)) + 
+  geom_col(mapping = aes(fill = nutrient_source),colour="black", position = "dodge") + 
+  geom_text(
+  aes(label = values, group = nutrient_source), 
+  position = position_dodge(0.9),
+  vjust = -0.3, size = 2.0) +
+  labs(
+     title = "Fiber Density by Food Source for Children, Adults and Seniors, 2017-2018",
+    x = "Age",
+    y = "Fiber (g/1,000 calories)",
+    fill = "Food Source") +
+    scale_fill_discrete(labels = c("At Home", "Fast Food", "Other","Restaurant","School","Total", "Total Away from Home")) +
+  labs(caption = "Source: 2017–18 National Health and Nutrition Examination Survey (NHANES), first-day averages.
+Note: School is omitted from Adults and Seniors as School foods eaten by those age 20 and above are classified as other food away from home.") +
+  theme(plot.caption = element_text(hjust=0))
+
+
+```
+
+In general, for every 1,000 calories, at home food sources had the highest daily average intake of Fiber compared to away from home food sources for all age groups. In addition, the daily average Fiber intake per 1,000 calories for Seniors eating away from home is 2.58 grams less than what they intake at home, which is a larger difference than Adults (1.55g, 8.21 at home, 6.66 away from home) and Children (0.82g, 8.17g at home, 7.37 away from home).
+
+
+
+```{r}
+theme_set(
+  theme_classic() +
+    theme(legend.position = "top")
+  )
+
+
+food_nutrient_density %>% 
+  filter(year== "2017-2018", nutrient_type == "Iron",
+  Demographics == "Children age 2–19" | Demographics == "Adults age 20–64" | Demographics == "Seniors age 65 and above") %>% 
+  ggplot(aes(x = fct_relevel(Demographics, "Children age 2–19"), y = values)) + 
+  geom_col(mapping = aes(fill = nutrient_source),colour="black", position = "dodge") + 
+  geom_text(
+  aes(label = values, group = nutrient_source), 
+  position = position_dodge(0.9),
+  vjust = -0.3, size = 2.0) +
+  labs(
+     title = "Iron Density by Food Source for Children, Adults and Seniors, 2017-2018",
+    x = "Age",
+    y = "Iron (mg/1,000 calories)",
+    fill = "Food Source") +
+    scale_fill_discrete(labels = c("At Home", "Fast Food", "Other","Restaurant","School","Total", "Total Away from Home")) +
+  labs(caption = "Source: 2017–18 National Health and Nutrition Examination Survey (NHANES), first-day averages.
+Note: School is omitted from Adults and Seniors as School foods eaten by those age 20 and above are classified as other food away from home.") +
+  theme(plot.caption = element_text(hjust=0))
+
+
+```
+
+In general, for every 1,000 calories, at home food sources had the highest daily average intake of Iron compared to away from home food sources for all age groups. In addition, the daily average Iron intake per 1,000 calories for Children eating away from home is 2.08 mg less than what they intake at home, which is a larger difference than Adults (1.26 mg, 7.09 mg at home, 5.83 mg away from home) and Seniors (1.39 mg, 7.78 mg at home, 6.39 mg away from home).
+
+
+```{r}
+theme_set(
+  theme_classic() +
+    theme(legend.position = "top")
+  )
+
+
+food_nutrient_density %>% 
+  filter(year== "2017-2018", nutrient_type == "Total_fat",
+  Demographics == "Children age 2–19" | Demographics == "Adults age 20–64" | Demographics == "Seniors age 65 and above") %>% 
+  ggplot(aes(x = fct_relevel(Demographics, "Children age 2–19"), y = values)) + 
+  geom_col(mapping = aes(fill = nutrient_source),colour="black", position = "dodge") + 
+  geom_text(
+  aes(label = values, group = nutrient_source), 
+  position = position_dodge(0.9),
+  vjust = -0.3, size = 2.0) +
+  labs(
+     title = "Total Fat Density by Food Source for Children, Adults and Seniors, 2017-2018",
+    x = "Age",
+    y = "Total Fat (g/1,000kcal)",
+    fill = "Food Source") +
+    scale_fill_discrete(labels = c("At Home", "Fast Food", "Other","Restaurant","School","Total", "Total Away from Home")) +
+  labs(caption = "Source: 2017–18 National Health and Nutrition Examination Survey (NHANES), first-day averages.
+Note: School is omitted from Adults and Seniors as School foods eaten by those age 20 and above are classified as other food away from home.") +
+  theme(plot.caption = element_text(hjust=0))
+```
+
+
+In General, for every 1,000 calories, away from home food sources (Total) had the highest daily average intake of Total compared to at home food sources for all age groups. In addition, the daily average Fat intake per 1,000 calories for Adults eating away from home was 6.18 g more than what they comsume at home, which is a larger difference than Children (2.95 g, 36.15 g at home, 39.4 g away from home) and Seniors (5.37 g, 44.21 at home, 38.84g away from home). However, the daily average Fat intake per 1,000 calories for Children eating at Restaurants (44.04 g) and Fast food (43.02 g) establishment is 7.89 g and 6.87 g more than what they consume at home, respectively.
+
+
+
+```{r}
+theme_set(
+  theme_classic() +
+    theme(legend.position = "top")
+  )
+
+
+food_nutrient_density %>% 
+  filter(year== "2017-2018", nutrient_type == "Sodium",
+  Demographics == "Children age 2–19" | Demographics == "Adults age 20–64" | Demographics == "Seniors age 65 and above") %>% 
+  ggplot(aes(x = fct_relevel(Demographics, "Children age 2–19"), y = values)) + 
+  geom_col(mapping = aes(fill = nutrient_source),colour="black", position = "dodge") + 
+  geom_text(
+  aes(label = values, group = nutrient_source), 
+  position = position_dodge(0.9),
+  vjust = -0.3, size = 2.0) +
+  labs(
+     title = "Sodium Density by Food Source for Children, Adults and Seniors, 2017-2018",
+    x = "Age",
+    y = "Sodium (mg/1,000 calories)",
+    fill = "Food Source") +
+    scale_fill_discrete(labels = c("At Home", "Fast Food", "Other","Restaurant","School","Total", "Total Away from Home")) +
+  labs(caption = "Source: 2017–18 National Health and Nutrition Examination Survey (NHANES), first-day averages.
+Note: School is omitted from Adults and Seniors as School foods eaten by those age 20 and above are classified as other food away from home.") +
+  theme(plot.caption = element_text(hjust=0))
+```
+
+In General, for every 1,000 calories, away from home food sources (Total) had the highest daily average intake of Sodium compared to at home food sources for all age groups. However, Children and Seniors are consuming more Sodium at Restaurants compared to at home, Whereas Adults are consuming more sodium at Other away-from-home food sources. For example, the daily average Sodium intakes per 1,000 calories for Children and Seniors eating at restaurants were 617.9 mg  and 118.14 more than what they consume at home respectively, Whereas Adults eating at Other away-from-home places consume 936.16 more grams of Sodium than they do at home. 
+
+
+

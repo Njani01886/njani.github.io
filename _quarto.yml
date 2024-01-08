@@ -1,0 +1,33 @@
+project:
+  type: website
+
+website:
+  title: "Nayan Jani's Website"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: Nayan.qmd
+        text: About Me
+      - href: https://github.com/Njani01886/Projects/blob/main/Resume/Nayan_Jani_Resume_2024.pdf
+        text: Resume
+  sidebar: 
+    style: "docked"
+    search: true
+    contents:
+      - section: "Code for Projects"
+        contents: 
+        - NJ_Adv_Quant.qmd
+        - NJ_604.qmd
+        - NBA_Salary.qmd
+        - BlogPost6_NayanJani.qmd
+  
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+
+
+

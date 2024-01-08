@@ -1,0 +1,185 @@
+---
+title: "Nayan Jani"
+image: images/njani.jpg
+about:
+  template: solana
+  image-width: 15em
+  image-shape: round
+  image: images/njani.jpg
+  links:
+    - icon: github
+      text: Github
+      href: https://github.com/Njani01886
+---
+
+# Summary
+
+🔍 What I Bring to the Table:
+
+- Ability to collect and analyze large sets of structured and unstructured data to identify and interpret meaningful trends or patterns.
+
+- A robust understanding of regression assumptions for different statistical methods (enabling me to select the most appropriate analysis procedure based on the data's characteristics).
+
+- Expertise in cleaning and preprocessing data to ensure that it is suitable for analysis (e.g., handling missing values, restructuring data).
+
+- Adept at developing and implementing statistical models and machine learning algorithms to solve complex problems and make predictions.
+
+- Ability to create data visualizations to effectively communicate findings and facilitate data exploration.
+
+- Experience in presenting data-driven insights and recommendations using accessible language tailored to the audience.
+
+- Proficiency in Python (Pandas, Sci-kit learn, Numpy, Scipy, Matplotlib), R (tidyverse, ggplot2), and Microsoft Office.
+
+- A collaborative and proactive approach to teamwork.
+
+🤝 Open to Opportunities:
+I am actively seeking a Data Analyst or Data Scientist role in healthcare and education where I can contribute my skills and continue my professional development. If your organization is looking for a motivated graduate with who loves challenges and wants to do good with data, I would love to connect and explore potential opportunities.
+
+Let's connect and discuss how my skills align with the needs of your team!
+
+Thank you for considering my profile, and I look forward to connecting with fellow professionals in the field.
+
+# Education
+
+University of Massachusetts Amherst, College of  Social and Behavioral Sciences, Amherst, MA.  Exp. Graduation:: Feb 2024
+Master of Science Concentration:  Data Analytics and Computational Social Science
+Current GPA:  3.89
+Relevant Courses: Advanced Quantitative Methods, Regression Models, Text as Data, Advanced Data-Driven Storytelling
+
+University of Rhode Island, College of Arts and Sciences, Kingston, RI.    Graduated:: May 2022
+Bachelor of Science Concentration:  Data Science
+Final GPA:  3.52, Dean’s List: 2018, 2019, 2020, 2021, 2022
+Relevant Courses: Machine Learning, Multivariate Statistical Learning, Big Data Analysis, Database Management
+
+
+# Skills
+
+General Skills: Data Analysis, Machine Learning, Data Visualization, Data Storytelling, Data Cleaning, NLP
+
+Programming Languages: Python, R, and SQL
+
+Libraries: Ggplot2, Tidyverse, Summarytools, Stats, Tidytext, Quanteda, Rselenium, Lubridate, Devtools, SciPy, Matplotlib, Seaborn, Scikit-learn, Numpy, Pandas
+
+
+# Projects
+
+U.S. Job Satisfaction: Impacts of Technology, Work Environment, and Covid-19                        September-December 2023
+
+- Investigated if the move to more work from home and more use of technology at work post-COVID actually lead to any significant changes in job satisfaction using data from the 2018 and 2022 versions of the General Social Survey.
+- Developed two ordered logit GLMs using the MASS package in R: one main effect model and one interaction model
+- Calculated predicted probabilities of job satisfaction for all significant variables (p <0.05) using ggpredict() and graphed them with 95% confidence intervals using ggplot().
+- Discovered that people who never work from home are significantly less likely to to be very satisfied with their job than people who mainly WFH (p <0.05), with all variables held constant.
+
+
+Link to paper: [U.S. Job Satisfaction: Impacts of Technology, Work Environment, and Covid-19](https://github.com/Njani01886/Website/blob/main/Projects/ADV_Quant_Final_Paper.pdf)
+
+
+
+
+Identifying Sources of Poor Nutrition for Americans, Amherst, MA                                           July-August 2023
+Project Owner
+- Analyzed the impact of food sources on food and nutrient intakes for different ages and income levels using 2017-18 Food and Nutrient Density by Food Source and Demographic Characteristics datasets
+- Created multiple charts that visualized the 3 way associations between food source, demographics and food/nutrient density using    
+  ggplot2 in R
+- Discovered that adults and seniors were consuming more cholesterol at restaurants than at home, low and middle income individuals 
+  had lower intakes of protein at home than away from home
+- Cleaned and combined datasets using the tidyverse package in R in order to produce visualizations
+- Explained methods and results using language that a non-technical audience could understand in a 29 page report
+
+Link: [Identifying Sources of Poor Nutrition for Americans](https://github.com/Njani01886/Website/blob/main/Projects/Identifying_Sources_of_Poor_Nutrition.pdf)
+
+
+Fixing Social Media Design Brief                                                                           February-May 2023
+Team Member
+- Developed a design brief for an app called "Social Media Royale" that helps reduce people's screen time with 2 student colleagues
+- Handled background research and interviews over Zoom to understand the consequences of high amounts of screen time
+- Brainstormed many design ideas that were is used in the final pitch with my team members
+- Gained substantial knowledge about the process of product design
+
+Link: [Fixing Social Media Design Brief](https://github.com/Njani01886/Website/blob/main/Projects/Slide%20for%20SMR.pdf)
+
+
+
+Research Design Final Project                                                                              February-May 2023
+Team Member
+- Conducted a survey experiment research study with the goal of understanding if exposure to misinformation increases belief in 
+  conspiracy theories with two student colleagues 
+- Defined constructs, operational definitions, ways of measurement for constructs, and treatment groups for the research study
+- Used Qualtrics for distributing the survey
+- Analyzed results from the survey using stacked bar charts, One-Way Anova, and Linear Regression using R
+
+Link: [Misinformation and Conspiracy Theories](https://github.com/Njani01886/Website/blob/main/Projects/602_Poster.pptx.pdf)
+
+NBA Salary Prediction, Amherst, MA                                                                         February-May 2023
+Project Owner
+- Developed and tested 4 machine learning models using different regression methods to explore which one performs the best at 
+  predicting NBA players' salaries using R and Python
+- Found that Random Forest performed the best out of all methods, yielding a low RMSLE of 0.50
+- Pre-processed and wrangled data into a suitable format for the ML models 
+- Tuned hyperparameters for each model using GridSearchCV with 5 folds to control for overfitting
+- Presented my work at my program’s research symposium in front of faculty and peers
+
+
+Link: [NBA Salary Prediction](https://github.com/Njani01886/Website/blob/main/Projects/ML%20final%20poster.pdf)
+
+
+Goals in Soccer Regression Models Project, Amherst, MA	                                                         November-December 2022	   
+Team Member
+- Investigated the difference in total goals across Europe’s top 5 soccer leagues using team data from the 2021-22 season to 
+  understand if the type of league determines the number of goals per season
+- Developed a Quasi-Poisson regression model with 9 predictors using R with 3 student colleagues 
+- Concluded that there was a significant difference in goals between Bundesliga and other leagues
+- Handled the the selection of predictors by creating and analyzing a scatter-plot matrix using GGally
+- Coordinated weekly group discussions with team members on Zoom and in person
+
+
+Link: [Goals in Soccer](https://github.com/Njani01886/Website/blob/main/Projects/Soccer_Regression.pdf)
+
+
+Assessing Sentiment Surrounding the 2022 World Cup, Amherst, MA                                        September-December 2022
+Project Owner
+- Analyzed controversies of the Qatar World Cup by conducting Sentiment Analysis, LDA Topic Modeling, Semantic Network, and Pairwise   
+  Correlation Analysis on Youtube comments using R
+- Concluded that the overall sentiment of the comments was negative, main focus of discussion surrounded human rights violations
+- Used packages tidyverse, quanteda, tidytext, text2vec, LDAvis, and sentimentr to conduct analysis
+- Extracted 1,391 comments in total from 9 Youtube videos using Youtube API in Python 
+
+My final conclusions were made on my final poster.
+
+
+Final Poster: [Assessing Sentiment Surrounding the 2022 World Cup](https://github.com/Njani01886/Website/blob/main/Projects/World_Cup_Text_Analysis.png)
+
+
+Spring 2022
+Machine Learning Project at URI, Kingston, RI
+Research Assistant
+- Designed a program in Python that estimated heterogeneous treatment effects using datasets that involve AIDS and breast cancer treatments as a part of my senior dissertation
+- Implemented different meta learners in my program that could estimate the conditional average treatment effect to identify how to personalize treatment regimes
+- Gained experience and knowledge in Causal Inference
+- Discussed methodology weekly with research leader
+
+
+# Experience
+
+Summer 2021
+Bora, La Jolla, CA
+Business Development & Land Acquisition
+- Compiled data about potential locations using Google Maps
+- Analyzed aggregated data to determine which locations are the busiest based on area busyness
+- Company’s goal is to bring to market an app based, self service beach chair rental service stationed at the most popular locations across the country
+- Part of outreach campaign to early stage VC and angel investors
+
+Spring 2018
+Westford Academy Spring Recreational Basketball, Westford, MA
+Youth Basketball Coach/League Co-Director
+- Organized and operated a Spring League consisting of 80 players with 3 student colleagues as part of my senior year internship
+- Successfully coordinated a three month league for the Westford Youth Association. All surplus proceeds were donated back to the 
+  Westford Academy Girls Basketball Program
+- Established online sign-up and jersey purchases
+- Coordinated facilities and scheduling of refereeing staff
+
+
+# Hometown
+
+Westford, MA
+

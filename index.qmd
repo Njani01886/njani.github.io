@@ -1,0 +1,27 @@
+---
+title: "Nayan Jani's Website"
+image: njani.jpg
+about: 
+  template: jolla
+  image-shape: rectangle
+  image-width: 13em
+  links: 
+    - text: Email
+      icon: envelope
+      href: mailto:njani2000@gmail.com
+    - text: Github
+      icon: github
+      href: https://github.com/Njani01886
+    - text: Linkedin
+      icon: linkedin
+      href: https://www.linkedin.com/in/nayan-jani
+  id: ppc
+      
+---
+
+:::{#ppc}
+
+I am Nayan Jani, a dedicated graduate student with a Bachelor's degree in Data Science from the University of Rhode Island. Currently, I am pursuing a Master’s degree in Data Analytics and Computational Social Science (DACSS) at the University of Massachusetts Amherst. Throughout my academic journey, I've developed a solid foundation in data cleaning and processing, advanced quantitative methods, machine learning, and data visualization, and I am eager to apply my knowledge to real-world challenges. To view my code for some of my projects, go to the sidebar on the left. To view my completed projects, click on the about me tab.
+
+:::
+

@@ -1,0 +1,517 @@
+---
+title: "NBA Salary Prediction"
+author: "Nayan Jani"
+description: "Machine Learning for the Social Sciences"
+date: "06/12/2023"
+format:
+  html:
+    toc: true
+    code-fold: true
+    code-copy: true
+    code-tools: true
+categories:
+  - NBA
+  - Machine Learning
+---
+
+```{r}
+#| label: setup
+#| warning: false
+
+library(alr4)
+library(tinytex)
+library(summarytools)
+library(tidyverse)
+library(ggplot2)
+library(splines)
+library(aod)
+library(DescTools)
+library(MASS)
+library(leaps)
+library(GGally)
+library(hrbrthemes)
+
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Introduction
+
+Being a General Manager in the NBA comes with a ton of decisions. One of the most important decisions a GM can make is how much they pay the players on their team. It is so important to pay the players the right amount in order to build the strongest roster. Overpaying a player will hurt a teams cap space, meaning that the team will not be able to sign good players because they do not have enough money to afford them. My motivation for this project its to see if Machine Learning techniques can correctly predict a players salary. The idea is if I am able to create a model that performs well enough, then it could be used as a tool to determine a players salary for their next contract. Here I will perform different regression methods to predict players salary and then used the best method for prediction.
+
+## The Data
+
+The dataset I am using comes from Kaggle. The dataset contains information about player names, time span of the contract, avg salary per year and all stats that player accumulated during NBA season before signing their next contract. The scope of the data is as follows:
+- There are only contracts signed since 2010/2011 season to 2019/2020 season.
+- Only includes players that are active in 2020/2021 season.
+- Doesn't include rookie or retained contracts.
+- Doesn't include contracts for player that haven't played year before the signing the contract.
+
+This is a good scope because I want to use modern players contracts for future predictions. The limitation of only including players that are active in 20/21 means that these players were able to earn multiple contracts of the 10 year span, which validates them as players who are worth to continuing paying. Having this removes players who had massive contracts early in their career and then faded out quickly after their primes. 
+
+```{r cars}
+
+df<- read_csv("_data/nba_contracts_history.csv")
+
+```
+
+
+```{r}
+df
+```
+
+
+```{r}
+df<- df %>% mutate(c_duration = CONTRACT_END -CONTRACT_START)
+
+```
+
+
+After loading in the data I can see it has 199 instances with 29 features. Some features will be removed such as player name, CONTRACT_START and CONTRACT_end. After EDA I will remove any features that interfere with my regression analysis. The only variable mutation I did was c_duration, which is how long a players contract lasted.
+
+## EDA
+
+```{r}
+ggplot(data=df, aes(x=AGE, y=AVG_SALARY)) +
+  geom_bar(stat="identity") +
+  labs(title = "Average Salary by Age", x = "Age" ,y= "Average Salary")
+```
+
+The first relationship I wanted to visualize was Average salary and Age. Age is very important when thinking about how much to pay someone because you want to give them a contract that shows how good they can perform for that length of contract. I can see that average salary peaks at age 23 and again rises at 27 and then 30. This make sense because young players who are really good will receive a massive 2nd contract (contract after rookie deal). The peaks at 27 and 30 could be from players signing their 3rd or 4th contracts but make less money due to their age. 
+
+```{r}
+print(dfSummary(df, varnumbers = FALSE,
+                        plain.ascii  = FALSE, 
+                        style        = "grid", 
+                        graph.magnif = 0.70, 
+                        valid.col    = FALSE),
+      method = 'render',
+      table.classes = 'table-condensed')
+```
+
+Here I created summary statistics of the dataset using SummaryTools. The two stats that stood out to me was the mean games played and mean minutes played. The GP and MIN mean values are 64.2 and 1747, respectively. This implies that in order to be considered for another contract, players must play most of the season and play about 21 minutes per game. I would say that if you looked at all the means and medians of each feature, then those values represent a player who will get another NBA contract.
+
+
+```{r, message=FALSE}
+#| warning: false
+
+ggplot(data = df, mapping = aes(x = MIN, y = AVG_SALARY)) + 
+  geom_point() +
+  geom_smooth() +
+  labs(title = "Average Salary by Minutes Played", x = "Mins" ,y= "Average Salary")
+
+```
+
+Next I wanted to check the relationship between Minutes played and Average Salary. I can see that their relationship is non-linear but positive. I see an increase of salary once a player is playing roughly 1750 minutes but drops off around 2500 minutes.The positive relationship could suggest that minutes played can be a good predictor.
+
+
+```{r, message=FALSE}
+#| warning: false
+ggplot(data = df, mapping = aes(x = `+/-`, y = AVG_SALARY)) + 
+  geom_point() +
+  geom_smooth() +
+  labs(title = "Average Salary by Plus/Minus", x = "+/-" ,y= "Average Salary")
+```
+
+Here I wanted to see the relationship between +/- and Average salary. +/- is  a sports statistic used to measure a player's impact on the game, represented by the difference between their team's total scoring versus their opponent's when the player is in the game. I can see the relationship between +/- and Average Salary is non linear. I can see that there are players with awful +/- that are getting payed more than players with high +/-. I also see a lot of data grouped around 0 with low salaries, meaning these players probably did not play much.
+
+
+```{r}
+df %>% filter(`+/-` < -300)
+```
+
+Here I investigate the players with terrible +/-. Some of these players are getting paid well but their teams are so bad that their +/- statistic is negative. This makes me believe that non-linear regression methods would be useful if this feature is used for prediction of salary.
+
+
+```{r, message=FALSE}
+#| warning: false
+df %>% dplyr::select(-c(NAME,CONTRACT_START,CONTRACT_END)) %>% 
+  ggpairs(columns=c(1, 2:7),
+          upper=list(continuous=wrap('cor',size=5)),
+          lower=list(combo=wrap("facethist",bins=30)),
+          diag=list(continuous=wrap("densityDiag"),alpha=0.5))
+```
+
+```{r, message=FALSE}
+#| warning: false
+df %>% dplyr::select(-c(NAME,CONTRACT_START,CONTRACT_END)) %>% 
+  ggpairs(columns=c(1, 8:13),
+          upper=list(continuous=wrap('cor',size=5)),
+          lower=list(combo=wrap("facethist",bins=30)),
+          diag=list(continuous=wrap("densityDiag"),alpha=0.5))
+
+```
+
+```{r, message=FALSE}
+#| warning: false
+df %>% dplyr::select(-c(NAME,CONTRACT_START,CONTRACT_END)) %>% 
+  ggpairs(columns=c(1, 22:26),
+          upper=list(continuous=wrap('cor',size=5)),
+          lower=list(combo=wrap("facethist",bins=30)),
+          diag=list(continuous=wrap("densityDiag"),alpha=0.5))
+
+
+```
+
+```{r,message=FALSE}
+#| warning: false
+df %>% dplyr::select(-c(NAME,CONTRACT_START,CONTRACT_END)) %>% 
+  ggpairs(columns=c(1, 14:20),
+          upper=list(continuous=wrap('cor',size=5)),
+          lower=list(combo=wrap("facethist",bins=30)),
+          diag=list(continuous=wrap("densityDiag"),alpha=0.5))
+
+```
+
+```{r,message=FALSE}
+#| warning: false
+library(ggcorrplot)
+
+df %>% dplyr::select(-c(NAME,CONTRACT_START,CONTRACT_END)) %>% 
+  cor() %>% 
+  ggcorrplot(hc.order = TRUE, type = "lower",outline.col = "white",lab=TRUE, lab_size=1)
+
+```
+
+
+Here I created 3 ggpairs plots and a correlation matrix to investigate the correlations between my target variable and and features. I am looking for strong and weak correlations. Based on the correlation matrix, I see a mixture or strong and weak correlations between features and my target variable, Average Salary. This makes me believe that non linear regression methods will perform better than linear regression methods on this dataset.
+
+
+```{r, message = FALSE}
+#| warning: false
+df %>%  ggplot(aes(x=AVG_SALARY)) + 
+  geom_density() +
+  geom_vline(aes(xintercept=mean(AVG_SALARY)),
+            color="blue", linetype="dashed", size=1)
+
+df %>% dplyr::select(AVG_SALARY) %>% 
+  summarise(mean = mean(AVG_SALARY))
+```
+
+Here I wanted to look at the distribution of my target variable. I can see the distribution is not normal and skewed right. Seeing this makes me think that more flexible methods will work better when I create my regression models.
+
+
+# Evaluation Metric
+
+For my evaluation metric, I will use Root Mean Squared Logarithmic Error (RMSLE). I am choosing RMSLE because my predicted and actual values of my target variable (salary) are large integers, so by taking the logs of them it will remove any penalization of those huge differences between those values. My target variable has a skewed distribution and a large range, so RMSLE is a good fit because prediction errors of low and high salary will be treated evenly.
+
+# Data Preprocessing
+
+My first step in pre-processing my dataset was to remove any features based off of logic. I removed the players names, their wins, their loses, their contract start year and contract end year. I removed wins and loses because that is a team statistic and I do not believe that will have an effect in determining salary. I removed contract start and end years because I created a variable using both of them. The variable I created was c_duration, which is the difference between CONTRACT_START and CONTRACT_END. I did not remove any other features from my dataset because all remaining features are related to the players performance and availability during a season. I did not have any missing data in my dataset so I do not need any data imputation. In order to use Ridge and SVM regression, I had to scale my training, validation and test data using the StandardScaler(). For my model selection and analysis, I will be using Python.
+
+
+# Model Evaluation
+
+The methods I will use are SVM, Ridge, Random Forrest, and Gradient Boosting Decision Trees for regression. I will use Grid Search cross-validation with 5 folds in order to tune the hyperparmaters for each model. In this section I will provide the best parameters selected from Grid Search CV, training error, validation error, and testing error for all methods. 
+
+```{python}
+import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import OrdinalEncoder
+from sklearn.linear_model import Ridge
+from sklearn.linear_model import Lasso
+from sklearn.model_selection import GridSearchCV
+from sklearn.metrics import make_scorer, mean_squared_log_error, mean_squared_error
+from scipy.spatial.distance import cdist
+from scipy.stats import mode
+from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import MinMaxScaler
+import warnings
+warnings.filterwarnings('ignore')
+
+
+```
+
+## Pre Processing in Python
+
+```{python}
+df = pd.read_csv("_data/nba_contracts_history.csv")
+```
+
+
+
+
+```{python}
+#Creating variable c_duration
+df["c_duration"] = df["CONTRACT_END"] - df["CONTRACT_START"] 
+```
+
+
+
+```{python}
+#Creates set of features I will use
+features = df.drop(["NAME","CONTRACT_START", "CONTRACT_END","AVG_SALARY","W","L"], axis=1)
+
+
+```
+
+
+```{python}
+#sub-setting my target variable, Average Salary
+target = df['AVG_SALARY'].to_numpy()
+```
+
+
+Here is my data splits, 70% training, 15% validation and 15% Test.
+
+```{python}
+X_train, X_test, Y_train, Y_test = train_test_split(features, target, test_size=0.3, random_state=42)
+X_valid, X_test, Y_valid, Y_test = train_test_split(X_test, Y_test, test_size=0.5, random_state= 42)
+```
+
+Here I check to see if the data is split up correctly.
+
+```{python}
+print(X_train.shape, X_valid.shape, X_test.shape)
+print(Y_train.shape, Y_valid.shape, Y_test.shape)
+```
+
+Here I use the make_scorer() function so that I can call RMSLE during Grid Search Cross Validation.
+
+```{python}
+RMSLE = make_scorer(mean_squared_log_error, squared=False)
+```
+
+
+
+## Random Forest
+
+For hyperparameter tuning, I chose to tune n_estimators, max_features, min_samples_split and min_sample_leafs. From Sckit learn's documentation, it states that n_estimators and max_features are the main parameters to tune, so I will follow the documentations suggestion. I included min_sample_split and min_sample_leafs because I want to control my model for overfitting. By increasing the values of these two parameters, it will help prevent my model from overfitting. 
+
+```{python}
+from sklearn.ensemble import RandomForestRegressor
+RF = RandomForestRegressor()
+
+param_grid_RF = {
+    'n_estimators': [100, 200, 300, 400],
+     'max_features': [None, 1.0],
+     'min_samples_split': [2, 4, 6 ,8],
+    'min_samples_leaf': [1, 2 ,4, 6, 8]}
+    
+    
+    
+gridRF= GridSearchCV(RF, param_grid_RF,scoring = RMSLE, cv=5)
+gridRF.fit(X_train, Y_train)
+print("Best parameters:",gridRF.best_params_)
+print("Training error (RMSLE):", gridRF.best_score_)
+```
+
+Checking Validation Error for Random Forests.
+
+```{python}
+
+best_model_RF = gridRF.best_estimator_
+predict_y_RF = best_model_RF.predict(X_valid)
+
+RF_rmsle = mean_squared_log_error(Y_valid, predict_y_RF,squared=False)
+
+
+print("Validation error (RMSLE):",RF_rmsle)
+
+
+```
+## Scaling Data
+
+Scaling data for SVM and Ridge Regression.
+
+```{python}
+from sklearn.preprocessing import StandardScaler
+scaler = StandardScaler()
+
+X_train_scaled = scaler.fit_transform(X_train)
+X_valid_scaled = scaler.transform(X_valid)
+X_test_scaled = scaler.transform(X_test)
+```
+
+
+## SVR
+
+The hyperparameters I tuned from SVR are C, gamma and kernel. I needed to tune for Kernel so that my model finds the best hyper plane that fits the datapoints from my target variable. The kernel will deal with the non-linear relationship on between my features and target variable. Tuning for C and gamma will help my model from overfitting.
+
+```{python}
+from sklearn.svm import SVR
+
+SVR = SVR()
+
+param_grid_SVR = {'C': [0.1, 1, 10, 100, 1000],
+              'gamma': [0.0001, 0.001,0.01, 0.1, 1],
+              'kernel': ['rbf', 'poly']}
+gridSVR= GridSearchCV(SVR, param_grid_SVR, scoring = RMSLE, cv=5)
+gridSVR.fit(X_train_scaled, Y_train)
+print("Best parameters:",gridSVR.best_params_)
+print("Training error (RMSLE):", gridSVR.best_score_)
+
+```
+
+Checking Validation Error for SVR.
+
+
+```{python}
+best_model_SVR = gridSVR.best_estimator_
+predict_y_SVR = best_model_SVR.predict(X_valid_scaled)
+
+SVR_rmsle = mean_squared_log_error(Y_valid, predict_y_SVR,squared=False)
+
+
+print("Validation error (RMSLE):", SVR_rmsle)
+```
+
+
+## Ridge
+
+For Ridge Regression, The only hyperparameter I tuned was alpha, which is the penalty term. I chose to search through small, intermediate, and large values of alpha.
+
+```{python}
+ridge = Ridge()
+param_grid_ridge = {'alpha':np.concatenate((np.arange(0.1,2,0.1), np.arange(2, 5, 0.5), np.arange(5, 105, 5)))}
+gridRidge = GridSearchCV(ridge, param_grid_ridge,scoring = RMSLE, cv=5)
+gridRidge.fit(X_train_scaled, Y_train)
+print("Best parameters:", gridRidge.best_params_)
+print("Training error (RMSLE):", gridRidge.best_score_)
+```
+
+Checking Validation Error for Ridge Regression.
+
+```{python}
+best_model_ridge = gridRidge.best_estimator_
+predict_y_ridge = best_model_ridge.predict(X_valid_scaled)
+
+
+ridge_rmsle = mean_squared_log_error(Y_valid, predict_y_ridge,squared=False)
+
+
+print("Validation error (RMSLE):", ridge_rmsle)
+```
+
+## Gradient Boosting Decision Trees Regressor
+
+The hyperparameters I chose to tune for the Gradient Boosting Decision Trees Regressor are n_estimators, learning_rate, and max_depth. GBDTR uses multiple shallow decision trees as weak learners to predict the residuals of the decision trees instead of the target variable. The idea here is use gradient descent to update the residuals after every tree until the model has run through all available trees (n_estimators). Learning rate controls how much the residuals are updated from tree to tree, which can also be described as the "size" of the step in gradient descent. Smaller values of learning rate will allow my model to generalize better on the validation and test data. Max_depth refers to the depth of each tree, which is important because it determines how weak the trees are in the ensemble. 
+
+    
+```{python}
+from sklearn.ensemble import GradientBoostingRegressor
+GBR = GradientBoostingRegressor()
+
+param_grid_GBR = {
+    'n_estimators': [100, 200, 300, 400],
+     'learning_rate': [ 0.01, 0.1, 0.2,0.3],
+     'max_depth': [3,4,5,6,7,8]}
+    
+    
+    
+gridGBR= GridSearchCV(GBR, param_grid_GBR,scoring = RMSLE, cv=5)
+gridGBR.fit(X_train, Y_train)
+print("Best parameters:", gridGBR.best_params_)
+print("Training error (RMSLE):", gridGBR.best_score_)
+
+
+```
+
+Checking Validation Error for Gradient Boosting Decision Trees.
+
+```{python}
+best_model_GBR = gridGBR.best_estimator_
+predict_y_GBR = best_model_GBR.predict(X_valid)
+
+
+GBR_rmsle = mean_squared_log_error(Y_valid, predict_y_GBR,squared=False)
+
+
+print("Validation error (RMSLE):", GBR_rmsle)
+```
+
+## Final Evaluation using Test Set 
+
+Checking Test Error for all models. Again I will list the best parameters selected from Grid Search CV.
+    
+```{python}
+
+best_model_RF
+
+predict_test_RF = best_model_RF.predict(X_test)
+
+
+RF_test_rmsle = mean_squared_log_error(Y_test, predict_test_RF,squared=False)
+
+
+print("Test error (RMSLE):", RF_test_rmsle)
+
+```
+
+
+```{python}
+best_model_SVR 
+predict_test_SVR = best_model_SVR.predict(X_test_scaled)
+
+SVR_test_rmsle = mean_squared_log_error(Y_test, predict_test_SVR,squared=False)
+
+
+print("Test error (RMSLE):", SVR_test_rmsle)
+```
+```{python}
+best_model_ridge
+predict_test_ridge = best_model_ridge.predict(X_test_scaled)
+
+
+ridge_test_rmsle = mean_squared_log_error(Y_test, predict_test_ridge,squared=False)
+
+
+print("Test error (RMSLE):", ridge_test_rmsle)
+```
+
+```{python}
+
+best_model_GBR
+
+predict_test_GBR = best_model_GBR.predict(X_test)
+
+
+GBR_test_rmsle = mean_squared_log_error(Y_test, predict_test_GBR,squared=False)
+
+
+print("Test error (RMSLE):", GBR_test_rmsle)
+
+```
+
+
+# Comparing Models
+
+Here I printed all training, validation, and testing errors for all models.
+
+```{python}
+print("training error Random Forest (RMSLE):",gridRF.best_score_)
+print("training error SVR (RMSLE):",gridSVR.best_score_)
+print("training error Ridge (RMSLE):",gridRidge.best_score_)
+print("training error GBR (RMSLE):",gridGBR.best_score_)
+print("validation error Random Forest (RMSLE):",RF_rmsle)
+print("validation error SVR (RMSLE):",SVR_rmsle)
+print("validation error Ridge (RMSLE):",ridge_rmsle)
+print("validation error GBR (RMSLE):",GBR_rmsle)
+print("test error Random Forest (RMSLE):",RF_test_rmsle)
+print("test error SVR (RMSLE):",SVR_test_rmsle)
+print("test error Ridge (RMSLE):", ridge_test_rmsle)
+print("test error GBR (RMSLE):",GBR_test_rmsle)
+```
+Based on my results, the Random Forrest Regression performs the best out of all my methods. I believe it performs the best due to the fact that the hyperparameters dealing with overfitting. The hyperparameter min_samples_split reduces the number of splits that are happening in the decision trees, which shortens the depth of the tree. Having shorter tree allows for the model to generalize better because it will not rely on the structure of the training data as much. Therefore, this model has a good bias-variance trade off. This method is high in flexibility. Though this method performs the best, it is not the best for interpretability.
+
+SVR performs the worst based on my results. I believe it performs poorly because of the low value of C selected from Cross-validation. In my model, the value of C that was selected is 0.1, which means the model allows for little misclassification of the training data. This leads to the model overfitting and having high variance because the model is too reliant on the training data.This method is high in flexibility. This model also has low interpretability.
+
+Ridge Regression perform second best out of all my methods. I believe it performs well because of the high value of the tuning parameter. Alpha=100 helps reduce the variance in the the model. It seems that alpha=100 also keeps bias from increasing significantly. In terms of interpretability, Ridge is the most interpretable out of all of my methods. This method is low in flexibility.
+
+
+Gradient Boosting Decision Trees Regressor did not perform well compared to Ridge and Random Forest. The reason why it performed poorly is because both the learning rate and number of estimators are too low. I can say that the model is biased and underfitting because when the learning rate is low, the residuals are only updated slightly before constructing the next tree. Here the learning rate is too low, so once the model reaches 100 trees (n_estimators), gradient descent will not reach the global minimum because of the lack of trees. This combination of low learning rate and n_estimators does not allow my model to reach the optimum error rate. This method is high in flexibility. In terms of interpretability, GBDTR has low interpretability.
+
+# Ethical implications
+
+One concern I have with my model is that it is only trained on players data from the previous season. Although this seems like the logical way of determining a players salary for the future, there are many other factors that go into determining a salary rather than just statistical information. For example, sometimes a players salary can be influenced by what other teams are giving their players. Another example includes players personal accolades, such as first team all NBA, All star team, defensive team of the year etc, can greatly increase ones salary if they earn one of these honors. Another concern I have with my model is that it does not include advanced metrics that capture more capabilities of a player. For example, My data does not include stats that determine how good a player is when defending on the perimeter, which could be a deal breaker when trying to get a good salary. Another concern is that some of contract data is from the early 2010s. Though this is somewhat recent, pay in the NBA increases every year so some of data instances are not scaled up to what the pay should be if this model was used in 2023. My last concern is that my dataset is really small. This is the case because there are only a fraction of players who have earned multiple contracts within the timespan of my data.
+
+How to Address the Issues:
+
+- More data from the 2021-2022 and 2022-2023 that follows the scope of our data discussed earlier would be useful to make my model generalize better for future predictions.
+- add more features that related to the advanced statistics that are not covered in the base statistics.
+- Use this model as a GUIDELINE for determining salary. There will always be external factors that have to due with salary market in the NBA that cannot be covered in the model.
+
+# Link to the dataset
+
+https://www.kaggle.com/datasets/jarosawjaworski/current-nba-players-contracts-history
