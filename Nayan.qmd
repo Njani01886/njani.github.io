@@ -79,10 +79,8 @@ Link to paper: [U.S. Job Satisfaction: Impacts of Technology, Work Environment, 
 Identifying Sources of Poor Nutrition for Americans, Amherst, MA                                           July-August 2023
 Project Owner
 - Analyzed the impact of food sources on food and nutrient intakes for different ages and income levels using 2017-18 Food and Nutrient Density by Food Source and Demographic Characteristics datasets
-- Created multiple charts that visualized the 3 way associations between food source, demographics and food/nutrient density using    
-  ggplot2 in R
-- Discovered that adults and seniors were consuming more cholesterol at restaurants than at home, low and middle income individuals 
-  had lower intakes of protein at home than away from home
+- Created multiple charts that visualized the 3 way associations between food source, demographics and food/nutrient density using ggplot2 in R
+- Discovered that adults and seniors were consuming more cholesterol at restaurants than at home, low and middle income individuals  had lower intakes of protein at home than away from home
 - Cleaned and combined datasets using the tidyverse package in R in order to produce visualizations
 - Explained methods and results using language that a non-technical audience could understand in a 29 page report
 
@@ -102,8 +100,7 @@ Link: [Fixing Social Media Design Brief](https://github.com/Njani01886/Website/b
 
 Research Design Final Project                                                                           February-May 2023
 Team Member
-- Conducted a survey experiment research study with the goal of understanding if exposure to misinformation increases belief in 
-  conspiracy theories with two student colleagues 
+- Conducted a survey experiment research study with the goal of understanding if exposure to misinformation increases belief in conspiracy theories with two student colleagues 
 - Defined constructs, operational definitions, ways of measurement for constructs, and treatment groups for the research study
 - Used Qualtrics for distributing the survey
 - Analyzed results from the survey using stacked bar charts, One-Way Anova, and Linear Regression using R
@@ -112,8 +109,7 @@ Link: [Misinformation and Conspiracy Theories](https://github.com/Njani01886/Web
 
 NBA Salary Prediction, Amherst, MA                                                                      February-May 2023
 Project Owner
-- Developed and tested 4 machine learning models using different regression methods to explore which one performs the best at 
-  predicting NBA players' salaries using R and Python
+- Developed and tested 4 machine learning models using different regression methods to explore which one performs the best at predicting NBA players' salaries using R and Python
 - Found that Random Forest performed the best out of all methods, yielding a low RMSLE of 0.50
 - Pre-processed and wrangled data into a suitable format for the ML models 
 - Tuned hyperparameters for each model using GridSearchCV with 5 folds to control for overfitting
@@ -125,8 +121,7 @@ Link: [NBA Salary Prediction](https://github.com/Njani01886/Website/blob/main/pr
 
 Goals in Soccer Regression Models Project, Amherst, MA	                                         November-December 2022	   
 Team Member
-- Investigated the difference in total goals across Europe’s top 5 soccer leagues using team data from the 2021-22 season to 
-  understand if the type of league determines the number of goals per season
+- Investigated the difference in total goals across Europe’s top 5 soccer leagues using team data from the 2021-22 season to understand if the type of league determines the number of goals per season
 - Developed a Quasi-Poisson regression model with 9 predictors using R with 3 student colleagues 
 - Concluded that there was a significant difference in goals between Bundesliga and other leagues
 - Handled the the selection of predictors by creating and analyzing a scatter-plot matrix using GGally
@@ -138,8 +133,7 @@ Link: [Goals in Soccer](https://github.com/Njani01886/Website/blob/main/projects
 
 Assessing Sentiment Surrounding the 2022 World Cup, Amherst, MA                                    September-December 2022
 Project Owner
-- Analyzed controversies of the Qatar World Cup by conducting Sentiment Analysis, LDA Topic Modeling, Semantic Network, and Pairwise   
-  Correlation Analysis on Youtube comments using R
+- Analyzed controversies of the Qatar World Cup by conducting Sentiment Analysis, LDA Topic Modeling, Semantic Network, and Pairwise Correlation Analysis on Youtube comments using R
 - Concluded that the overall sentiment of the comments was negative, main focus of discussion surrounded human rights violations
 - Used packages tidyverse, quanteda, tidytext, text2vec, LDAvis, and sentimentr to conduct analysis
 - Extracted 1,391 comments in total from 9 Youtube videos using Youtube API in Python 
@@ -177,9 +171,4 @@ Youth Basketball Coach/League Co-Director
   Westford Academy Girls Basketball Program
 - Established online sign-up and jersey purchases
 - Coordinated facilities and scheduling of refereeing staff
-
-
-# Hometown
-
-Westford, MA
 
