@@ -71,7 +71,7 @@ U.S. Job Satisfaction: Impacts of Technology, Work Environment, and Covid-19    
 - Discovered that people who never work from home are significantly less likely to to be very satisfied with their job than people who mainly WFH (p <0.05), with all variables held constant.
 
 
-Link to paper: [U.S. Job Satisfaction: Impacts of Technology, Work Environment, and Covid-19](https://github.com/Njani01886/Website/blob/main/Projects/ADV_Quant_Final_Paper.pdf)
+Link to paper: [U.S. Job Satisfaction: Impacts of Technology, Work Environment, and Covid-19](https://github.com/Njani01886/Website/blob/main/projects/ADV_Quant_Final_Paper.pdf)
 
 
 
@@ -86,21 +86,21 @@ Project Owner
 - Cleaned and combined datasets using the tidyverse package in R in order to produce visualizations
 - Explained methods and results using language that a non-technical audience could understand in a 29 page report
 
-Link: [Identifying Sources of Poor Nutrition for Americans](https://github.com/Njani01886/Website/blob/main/Projects/Identifying_Sources_of_Poor_Nutrition.pdf)
+Link: [Identifying Sources of Poor Nutrition for Americans](https://github.com/Njani01886/Website/blob/main/projects/Identifying_Sources_of_Poor_Nutrition.pdf)
 
 
-Fixing Social Media Design Brief                                                                           February-May 2023
+Fixing Social Media Design Brief                                                                         February-May 2023
 Team Member
 - Developed a design brief for an app called "Social Media Royale" that helps reduce people's screen time with 2 student colleagues
 - Handled background research and interviews over Zoom to understand the consequences of high amounts of screen time
 - Brainstormed many design ideas that were is used in the final pitch with my team members
 - Gained substantial knowledge about the process of product design
 
-Link: [Fixing Social Media Design Brief](https://github.com/Njani01886/Website/blob/main/Projects/Slide%20for%20SMR.pdf)
+Link: [Fixing Social Media Design Brief](https://github.com/Njani01886/Website/blob/main/projects/Slide%20for%20SMR.pdf)
 
 
 
-Research Design Final Project                                                                              February-May 2023
+Research Design Final Project                                                                           February-May 2023
 Team Member
 - Conducted a survey experiment research study with the goal of understanding if exposure to misinformation increases belief in 
   conspiracy theories with two student colleagues 
@@ -108,9 +108,9 @@ Team Member
 - Used Qualtrics for distributing the survey
 - Analyzed results from the survey using stacked bar charts, One-Way Anova, and Linear Regression using R
 
-Link: [Misinformation and Conspiracy Theories](https://github.com/Njani01886/Website/blob/main/Projects/602_Poster.pptx.pdf)
+Link: [Misinformation and Conspiracy Theories](https://github.com/Njani01886/Website/blob/main/projects/602_Poster.pptx.pdf)
 
-NBA Salary Prediction, Amherst, MA                                                                         February-May 2023
+NBA Salary Prediction, Amherst, MA                                                                      February-May 2023
 Project Owner
 - Developed and tested 4 machine learning models using different regression methods to explore which one performs the best at 
   predicting NBA players' salaries using R and Python
@@ -120,10 +120,10 @@ Project Owner
 - Presented my work at my program’s research symposium in front of faculty and peers
 
 
-Link: [NBA Salary Prediction](https://github.com/Njani01886/Website/blob/main/Projects/ML%20final%20poster.pdf)
+Link: [NBA Salary Prediction](https://github.com/Njani01886/Website/blob/main/projects/ML%20final%20poster.pdf)
 
 
-Goals in Soccer Regression Models Project, Amherst, MA	                                                         November-December 2022	   
+Goals in Soccer Regression Models Project, Amherst, MA	                                         November-December 2022	   
 Team Member
 - Investigated the difference in total goals across Europe’s top 5 soccer leagues using team data from the 2021-22 season to 
   understand if the type of league determines the number of goals per season
@@ -133,10 +133,10 @@ Team Member
 - Coordinated weekly group discussions with team members on Zoom and in person
 
 
-Link: [Goals in Soccer](https://github.com/Njani01886/Website/blob/main/Projects/Soccer_Regression.pdf)
+Link: [Goals in Soccer](https://github.com/Njani01886/Website/blob/main/projects/Soccer_Regression.pdf)
 
 
-Assessing Sentiment Surrounding the 2022 World Cup, Amherst, MA                                        September-December 2022
+Assessing Sentiment Surrounding the 2022 World Cup, Amherst, MA                                    September-December 2022
 Project Owner
 - Analyzed controversies of the Qatar World Cup by conducting Sentiment Analysis, LDA Topic Modeling, Semantic Network, and Pairwise   
   Correlation Analysis on Youtube comments using R
@@ -147,7 +147,7 @@ Project Owner
 My final conclusions were made on my final poster.
 
 
-Final Poster: [Assessing Sentiment Surrounding the 2022 World Cup](https://github.com/Njani01886/Website/blob/main/Projects/World_Cup_Text_Analysis.png)
+Final Poster: [Assessing Sentiment Surrounding the 2022 World Cup](https://github.com/Njani01886/Website/blob/main/projects/World_Cup_Text_Analysis.png)
 
 
 Spring 2022
